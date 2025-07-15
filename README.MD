@@ -1,4 +1,4 @@
-# The Habit Journal
+# The Daily Life Tracker
 
 ## Overview
 A digital habit/goal tracker and bullet journal that mimics the look, feel, and flow of a paper journal while maintaining accessibility and mobile-first design. The Habit Journal combines productivity tracking with personal reflection in a clean, intuitive web application.
@@ -9,11 +9,11 @@ The Habit Journal is a responsive web application that combines a habit/goal tra
 ## Installation Instructions 
 1. Clone the repository to your local machine:
    ```bash
-   git clone https://github.com/ChristopherKaelin/habits-goal-tracker-journal.git
+   git clone https://github.com/ChristopherKaelin/daily-life-tracker.git
    ```
 2. Navigate to the project directory:
    ```bash
-   cd habit-journal
+   cd daily-life-tracker
    ```
 3. Open `index.html` in your preferred web browser or use a local development server like Live Server in VS Code
 4. No additional dependencies or build processes required - it's pure HTML, CSS, and JavaScript!
@@ -43,6 +43,7 @@ The Habit Journal is a responsive web application that combines a habit/goal tra
 - ⏳ Quote Integration
 
 ### Version 2.0 (Future)
+- Quote Favorites and Customizatio
 - Task Tracker integration
 - Enhanced reporting and analytics
 - Data export capabilities
