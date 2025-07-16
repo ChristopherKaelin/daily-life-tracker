@@ -9,3 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // initializeUserSettings();
     }
 );
+
+
+// Run the test function
+// testFunction();

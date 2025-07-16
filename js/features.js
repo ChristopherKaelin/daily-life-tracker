@@ -190,40 +190,4 @@ function getUserDisplayName() {
 //  ****************************************
 //  TEST FUNCTIONS - Remove after testing
 //  ****************************************
-function testUserSettings() {
-    console.log('=== Testing User Settings Functions ===');
-    
-    // Test 1: Get default settings (should be empty since nothing saved yet)
-    console.log('\n1. Testing getUserSettings() with no saved data:');
-    const defaultSettings = getUserSettings();
-    console.log('Result:', defaultSettings);
-    
-    // Test 2: Save some test settings
-    console.log('\n2. Testing saveUserSettings() with test data:');
-    const testSettings = {
-        name: 'John Doe',
-        city: 'New York',
-        preferences: {
-            weatherUnit: 'celsius',
-            quoteTheme: 'success',
-            theme: 'dark'
-        }
-    };
-    
-    const saveResult = saveUserSettings(testSettings);
-    console.log('Save successful:', saveResult);
-    
-    // Test 3: Load settings again to verify they saved
-    console.log('\n3. Testing getUserSettings() after saving:');
-    const loadedSettings = getUserSettings();
-    console.log('Loaded settings:', loadedSettings);
-    
-    // Test 4: Check localStorage directly
-    console.log('\n4. Raw localStorage data:');
-    console.log(localStorage.getItem('dailyLifeUserSettings'));
-    
-    console.log('\n=== Test Complete ===');
-}
 
-// Run the test
-// testUserSettings();
