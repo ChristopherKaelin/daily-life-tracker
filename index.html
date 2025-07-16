@@ -1,13 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daily Life Tracker</title>
-</head>
-<body>
-    <h1>Welcome</h1>
-    <h2>Habit/Goal Tracker</h2>
-    <h2>Journal Entries</h2>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Daily Life Tracker</title>
+
+        <link rel="icon" type="image/x-icon" href="./assets/images/icons/kaelin-coat-of-arms.png">
+        <meta name="description" content="Stay organized and motivated with daily habit tracking, journaling, and goal management designed to feel like your favorite paper planner.">
+        <meta name="theme-color" content="#663366">
+
+        <meta property="og:title" content="Daily Life Tracker">
+        <meta property="og:description" content="Personal habit, goals, and journalling dashboard">        
+
+        <!-- Font Awesome CSS -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+        <!-- My CSS --> 
+        <link rel="stylesheet" href="./css/modern-normalize.css">
+        <link rel="stylesheet" href="./css/main.css" />
+
+        <!-- My scripts -->
+        <script src="./js/main.js"></script>
+
+    </head>
+    <body>
+        <div class="main-container">
+            <header class="main-header ">
+                <h1>Welcome, [User Name]</h1>
+                <p class="main-tagline">Your personal habit tracking and journaling dashboard</p>
+            </header>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#habits" class="nav-link">Habit Tracking</a></li>
+                    <li><a href="#calendar" class="nav-link">Calendar</a></li>
+                    <li><a href="#journal" class="nav-link">Journal</a></li>
+                    <li><a href="#settings" class="nav-link">Settings</a></li>
+                </ul>
+            </nav>
+            <main class="main-content">
+                <section id="calendar" class="calendar-section">
+                    This month's calendar
+                </section>
+            
+                <section id="dashboard" class="dashboard-section">
+                    <!-- Weather and Quote will go here -->
+                    You Selected Weather Forcast<br>
+                    Quote of the day!
+                </section>
+            
+                <section id="habits" class="habits-section">
+                    <!-- Habit tracking will go here -->
+                     Habit Tracking
+                </section>
+            
+                <section id="journal" class="journal-section">
+                    Journal entries
+                </section>
+            </main>
+            <footer class="main-footer">
+                <p>&copy; 2025 - CLK Computing</p>
+            </footer>
+        </div>
+    </body>
 </html>

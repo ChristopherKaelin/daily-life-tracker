@@ -43,7 +43,7 @@ The Habit Journal is a responsive web application that combines a habit/goal tra
 - ⏳ Quote Integration
 
 ### Version 2.0 (Future)
-- Quote Favorites and Customizatio
+- Quote Favorites and Customization
 - Task Tracker integration
 - Enhanced reporting and analytics
 - Data export capabilities

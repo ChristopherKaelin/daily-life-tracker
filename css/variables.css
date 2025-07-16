@@ -1,0 +1,49 @@
+:root {
+  /* Theme Colors */
+  /* */
+  --color-primary: #663366;
+  --color-primary-light: #8b66af;
+  --color-accent: #2563eb;
+  --color-success: #57b768;
+  --color-warning: #f4c95d;
+  --color-bg: #faf9f7;
+  --color-input-bg: #ffffff;
+  --color-border: #dcd6e5;
+  --color-muted: #999999;
+  --color-bright: #cccccc;
+  --color-error: #e94f4f;
+  --color-info: #4a90e2;
+
+  /* Typography */
+  --font-primary: "Arial", "Helvetica", "Roboto", "Georgia", "Times New Roman";
+  --font-size-xs: 0.75rem;
+  --font-size-small: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-large: 1.125rem;
+  --font-size-xl: 1.375rem;
+  --font-size-xxl: 1.75rem;
+
+  /* Spacing */
+  --spacing-small: 0.5rem;
+  --spacing-base: 1rem;
+  --spacing-large: 1.5rem;
+  --spacing-xl: 2rem;
+
+/* Borders */
+/* For buttons, cards, forms */
+  --border-width: 1px;
+  --border-radius-small: 4px;
+  --border-radius-base: 8px;
+  --border-radius-large: 12px;
+
+/* Shadows */
+  --shadow-small: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-base: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-large: 0 10px 25px rgba(0, 0, 0, 0.1);  
+
+/* Transitions */
+/* Hover effects, modal animations */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.4s ease;
+  --transition-slow: 0.6s ease;  
+}
