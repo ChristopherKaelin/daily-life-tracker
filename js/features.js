@@ -1,38 +1,10 @@
 //  User Settings Data Model
 //  ****************************************
 
-// Initialize user settings on app load
-function initializeUserSettings() {
-    console.log('Initializing user settings...');
-    
-    // Load existing settings or create defaults
-    const settings = getUserSettings();
-    
-    // If this is a completely new user (no createdAt timestamp)
-    if (!settings.createdAt) {
-        console.log('New user detected, setting up defaults...');
-        
-        // Save default settings with creation timestamp
-        const defaultSettings = {
-            ...DEFAULT_USER_SETTINGS,
-            createdAt: new Date().toISOString(),
-            lastUpdated: new Date().toISOString()
-        };
-        
-        saveUserSettings(defaultSettings);
-    }
-    
-    // Log current settings state
-    console.log('User settings initialized:', userSettings);
-    console.log('Setup completed:', hasUserCompletedSetup());
-    
-    return userSettings;
-}
-
 // Default user settings structure
 const DEFAULT_USER_SETTINGS = {
-    name: 'Chris Kaelin',
-    city: 'Lexington, KY',
+    name: '',
+    city: '',
     preferences: {
         weatherUnit: 'fahrenheit',  // 'fahrenheit' or 'celsius'
         quoteTheme: 'motivation',   // for future use
@@ -41,6 +13,26 @@ const DEFAULT_USER_SETTINGS = {
     createdAt: null,
     lastUpdated: null
 };
+
+// Simple validation for user settings
+function validateUserSettings(settings) {
+    const errors = [];
+    
+    // Validate name
+    if (settings.name && settings.name.length > 50) {
+        errors.push('Name must be 50 characters or less');
+    }
+    
+    // Validate city
+    if (settings.city && settings.city.length > 100) {
+        errors.push('City name must be 100 characters or less');
+    }
+    
+    return {
+        isValid: errors.length === 0,
+        errors: errors
+    };
+}
 
 // Current user settings (will be loaded from localStorage)
 let userSettings = { ...DEFAULT_USER_SETTINGS };
@@ -90,7 +82,6 @@ function getUserSettings() {
             
             // Update global userSettings object
             userSettings = mergedSettings;
-            console.log('User settings loaded:', userSettings);
             return userSettings;
             
         } else {
@@ -141,26 +132,6 @@ function updateUserSettings(updates) {
     }
 }
 
-// Simple validation for user settings
-function validateUserSettings(settings) {
-    const errors = [];
-    
-    // Validate name
-    if (settings.name && settings.name.length > 50) {
-        errors.push('Name must be 50 characters or less');
-    }
-    
-    // Validate city
-    if (settings.city && settings.city.length > 100) {
-        errors.push('City name must be 100 characters or less');
-    }
-    
-    return {
-        isValid: errors.length === 0,
-        errors: errors
-    };
-}
-
 // Check if user has completed initial setup
 function hasUserCompletedSetup() {
     const settings = getUserSettings();
@@ -184,6 +155,56 @@ function hasUserCity() {
 function getUserDisplayName() {
     const settings = getUserSettings();
     return settings.name && settings.name.trim() !== '' ? settings.name : 'User';
+}
+
+// Update user name display in the UI
+function updateUserNameDisplay() {
+    const userNameElement = document.getElementById('userDisplayName');
+    if (userNameElement) {
+        const displayName = getUserDisplayName();
+        userNameElement.textContent = displayName;
+        
+        // Add different styling if no name is set
+        if (displayName === 'User') {
+            userNameElement.classList.add('placeholder-name');
+        } else {
+            userNameElement.classList.remove('placeholder-name');
+        }
+    }
+}
+
+// Initialize user settings on app load
+function initializeUserSettings() {
+    console.log('Initializing user settings...');
+    
+    // Load existing settings or create defaults
+    const settings = getUserSettings();
+    
+    // If this is a completely new user (no createdAt timestamp)
+    if (!settings.createdAt) {
+        console.log('New user detected, setting up defaults...');
+        
+        // Save default settings with creation timestamp
+        const defaultSettings = {
+            ...DEFAULT_USER_SETTINGS,
+            createdAt: new Date().toISOString(),
+            lastUpdated: new Date().toISOString()
+        };
+        
+        saveUserSettings(defaultSettings);
+    }
+    
+    // Log current settings state
+    console.log('User settings initialized:', userSettings);
+    console.log('Setup completed:', hasUserCompletedSetup());
+    
+    return userSettings;
+}
+
+// Initialize all user name displays when page loads
+function initializeUserNameDisplay() {
+    console.log('User name display initialized');
+    updateUserNameDisplay();
 }
 
 

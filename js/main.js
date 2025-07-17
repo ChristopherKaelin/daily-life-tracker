@@ -6,8 +6,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize user settings
     console.log('Initialize user settings.');
-    // initializeUserSettings();
+    initializeUserSettings();
+
+    // Initialize user name displays
+    console.log('Initialize user name display')
+    initializeUserNameDisplay();
     }
+
 );
 
 

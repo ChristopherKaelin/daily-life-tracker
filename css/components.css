@@ -17,6 +17,31 @@ body {
     padding: 1rem;
 }
 
+.placeholder-name {
+    font-style: italic;
+    opacity: 0.7;
+}
+
+.hidden {
+    display: none;
+}
+
+.validation-errors {
+    color: var(--color-error);
+    border: 1px solid var(--color-error);
+    border-radius: 4px;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+}
+.validation-errors p {
+    margin: 0;
+    font-size: 0.75rem;
+}
+.validation-errors p:not(:last-child) {
+    margin-bottom: 0.25rem;
+}
+
+
 /* HEADER & FOOTER */
 /* Desktop */
     .main-header {
@@ -32,7 +57,17 @@ body {
     }
 /* Responsive */
     @media (max-width: 900px) {
-    
+        .main-header {
+            font-size: var(--font-size-base);
+        }
+    }
+    @media (max-width: 675px) {
+        .main-header {
+            font-size: var(--font-size-small);
+        }
+        .main-footer {
+            font-size: var(--font-size-xs);
+        }
     }
 
 
@@ -52,6 +87,7 @@ body {
     }
     .nav-link {
         text-decoration: none;
+        cursor: pointer;
         padding: 0.5rem 1rem;
         border-radius: 6px;
         color: var(--color-bright);
@@ -91,9 +127,9 @@ body {
             min-width: 170px;
             }
         .nav-link {
-            white-space: nowrap; 
+            white-space: nowrap;
             overflow: hidden;
-            text-overflow: ellipsis; 
+            text-overflow: ellipsis;
             }
     }
 
@@ -108,7 +144,7 @@ body {
         padding: 1rem 1rem;
     }
 
-    /* Grid positioning */
+    /* Positioning */
     .calendar-section {
         grid-column: 1 / 2;
         grid-row: 1;
@@ -129,7 +165,7 @@ body {
         grid-row: 2;
     }
 
-    /* Basic section styling */
+    /* Styling */
     .calendar-section,
     .dashboard-section,
     .habits-section,
@@ -137,22 +173,25 @@ body {
         background: white;
         border: 1px solid #ddd;
         border-radius: 8px;
-        padding: 1.5rem;
+        padding: var(--spacing-base);
         min-height: 300px;
     }
-
 /* Mobile responsive */
     @media (max-width: 900px) {
         .main-content {
             grid-template-columns: 1fr;
-            grid-template-rows: auto auto auto auto;
+            grid-template-rows: auto auto;
+            gap: var(--spacing-small);
         }
-        
+
         .calendar-section,
         .dashboard-section,
         .habits-section,
         .journal-section {
             grid-column: 1;
+            min-height: 200px;
+            font-size: var(--font-size-small);
+            padding: var(--spacing-small);
         }
 
         .calendar-section {grid-row: 1;}
@@ -160,3 +199,94 @@ body {
         .habits-section{grid-row: 3;}
         .journal-section{grid-row: 4;}
     }
+
+/* SETTINGS MODAL */
+/* Desktop */
+    .settings-form {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+
+    .settings-form.hidden {
+        display: none;
+    }
+
+    .settings-content {
+        background: var(--color-input-bg);
+        padding: 2rem;
+        border-radius: 8px;
+        border: 1px solid var(--color-border);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        max-width: 400px;
+        width: 90%;
+    }
+
+    .settings-content h2 {
+        margin: 0 0 0.5rem 0;
+        color: var(--color-primary);
+        text-align: center;
+    }
+
+    .form-group {
+        margin-bottom: 0.5rem;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 0;
+        font-weight: 600;
+        color: var(--color-primary);
+    }
+
+    .form-group input,
+    .form-group select {
+        width: 100%;
+        padding: 0.25rem;
+        border: 1px solid var(--color-border);
+        border-radius: 4px;
+        background: var(--color-input-bg);
+    }
+
+    .form-buttons {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+
+    .form-buttons button {
+        flex: 1;
+        padding: 0.33rem 0.5rem;
+        border: none;
+        border-radius: 4px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .form-buttons button[type="submit"] {
+        background: var(--color-primary);
+        color: white;
+    }
+
+    .form-buttons button[type="submit"]:hover {
+        background: var(--color-primary-light);
+    }
+
+    .form-buttons button[type="button"] {
+        background: var(--color-muted);
+        color: white;
+    }
+
+    .form-buttons button[type="button"]:hover {
+        background: #777;
+    }
+
+/* Responsive */

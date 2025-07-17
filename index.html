@@ -27,31 +27,77 @@
     </head>
     <body>
         <div class="main-container">
+            <!-- HEADER -->
             <header class="main-header ">
-                <h1>Welcome, [User Name]</h1>
+                <h1 class="user-greeting">
+                    Welcome, <span class="user-name" id="userDisplayName">[User Name]</span>
+                </h1>
                 <p class="main-tagline">Your personal habit tracking and journaling dashboard</p>
             </header>
+            <!-- NAVIGATION -->
             <nav class="main-nav">
                 <ul>
                     <li><a href="#habits" class="nav-link">Habit Tracking</a></li>
                     <li><a href="#calendar" class="nav-link">Calendar</a></li>
                     <li><a href="#journal" class="nav-link">Journal</a></li>
-                    <li><a href="#settings" class="nav-link">Settings</a></li>
+                    <li><a class="nav-link" onclick="openSettingsForm()">Settings</a></li>
                 </ul>
             </nav>
+            <!-- USER SETTINGS FORM -->
+            <div id="settingsForm" class="settings-form hidden">
+                <div class="settings-content">
+                    <h2>Settings</h2>
+                    <form id="userSettingsForm" onsubmit="submitSettingsForm(event)">
+                        <div class="form-group">
+                            <label for="userName">Your Name:</label>
+                            <input type="text" id="userName" name="userName" placeholder="Enter your name">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="userCity">Your City:</label>
+                            <select id="userCity" name="userCity">
+                                <option value="">Select your city</option>
+                                <option value="Lexginton, KY">Lexginton, KY </option>
+                                <option value="St Louis, MO">St Louis, MO </option>
+                                <option value="Dayton, OH">Dayton, OH </option>
+                                <option value="Colorado Springs, CO">Colorado Springs, CO </option>
+                                <option value="Atlanta, GA">Atlanta, GA</option>
+                                <option value="Austin, TX">Austin, TX</option>
+                                <option value="Boston, MA">Boston, MA</option>
+                                <option value="Charlotte, NC">Charlotte, NC</option>
+                                <option value="Chicago, IL">Chicago, IL</option>
+                                <option value="Dallas, TX">Dallas, TX</option>
+                                <option value="Denver, CO">Denver, CO</option>
+                                <option value="Houston, TX">Houston, TX</option>
+                                <option value="Los Angeles, CA">Los Angeles, CA</option>
+                                <option value="Miami, FL">Miami, FL</option>
+                                <option value="Nashville, TN">Nashville, TN</option>
+                                <option value="New York, NY">New York, NY</option>
+                                <option value="Orlando, FL">Orlando, FL</option>
+                                <option value="Phoenix, AZ">Phoenix, AZ</option>
+                                <option value="Seattle, WA">Seattle, WA</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-buttons">
+                            <button type="submit" id="submitSettings">Save Settings</button>
+                            <button type="button" id="cancelSettings" onclick="toggleShowHideForm('settingsForm')">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- MAIN CONTENT -->
             <main class="main-content">
                 <section id="calendar" class="calendar-section">
                     This month's calendar
                 </section>
             
                 <section id="dashboard" class="dashboard-section">
-                    <!-- Weather and Quote will go here -->
                     You Selected Weather Forcast<br>
                     Quote of the day!
                 </section>
             
                 <section id="habits" class="habits-section">
-                    <!-- Habit tracking will go here -->
                      Habit Tracking
                 </section>
             
@@ -59,6 +105,7 @@
                     Journal entries
                 </section>
             </main>
+            <!-- FOOTER -->
             <footer class="main-footer">
                 <p>&copy; 2025 - CLK Computing</p>
             </footer>
