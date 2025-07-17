@@ -96,7 +96,6 @@ function toggleShowHideForm(toggleForm) {
         } else {
             // Show validation errors
             console.log('Validation errors:', validation.errors);
-            alert('Please fix the following errors:\n' + validation.errors.join('\n'));
             displayValidationErrors(validation.errors);
         }
     }
