@@ -5,7 +5,7 @@ function toggleShowHideForm(toggleForm) {
 }
 
 //  USER SETTINGS FORM
-//  ****************************************
+//==========================================
 
     // Open settings form
     function openSettingsForm() {

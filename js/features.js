@@ -1,33 +1,10 @@
-//  Calendar
-//  ****************************************
+//  UTILITY FUNCTIONS
+//==========================================
 
-const dayToDayName = {0: 'Sunday', 1: 'Monday', 2: 'Tuesday', 3: 'Wednesday', 4: 'Thursday', 5: 'Friday', 6: 'Saturday'}
-const monthToMonthName = 
-    {0: 'January', 1: 'February', 2: 'March', 3: 'April', 4: 'May', 5: 'June', 
-    6: 'July', 7: 'August', 8: 'September', 9: 'October', 10: 'November', 11: 'December'}
-
-// Get the correct 'st', 'nd', 'th' for the day.
-function getOrdinalSuffix(dayNum) {
-    if (dayNum >= 11 && dayNum <= 19) {
-        return 'th'
-    }
-
-    const lastDigit = dayNum % 10;
-    if (lastDigit == 1) {
-        return 'st';
-    } else if (lastDigit == 2 ) {
-        return 'nd';
-    } else if (lastDigit == 3) {
-        return 'rd';
-    } else {
-        return 'th';
-    }
-}
-
-//  Get Current Date Info
-function getCurrentDateInfo() {
-    const currentDate =  new Date()
-
+function getCurrentDateInfo(inputDate = null) {
+    // Use passed date or default to current date
+    const currentDate = inputDate ? new Date(inputDate) : new Date();
+    
     const currentYear = currentDate.getFullYear();
 
     //  Returns a zero based MONTH (Jan=0, Feb=1, Mar=2, etc.)
@@ -56,23 +33,65 @@ function getCurrentDateInfo() {
     }
 }
 
-function updateTodayIsDisplay() {
+function initializeHeaderDisplay(dateInfo) {
+    updateGreetingDisplay();
+    updateUserNameDisplay();
+    updateTodayIsDisplay(dateInfo);
+}
+
+function updateGreetingDisplay() {
+    const greetingElement = document.getElementById('userGreeting');
+    let greetingText = "Hello"
+    if (greetingElement) {
+        const currentHour = (new Date()).getHours();
+        if (currentHour < 12) {
+            greetingText = "Good Morning";
+        } else if (currentHour <= 17) {
+            greetingText = "Good Afternoon";
+        } else {
+            greetingText = "Good Evening";
+        }
+        greetingElement.textContent = greetingText;
+    }
+}
+
+
+//  CALENDAR FUNCTIONS
+//==========================================
+const dayToDayName = {0: 'Sunday', 1: 'Monday', 2: 'Tuesday', 3: 'Wednesday', 4: 'Thursday', 5: 'Friday', 6: 'Saturday'}
+const monthToMonthName = {0: 'January', 1: 'February', 2: 'March', 3: 'April', 4: 'May', 5: 'June',  6: 'July', 7: 'August', 8: 'September', 9: 'October', 10: 'November', 11: 'December'}
+
+// Get the correct 'st', 'nd', 'th' for the day.
+function getOrdinalSuffix(dayNum) {
+    if (dayNum >= 11 && dayNum <= 19) {
+        return 'th'
+    }
+
+    const lastDigit = dayNum % 10;
+    if (lastDigit == 1) {
+        return 'st';
+    } else if (lastDigit == 2 ) {
+        return 'nd';
+    } else if (lastDigit == 3) {
+        return 'rd';
+    } else {
+        return 'th';
+    }
+}
+
+function updateTodayIsDisplay(dateInfo) {
     const todayIsElement = document.getElementById('todayIsDisplay');
     if (todayIsElement) {
-        const dateInfo = getCurrentDateInfo();
         todayIsElement.textContent = `Today is ${dateInfo.dayName}, ${dateInfo.monthName} ${dateInfo.dayOrdinal}, ${dateInfo.year}`;
     }
 }
 
 // Generate calendar grid for current month
-function generateCalendar() {
-    // Get current date info
-    const dateInfo = getCurrentDateInfo();
+function generateCalendar(dateInfo) {
     
     //  Create month/year header
     const monthYearHeader = `<h3>${dateInfo.monthName} ${dateInfo.year}</h3>`;
     
-
     //  Add in day headers
     const dayOfWeekHeader = '<div>Sun</div> <div>Mon</div> <div>Tue</div> <div>Wed</div> <div>Thu</div> <div>Fri</div> <div>Sat</div>'
 
@@ -95,29 +114,163 @@ function generateCalendar() {
     }
     
     // Display the calendar
-    console.log('Display calendar grid!');
+    console.log('Display calendar grid');
     const calendarElement = document.getElementById('calendar');
 
     if (calendarElement) {
-        const dateInfo = getCurrentDateInfo();
         calendarElement.innerHTML = 
             monthYearHeader + 
             `<div class="calendar-grid">${dayOfWeekHeader} ${calendarGrid}</div>`;
     }
 }
 
-function updateCalendarDisplay() {
+function updateCalendarDisplay(dateInfo) {
     const calendarElement = document.getElementById('calendar');
     if (calendarElement) {
-        const dateInfo = getCurrentDateInfo();
         calendarElement.textContent = `Today is ${dateInfo.dayName}, ${dateInfo.monthName} ${dateInfo.dayOrdinal}, ${dateInfo.year}`;
     }
 }
 
+// Key date structure for monthly notes
+const DEFAULT_KEY_DATE = {
+    id: '',             // 'keydate-202507-001' etc.
+    date: '',           // '2025-07-17' format  
+    description: '',    // 50 character limit
+    createdAt: '',      // timestamp when added
+};
 
-//  User Settings Data Model
-//  ****************************************
+// Add new key date to localStorage
+function addKeyDate(description, selectedDate = null) {
+    const dateInfo = selectedDate ? getCurrentDateInfo(selectedDate) : appDateInfo;
+    try {
+        // Validate the key date data
+        const dateString = `${dateInfo.year}-${(dateInfo.month+1).toString().padStart(2, '0')}-${dateInfo.day.toString().padStart(2, '0')}`;
+        const validation = validateKeyDateData(dateString, description);
+        if (!validation.isValid) {
+            console.error('Invalid key date data:', validation.errors);
+            return false;
+        }
 
+        // Generate next sequential ID for the month
+        const nextNumber = allKeyDates.length + 1;
+        let nextKeyDateId = `keydate-${nextNumber.toString().padStart(4, '0')}`;
+
+        const newKeyDate = {
+            id: nextKeyDateId,
+            date: `${dateInfo.year}-${(dateInfo.month+1).toString().padStart(2, '0')}-${dateInfo.day.toString().padStart(2, '0')}`,
+            description: description,
+            createdAt: new Date().toISOString(),
+        }
+
+        // Add to keyDates array
+        allKeyDates.push(newKeyDate);
+        
+        // Save updated array to localStorage
+        return saveAllKeyDatesToStorage();
+        
+    } catch (error) {
+        console.error('Error saving key date:', error);
+        return false;
+    }
+}
+
+// Save all key dates to localStorage
+function saveAllKeyDatesToStorage() {
+    try {
+        localStorage.setItem('dailyLifeKeyDates', JSON.stringify(allKeyDates));
+        console.log('Key dates saved to storage successfully');
+        return true;
+    } catch (error) {
+        console.error('Error saving key dates to storage:', error);
+        return false;
+    }
+}
+
+
+// Update existing key date by ID
+function updateKeyDate(keyDateId, newDescription) {
+    try {
+        // Find the key date in allKeyDates array by ID
+        const updateIndex = allKeyDates.findIndex(kd => kd.id === keyDateId);
+        if (updateIndex === -1) {
+            console.error('Key date not found:', keyDateId);
+            return false;
+        }
+                
+        // Update the fields
+        allKeyDates[updateIndex].description = newDescription;
+
+        // Save updated array to localStorage
+        return saveAllKeyDatesToStorage();
+        
+        // Return success/failure
+        
+    } catch (error) {
+        // Error handling
+        console.error(`Error updating key date ${keyDateId}: `, error);
+        return false;
+        
+    }
+}
+
+// Delete key date by ID
+function deleteKeyDate(keyDateId) {
+    try {
+        // Find and remove the key date from allKeyDates array
+        const deleteIndex = allKeyDates.findIndex(kd => kd.id === keyDateId);
+        if (deleteIndex === -1) {
+            console.error('Key date not found:', keyDateId);
+            return false;
+        } else {
+            allKeyDates.splice(deleteIndex, 1);
+        }
+        
+        // Save updated array to localStorage & Return success/failure
+        return saveAllKeyDatesToStorage();
+        
+        
+    } catch (error) {
+        // Error handling
+        console.error(`Error deleting key date ${keyDateId}: `, error);
+        return false;
+
+    }
+}
+
+function getAllKeyDates() {
+    return JSON.parse(localStorage.getItem('dailyLifeKeyDates')) || [];
+}
+
+function getKeyDatesForMonth(year, month) {
+    const yearMonth = `${year}-${month.toString().padStart(2, '0')}`;
+    return allKeyDates.filter(kd => kd.date.startsWith(`${yearMonth}`));
+}
+
+function validateKeyDateData(dateString, description) {
+    const errors = [];
+    
+    // Validate description
+    if (!description || description.trim() === '') {
+        errors.push('Description is required');
+    } else if (description.length > 50) {
+        errors.push('Description must be 50 characters or less');
+    }
+    
+    // Validate date string format (2025-07-16)
+    const testDate = new Date(dateString);
+    if (isNaN(testDate.getTime()) || testDate.toISOString().substring(0, 10) !== dateString) {
+        errors.push('Invalid date');
+    }
+    
+    return {
+        isValid: errors.length === 0,
+        errors: errors
+    };
+}
+
+
+//  USER SETTING FUNCTIONS
+//==========================================
 // Default user settings structure
 const DEFAULT_USER_SETTINGS = {
     name: '',
@@ -312,9 +465,3 @@ function initializeUserSettings() {
     
     return userSettings;
 }
-
-// Initialize all user name displays when page loads
-function initializeUserNameDisplay() {
-    updateUserNameDisplay();
-}
-
