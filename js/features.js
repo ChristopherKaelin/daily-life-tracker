@@ -106,11 +106,16 @@ function generateCalendar(dateInfo) {
     }
     //  Add in the days of the month
     for (let i = 1; i <= dateInfo.daysInMonth; i++) {
+        const dayDateString = `${dateInfo.year}-${(dateInfo.month+1).toString().padStart(2, '0')}-${i.toString().padStart(2, '0')}`;
+        const onclickAction = `onclick="openKeyDateForm('${dayDateString}')"`;
+
         if (i == dateInfo.day) {
-            calendarGrid += `<div class="today"> <span>${i}</span> </div>`;
+            displayClass = `class="today"`;
         } else {
-            calendarGrid += `<div>${i}</div>`;
+            displayClass = ``;
         }
+        calendarGrid += `<div ${displayClass} ${onclickAction}>${i}</div>`;
+        //clickedDate
     }
     
     // Display the calendar
