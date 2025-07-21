@@ -138,44 +138,40 @@ body {
 /* Desktop */
     .main-content {
         display: grid;
-        grid-template-columns: repeat(6 1fr);
         grid-template-rows: auto auto;
         gap: var(--spacing-base);
         padding: 1rem 1rem;
     }
 
-    /* Positioning */
-    .calendar-section {
-        grid-column: 1 / 2;
-        grid-row: 1;
+    .weather-quote-section {
+        display: flex;
+        gap: 2rem;
+        padding: 1.5rem;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 8px;
     }
 
-    .dashboard-section {
-        grid-column: 2 / 6;
-        grid-row: 1;
+    .weather-forecast,
+    .daily-quote {
+        flex: 1;
     }
 
-    .habits-section {
-        grid-column: 1 / 3;
-        grid-row: 2;
+    .two-column-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--spacing-base);
     }
 
-    .journal-section {
-        grid-column: 3 / 6;
-        grid-row: 2;
-    }
-
-    /* Styling */
     .calendar-section,
-    .dashboard-section,
-    .habits-section,
-    .journal-section {
+    .habits-section {
         background: white;
         border: 1px solid #ddd;
         border-radius: 8px;
         padding: var(--spacing-base);
         min-height: 300px;
     }
+
 /* Mobile responsive */
     @media (max-width: 900px) {
         .main-content {
@@ -258,7 +254,7 @@ body {
     .form-buttons {
         display: flex;
         gap: 1rem;
-        margin-top: 1.5rem;
+        margin-top: 0.5rem;
     }
 
     .form-buttons button {
@@ -278,15 +274,6 @@ body {
 
     .form-buttons button[type="submit"]:hover {
         background: var(--color-primary-light);
-    }
-
-    .form-buttons button[type="button"] {
-        background: var(--color-muted);
-        color: white;
-    }
-
-    .form-buttons button[type="button"]:hover {
-        background: #777;
     }
 
 
@@ -370,6 +357,7 @@ body {
     }
 
     .delete-confirm-content {
+        font-size: var(--font-size-small);
         background: var(--color-input-bg);
         padding: 2rem;
         border-radius: 8px;
@@ -380,22 +368,41 @@ body {
         text-align: center;
     }
 
+    .delete-confirm-content h3 {
+        color: var(--color-primary);
+    } 
+    .delete-confirm-content p {
+        color: var(--color-text);
+    }
+
     .delete-info {
         font-weight: 600;
         color: var(--color-primary);
-    margin: 1rem 0;
+        margin: 0.25rem 0;
 }
 
-.btn-danger {
-    background: #dc3545;
-    color: white;
-}
+    .btn-danger {
+        background: #dc3545;
+        color: white;
+    }
 
-.btn-danger:hover {
-    background: #c82333;
-}
+    .btn-danger:hover {
+        background: #9b1b27;
+    }
 
-/* HEADER & FOOTER */
+    /* Delete icon styling */
+    img.delete, img.edit  {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+    }
+
+    img.delete:hover, img.edit:hover {
+        opacity: 0.75;
+    }
+
+    
+/* CALENDAR DISPLAY */
 /* Desktop */
     /* Calendar Grid Layout */
     .calendar-grid {
@@ -437,25 +444,64 @@ body {
         font-weight: 600;
     }
 
-    /* Today's day cells */
-    div.today {padding: 0; margin:0;}
+    .calendar-grid .has-key-date {
+        border: 5px solid var(--color-success);
+        border-radius: var(--border-radius-large);
+    }
 
-    .today span {
+    .today {
         color: white !important;
         background: var(--color-primary) !important;
-        border-radius: 50%;
-        width: 90%;
-        height: 90%;
         position: relative;
         display: flex;
         align-items: center;
         justify-content: center;
     }
-
-    /* Empty day cells */
+   
     .empty-day {
         background: var(--color-border) !important;
         color: transparent;
+    }
+
+/* KEY DATES DISPLAY */
+/* Desktop */
+    .key-dates-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .key-date-item {
+        display: flex;
+        align-items: center;
+        padding: 0.25rem 1rem;
+        border-bottom: 1px solid var(--color-border);
+    }
+
+    .key-date-item:last-child {
+        border-bottom: none;
+    }
+
+    .key-date-info {
+        font-size: var(--font-size-small);
+        color: var(--color-primary);
+        min-width: 3rem;
+        margin-right: 0.5rem;
+        flex: 1;
+    }
+
+    .no-key-dates {
+        color: var(--color-muted);
+        font-style: italic;
+        margin: 1rem 0;
+        text-align: center;
+    }
+
+    #calendar h4 {
+        margin: 1rem 0 0 0;
+        color: var(--color-primary);
+        font-size: var(--font-size-base);
+        font-weight: 600;
     }
 
 /* Responsive */

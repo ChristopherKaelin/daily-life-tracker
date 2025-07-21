@@ -20,9 +20,9 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('Initialize Header display')
     initializeHeaderDisplay(appDateInfo);
 
-    //  Initialize Calendar Display
-    generateCalendar(appDateInfo);
-
+    //  Initialize Calendar Section Display 
+    generateCalendarDisplay(appDateInfo);
+    generateKeyDatesDisplay(appDateInfo, allKeyDates);
 
     //==========================================
     //  TESTING - Remove after testing

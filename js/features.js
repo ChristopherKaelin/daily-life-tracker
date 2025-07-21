@@ -3,7 +3,15 @@
 
 function getCurrentDateInfo(inputDate = null) {
     // Use passed date or default to current date
-    const currentDate = inputDate ? new Date(inputDate) : new Date();
+    let currentDate;
+    if (inputDate) {
+        // Parse as local date, not UTC
+        const [year, month, day] = inputDate.split('-');
+        currentDate = new Date(year, month - 1, day); 
+    } else {
+        currentDate = new Date();
+    }
+    console.log('Current Date:', currentDate);
     
     const currentYear = currentDate.getFullYear();
 
@@ -87,7 +95,7 @@ function updateTodayIsDisplay(dateInfo) {
 }
 
 // Generate calendar grid for current month
-function generateCalendar(dateInfo) {
+function generateCalendarDisplay(dateInfo) {
     
     //  Create month/year header
     const monthYearHeader = `<h3>${dateInfo.monthName} ${dateInfo.year}</h3>`;
@@ -107,20 +115,25 @@ function generateCalendar(dateInfo) {
     //  Add in the days of the month
     for (let i = 1; i <= dateInfo.daysInMonth; i++) {
         const dayDateString = `${dateInfo.year}-${(dateInfo.month+1).toString().padStart(2, '0')}-${i.toString().padStart(2, '0')}`;
+
+        // Check if this day has key dates
+        const currentMonthKeyDates = getKeyDatesForMonth(dateInfo.year, (dateInfo.month + 1).toString().padStart(2, '0'));
+        const hasKeyDate = currentMonthKeyDates.some(kd => kd.date === dayDateString);
+        const keyDateClass = hasKeyDate ? 'has-key-date' : '';  
+
         const onclickAction = `onclick="openKeyDateForm('${dayDateString}')"`;
 
         if (i == dateInfo.day) {
-            displayClass = `class="today"`;
+            isTodayClass = ` today`;
         } else {
-            displayClass = ``;
+            isTodayClass = ``;
         }
-        calendarGrid += `<div ${displayClass} ${onclickAction}>${i}</div>`;
-        //clickedDate
+        calendarGrid += `<div class="${keyDateClass}${isTodayClass}" ${onclickAction}>${i}</div>`;
     }
     
     // Display the calendar
     console.log('Display calendar grid');
-    const calendarElement = document.getElementById('calendar');
+    const calendarElement = document.getElementById('calendarDisplay');
 
     if (calendarElement) {
         calendarElement.innerHTML = 
@@ -138,15 +151,18 @@ function updateCalendarDisplay(dateInfo) {
 
 // Key date structure for monthly notes
 const DEFAULT_KEY_DATE = {
-    id: '',             // 'keydate-202507-001' etc.
-    date: '',           // '2025-07-17' format  
-    description: '',    // 50 character limit
-    createdAt: '',      // timestamp when added
+    id: '',
+    date: '',
+    description: '',
+    createdAt: '',
 };
 
 // Add new key date to localStorage
 function addKeyDate(description, selectedDate = null) {
+    console.log('selectedDate passed in:', selectedDate);
     const dateInfo = selectedDate ? getCurrentDateInfo(selectedDate) : appDateInfo;
+    console.log('dateInfo after getCurrentDateInfo:', dateInfo);
+
     try {
         // Validate the key date data
         const dateString = `${dateInfo.year}-${(dateInfo.month+1).toString().padStart(2, '0')}-${dateInfo.day.toString().padStart(2, '0')}`;
@@ -273,6 +289,38 @@ function validateKeyDateData(dateString, description) {
     };
 }
 
+function generateKeyDatesDisplay(dateInfo) {
+    // Get key dates for current month
+    const currentMonthKeyDates = getKeyDatesForMonth(dateInfo.year, (dateInfo.month + 1).toString().padStart(2, '0'));
+    currentMonthKeyDates.sort((a, b) => a.date.localeCompare(b.date));
+
+    // Generate HTML
+    let keyDatesHTML;
+    if (currentMonthKeyDates.length === 0) {
+        keyDatesHTML = '<p class="no-key-dates">No key dates for this month</p>';
+    } else {
+        keyDatesHTML = '<ul class="key-dates-list">';
+        currentMonthKeyDates.forEach(keyDate => {
+            const day = parseInt(keyDate.date.split('-')[2]);
+            const key_date_info = `${day}${getOrdinalSuffix(day)} - ${keyDate.description || 'No description'}`;
+            keyDatesHTML += 
+                `<li class="key-date-item">
+                    <span class="key-date-info">${key_date_info}</span>
+                    <img class="edit" src="./assests/images/edit-icon.svg" alt="edit icon" 
+                        onclick="openEditKeyDateForm('${keyDate.id}', 'edit')">
+                    <img class="delete" src="./assests/images/delete-icon.svg" alt="delete icon" 
+                        onclick="confirmDeleteKeyDate('${keyDate.id}', '${key_date_info}')">
+                </li>`;
+        });
+        keyDatesHTML += '</ul>';
+    }
+    
+    // Display in the key dates element`
+    const keyDatesElement = document.getElementById('keyDatesDisplay');
+    if (keyDatesElement) {
+        keyDatesElement.innerHTML = keyDatesHTML;
+    }
+}
 
 //  USER SETTING FUNCTIONS
 //==========================================

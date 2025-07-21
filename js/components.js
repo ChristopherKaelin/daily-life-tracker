@@ -100,6 +100,35 @@ function toggleShowHideForm(toggleForm) {
         }
     }
 
+    // Show delete confirmation dialog
+    function confirmDeleteKeyDate(keyDateId, keyDateText) {
+        // Set the key date info in the dialog
+        const deleteInfoElement = document.getElementById('deleteKeyDateInfo');
+        const confirmButton = document.getElementById('confirmDelete');
+        if (confirmButton) {
+            confirmButton.onclick = () => executeDeleteKeyDate(keyDateId);
+        }
+        deleteInfoElement.textContent = `${keyDateText}`;
+        // Show the confirmation dialog
+        toggleShowHideForm('deleteConfirmForm');
+    }
+
+    // Execute the key date deletion
+    function executeDeleteKeyDate(keyDateId) {
+        const success = deleteKeyDate(keyDateId);
+        
+        if (success) {
+            console.log('Key date deleted successfully');
+            
+            // Refresh the key dates display
+            generateKeyDatesDisplay(appDateInfo);
+            
+            // Close the confirmation dialog
+            toggleShowHideForm('deleteConfirmForm');
+        } else {
+            alert('Failed to delete key date. Please try again.');
+        }
+    }
 
 //  KEY DATES FORM
 //==========================================
@@ -162,6 +191,8 @@ function toggleShowHideForm(toggleForm) {
             console.log('Validation errors:', validation.errors);
             displayValidationErrors(validation.errors, 'addKeyDateForm');
         }
+        generateKeyDatesDisplay(appDateInfo, allKeyDates);
+
     }
 
     // Get Form Data
@@ -224,7 +255,7 @@ function toggleShowHideForm(toggleForm) {
         }
         
         // Change modal title and store the ID for updating
-        const modalTitle = document.getElementById('.modal-title');
+        const modalTitle = document.getElementById('modal-title');
         if (modalTitle) {
             modalTitle.textContent = 'Edit Key Date';
         }
