@@ -19,7 +19,9 @@ function loadAllHabitDefinitions() {
 
 // Get active habit definitions
 function getActiveHabitDefinitions() {
-    return allHabitDefinitions.filter(hd => hd.isActive);
+    // Always get fresh data from storage
+    const allHabits = JSON.parse(localStorage.getItem('dailyLifeHabitDefinitions')) || [];
+    return allHabits.filter(hd => hd.isActive);
 }
 
 // Save all habit definitions to localStorage
@@ -50,6 +52,7 @@ function saveHabitDefinition(habitData) {
             measurement: habitData.measurement || '',
             goalAmount: habitData.goalAmount || 0,
             incrementAmount: habitData.incrementAmount || 0,
+            isActive: true,
             createdAt: new Date().toISOString(),
         };
 
