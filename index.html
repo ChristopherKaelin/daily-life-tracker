@@ -21,8 +21,9 @@
         <link rel="stylesheet" href="./css/main.css" />
 
         <!-- My scripts -->
-        <script src="./js/components.js"></script>
-        <script src="./js/features.js"></script>
+        <script src="./js/calendar-keydates.js"></script>
+        <script src="./js/user-settings.js"></script>
+        <script src="./js/habits.js"></script>
         <script src="./js/main.js"></script>
 
     </head>
@@ -46,7 +47,7 @@
                     <li><a href="#calendar" class="nav-link">Calendar</a></li>
                     <li><a href="#journal" class="nav-link">Journal</a></li>
                     <li><a class="nav-link" onclick="openSettingsForm()">Settings</a></li>
-                    <li><a class="nav-link" onclick="openKeyDateForm()">Key Dates</a></li>
+                    <li><a class="nav-link" onclick="openAddKeyDateForm()">Key Dates</a></li>
                 </ul>
             </nav>
 
@@ -60,7 +61,16 @@
                     </div>
                     <div class="daily-quote">
                         <h4>Daily Quote</h4>
-                        <p>"The best time to plant a tree was 20 years ago. The second best time is now."</p>
+                        <p id="dailyQuoteText" class="quote-text">
+                            "To me, there are three things we all should do every day. Number one is laugh. 
+                            You should laugh every day. Number two is think. You should spend some time in 
+                            thought. And number three is you should have your emotions moved to tears, could 
+                            be happiness or joy. But think about it. If you laugh, you think and you cry, 
+                            that's a full day. That's a heck of a day"
+                        </p>
+                        <p id="quoteAuthor" class="quote-author">
+                            Jim Valvano
+                        </p>
                     </div>
                 </section>
 
@@ -68,7 +78,10 @@
                 <div class="two-column-layout">
                     <section id="calendar" class="calendar-section">
                         <div id="calendarDisplay"></div>
-                        <h4>Key Dates This Month</h4>
+                        <h4 class="header-with-icon">
+                            <span>Key Dates This Month</span>
+                            <img class="add-icon" src="./assests/images/add-calendar-icon.svg" alt="add icon" onclick="openAddKeyDateForm()">
+                        </h4>
                         <div id="keyDatesDisplay"></div>
                     </section>
                     <section id="habits" class="habits-section">
@@ -131,7 +144,7 @@
             </div>
         </div>
 
-        <!-- KEY DATES FORM -->
+        <!-- KEY DATE ADD/EDIT FORM -->
         <div id="keyDateForm" class="key-date-form hidden">
             <div class="key-date-content">
                 <h2 id="modal-title">Add Key Date</h2>
@@ -157,7 +170,7 @@
         </div>
 
         <!-- DELETE CONFIRMATION -->
-        <div id="deleteConfirmForm" class="delete-confirm-form hidden">
+        <div id="deleteKeyDateConfirmForm" class="delete-confirm-form hidden">
             <div class="delete-confirm-content">
                 <h3>Delete Key Date</h3>
                 <p>Confirm you want to delete key date:</p>
@@ -165,7 +178,7 @@
                 
                 <div class="form-buttons">
                     <button type="button" id="confirmDelete" class="btn-danger">Delete</button>
-                    <button type="button" onclick="toggleShowHideForm('deleteConfirmForm')">Cancel</button>
+                    <button type="button" onclick="toggleShowHideForm('deleteKeyDateConfirmForm')">Cancel</button>
                 </div>
             </div>
         </div>

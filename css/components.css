@@ -390,17 +390,6 @@ body {
         background: #9b1b27;
     }
 
-    /* Delete icon styling */
-    img.delete, img.edit  {
-        width: 20px;
-        height: 20px;
-        cursor: pointer;
-    }
-
-    img.delete:hover, img.edit:hover {
-        opacity: 0.75;
-    }
-
     
 /* CALENDAR DISPLAY */
 /* Desktop */

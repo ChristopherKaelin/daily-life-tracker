@@ -1,0 +1,27 @@
+.header-with-icon {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.edit {
+    width: 20px; /* Adjust size as needed */
+    cursor: pointer;
+}
+
+/* Delete/Edit/Add icon styling */
+img.delete, img.edit, img.add-icon  {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+img.add-icon {
+    margin-right: 1rem;
+}
+
+img.delete:hover, 
+img.edit:hover, 
+img.add-icon:hover {
+    opacity: 0.75;
+}
