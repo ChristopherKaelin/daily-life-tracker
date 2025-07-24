@@ -133,7 +133,7 @@ function getUserDisplayName() {
 
 // Toggle visibility of a form by its ID
 function toggleShowHideForm(toggleForm) {
-    console.log(`Show/Hide ${toggleForm} form.`);
+    console.log(`Show/Hide ${toggleForm} form.`);   // REMOVE after testing
     let formElement = document.getElementById(toggleForm);
     formElement.classList.toggle('hidden');
 }
@@ -154,6 +154,11 @@ function displayValidationErrors(errors, formId) {
         const form = document.getElementById(formId);
         form.insertBefore(errorDiv, form.firstChild);
     }
+
+    // Auto-clear after 4 seconds
+    setTimeout(() => {
+        clearValidationErrors(formId);
+    }, 4000);    
 }
 
 // Clear validation error messages

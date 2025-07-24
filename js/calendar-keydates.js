@@ -48,7 +48,7 @@ function generateCalendarDisplay(dateInfo) {
         const hasKeyDate = currentMonthKeyDates.some(kd => kd.date === dayDateString);
         const keyDateClass = hasKeyDate ? 'has-key-date' : '';  
 
-        const onclickAction = `onclick="openAddKeyDateForm('${dayDateString}')"`;
+        const onclickAction = `onclick="openKeyDateForm('${dayDateString}')"`;
 
         if (i == dateInfo.day) {
             isTodayClass = ` today`;
@@ -131,7 +131,7 @@ function validateKeyDateData(dateString, description) {
 }
 
 // Open key date form 
-function openAddKeyDateForm(clickedDate = null) {
+function openKeyDateForm(clickedDate = null) {
     // Set default date to clicked date or today
     if (!clickedDate) {
         // Format today's date for HTML date input (YYYY-MM-DD)
@@ -155,7 +155,7 @@ function openAddKeyDateForm(clickedDate = null) {
         modalTitle.textContent = 'Add Key Date';
     }
 
-    toggleShowHideForm('keyDateForm');
+    toggleShowHideForm('keyDates');
 }
 
 // Handle settings form submission
@@ -170,7 +170,7 @@ function submitKeyDateForm(event) {
     const validation = validateKeyDateData(formData.date, formData.description);
     
     if (validation.isValid) {
-        const form = document.getElementById('addKeyDateForm');
+        const form = document.getElementById('keyDateForm');
         const editingId = form.dataset.editingId;
         
         let success;
@@ -190,14 +190,14 @@ function submitKeyDateForm(event) {
             if (modalTitle) {
                 modalTitle.textContent = 'Edit Key Date';
             }
-            toggleShowHideForm('keyDateForm');
+            toggleShowHideForm('keyDates');
         } else {
             console.error('Failed to save key date. Please try again');
         }
     } else {
         // Show validation errors
         console.log('Validation errors:', validation.errors);
-        displayValidationErrors(validation.errors, 'addKeyDateForm');
+        displayValidationErrors(validation.errors, 'keyDateForm');
     }
     generateCalendarDisplay(appDateInfo);
     generateKeyDatesDisplay(appDateInfo, allKeyDates);
@@ -230,9 +230,9 @@ function openEditKeyDateForm(keyDateId) {
     }
     
     // Store the ID so we know we're editing
-    document.getElementById('addKeyDateForm').dataset.editingId = keyDateId;
+    document.getElementById('keyDates').dataset.editingId = keyDateId;
     
-    toggleShowHideForm('keyDateForm');
+    toggleShowHideForm('keyDates');
 }
 
 // Create new key date to localStorage

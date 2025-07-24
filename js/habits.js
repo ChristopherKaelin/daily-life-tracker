@@ -126,27 +126,28 @@ function deleteHabitDefinition(habitDefinitionId) {
 
 // Validate cumulative habit definition
 function validateCumulativeHabitDefinition(habitDefinition) {
-    const errors = [];
+    const cumulativeErrors = [];
+    console.log('Validating cumulative habit definition:', habitDefinition);
     
     if (!habitDefinition.measurement || habitDefinition.measurement.trim() === '') {
-        errors.push('Measurement unit is required (miles, hours, pages, etc.)');
+        cumulativeErrors.push('Measurement unit is required (miles, hours, pages, etc.)');
     }
     
     if (!habitDefinition.goalAmount || habitDefinition.goalAmount <= 0) {
-        errors.push('Goal amount must be greater than 0');
+        cumulativeErrors.push('Goal amount must be greater than 0');
     }
     
     if (!habitDefinition.incrementAmount || habitDefinition.incrementAmount <= 0) {
-        errors.push('Increment amount must be greater than 0');
+        cumulativeErrors.push('Increment amount must be greater than 0');
     }
     
     if (habitDefinition.incrementAmount > habitDefinition.goalAmount) {
-        errors.push('Increment amount cannot be larger than goal amount');
+        cumulativeErrors.push('Increment amount cannot be larger than goal amount');
     }
     
     return {
-        isValid: errors.length === 0,
-        errors: errors
+        isValid: cumulativeErrors.length === 0,
+        errors: cumulativeErrors
     };
 }
 
@@ -164,7 +165,7 @@ function validateHabitDefinition(habitDefinition) {
     
     // Goal type specific validation
     if  (habitDefinition.goalType === 'cumulative') {
-        const cumulativeValidation = validateCumulativeHabit(habitDefinition);
+        const cumulativeValidation = validateCumulativeHabitDefinition(habitDefinition);
         errors.push(...cumulativeValidation.errors);
     } else if (habitDefinition.goalType !== 'binary') {
         // Invalid goal type
@@ -213,5 +214,66 @@ function getHabitGoalDisplayText(habitDefinition) {
         return  `${habitDefinition.name} ${habitDefinition.goalAmount} ${habitDefinition.measurement} (${habitDefinition.incrementAmount} ${habitDefinition.measurement} increments)`;
     } else {
         return habitDefinition.name; // Fallback
+    }
+}
+
+// Handle goal type selection change
+function handleGoalTypeChange() {
+    const goalTypeSelect = document.getElementById('habitGoalType');
+    const cumulativeFields = document.getElementById('cumulativeFields');
+    
+    if (goalTypeSelect && cumulativeFields) {
+        if (goalTypeSelect.value === 'cumulative') {
+            cumulativeFields.style.display = 'block';
+        } else {
+            cumulativeFields.style.display = 'none';
+        }
+    }
+}
+
+function getHabitDefinitionFormData() {
+    const nameInput = document.getElementById('habitName');
+    const goalTypeSelect = document.getElementById('habitGoalType');
+    const measurementInput = document.getElementById('habitMeasurement');
+    const goalAmountInput = document.getElementById('habitGoalAmount');
+    const incrementAmountInput = document.getElementById('habitIncrementAmount');
+    
+    return {
+        name: nameInput.value.trim(),
+        goalType: goalTypeSelect.value,
+        measurement: measurementInput.value.trim(),
+        goalAmount: parseFloat(goalAmountInput.value) || 0,
+        incrementAmount: parseFloat(incrementAmountInput.value) || 0
+    };
+}
+
+// Handle habit definition form submission
+function submitHabitDefinitionForm(event) {
+    event.preventDefault();
+    
+    // Get form data
+    const addHabitDefinitionData = getHabitDefinitionFormData();
+
+    console.log(addHabitDefinitionData);  // REMOVE after testing
+
+    // Validate the form
+    const habitValidation = validateHabitDefinition(addHabitDefinitionData);
+    
+    // Save the habit definition
+    if (!habitValidation.isValid) {
+        console.error('Habit definition validation failed:', habitValidation.errors);
+        displayValidationErrors(habitValidation.errors, 'habitDefinitionsForm');
+        return;
+    } else {
+        console.log('Habit definition is valid:', addHabitDefinitionData);
+        const saveSuccess = saveHabitDefinition(addHabitDefinitionData);
+        if (!saveSuccess) {
+            console.error('Failed to save habit definition');
+            displayValidationErrors(['Failed to save habit definition'], 'habitDefinitionsForm');
+            return;
+        } else {
+            document.getElementById('habitDefinitionsForm').reset();
+            toggleShowHideForm('habitDefinitions');
+        }
     }
 }

@@ -112,7 +112,7 @@ function updateUserSettings(updates) {
 // Open settings form   
 function openSettingsForm() {
     loadCurrentSettingsIntoForm();
-    toggleShowHideForm('settingsForm');
+    toggleShowHideForm('userSettings');
 }
 
 // Load current settings into the form
@@ -189,7 +189,7 @@ function submitSettingsForm(event) {
         if (success) {
             console.log('Settings saved successfully');
             updateUserNameDisplay();
-            toggleShowHideForm('settingsForm');
+            toggleShowHideForm('userSettings');
         } else {
             console.error('Failed to save settings');
         }

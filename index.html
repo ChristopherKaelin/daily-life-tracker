@@ -43,12 +43,12 @@
             <!-- NAVIGATION -->
             <nav class="main-nav">
                 <ul>
-                    <li><a class="nav-link" onclick="toggleShowHideForm('habitForm')">Habit Def</a></li>
+                    <li><a class="nav-link" onclick="toggleShowHideForm('habitDefinitions')">Habit Def</a></li>
                     <li><a href="#habits" class="nav-link">Habit Track</a></li>
                     <li><a href="#calendar" class="nav-link">Calendar</a></li>
                     <li><a href="#journal" class="nav-link">Journal</a></li>
                     <li><a class="nav-link" onclick="openSettingsForm()">Settings</a></li>
-                    <li><a class="nav-link" onclick="openAddKeyDateForm()">Key Dates</a></li>
+                    <li><a class="nav-link" onclick="openKeyDateForm()">Key Dates</a></li>
                 </ul>
             </nav>
 
@@ -81,7 +81,7 @@
                         <div id="calendarDisplay"></div>
                         <h4 class="header-with-icon">
                             <span>Key Dates This Month</span>
-                            <img class="add-icon" src="./assests/images/add-calendar-icon.svg" alt="add icon" onclick="openAddKeyDateForm()">
+                            <img class="add-icon" src="./assests/images/add-calendar-icon.svg" alt="add icon" onclick="openKeyDateForm()">
                         </h4>
                         <div id="keyDatesDisplay"></div>
                     </section>
@@ -102,7 +102,7 @@
         <!-- ----------------- -->
 
         <!-- USER SETTINGS FORM -->
-        <div id="settingsForm" class="modal-form hidden">
+        <div id="userSettings" class="modal-form hidden">
             <div class="modal-content">
                 <h2>Settings</h2>
                 <form id="userSettingsForm" onsubmit="submitSettingsForm(event)">
@@ -121,36 +121,30 @@
                             <option value="Colorado Springs, CO">Colorado Springs, CO </option>
                             <option value="Atlanta, GA">Atlanta, GA</option>
                             <option value="Austin, TX">Austin, TX</option>
-                            <option value="Boston, MA">Boston, MA</option>
-                            <option value="Charlotte, NC">Charlotte, NC</option>
                             <option value="Chicago, IL">Chicago, IL</option>
-                            <option value="Dallas, TX">Dallas, TX</option>
                             <option value="Denver, CO">Denver, CO</option>
-                            <option value="Houston, TX">Houston, TX</option>
                             <option value="Los Angeles, CA">Los Angeles, CA</option>
                             <option value="Miami, FL">Miami, FL</option>
                             <option value="Nashville, TN">Nashville, TN</option>
                             <option value="New York, NY">New York, NY</option>
                             <option value="Orlando, FL">Orlando, FL</option>
-                            <option value="Phoenix, AZ">Phoenix, AZ</option>
-                            <option value="Seattle, WA">Seattle, WA</option>
                         </select>
                     </div>
                     
                     <div class="form-buttons">
                         <button type="submit" id="submitSettings">Save Settings</button>
-                        <button type="button" id="cancelSettings" onclick="toggleShowHideForm('settingsForm')">Cancel</button>
+                        <button type="button" id="cancelSettings" onclick="toggleShowHideForm('userSettings')">Cancel</button>
                     </div>
                 </form>
             </div>
         </div>
 
         <!-- KEY DATE ADD/EDIT FORM -->
-        <div id="keyDateForm" class="modal-form hidden">
+        <div id="keyDates" class="modal-form hidden">
             <div class="modal-content">
                 <h2 id="modal-title">Add Key Date</h2>
                 
-                <form id="addKeyDateForm" onsubmit="submitKeyDateForm(event)">
+                <form id="keyDateForm" onsubmit="submitKeyDateForm(event)">
                     <div class="form-group">
                         <label for="keyDateDate">Date:</label>
                         <input type="date" id="keyDateDate" name="keyDateDate">
@@ -164,7 +158,7 @@
                     
                     <div class="form-buttons">
                         <button type="submit">Submit</button>
-                        <button type="button" id="cancelKeyDate" onclick="toggleShowHideForm('keyDateForm')">Cancel</button>
+                        <button type="button" id="cancelKeyDate" onclick="toggleShowHideForm('keyDates')">Cancel</button>
                     </div>
                 </form>
             </div>
@@ -185,30 +179,23 @@
         </div>
 
         <!-- HABIT DEFINITION ADD/EDIT FORM -->
-        <div id="habitForm" class="modal-form hidden">
+        <div id="habitDefinitions" class="modal-form hidden">
             <div class="modal-content">
                 <h2>Create New Habit</h2>
                 
-                <form id="addHabitForm">
+                <form id="habitDefinitionsForm" onsubmit="submitHabitDefinitionForm(event)">
+                    <div class="form-group">
+                        <label>Goal Type:</label>
+                        <select id="habitGoalType" onchange="handleGoalTypeChange()">
+                            <option value="binary">Daily Completion (Yes/No)</option>
+                            <option value="cumulative">Cumulative Goal (Track Progress)</option>
+                        </select>
+                    </div>
                     <div class="form-group">
                         <label for="habitName">Habit Name:</label>
                         <input type="text" id="habitName" name="habitName" 
                             placeholder="Enter habit name" maxlength="50" required>
                     </div>
-                    
-                    <div class="form-group">
-                        <label>Goal Type:</label>
-                        <div class="radio-group">
-                            <label class="radio-label">
-                                <input type="radio" name="goalType" value="binary" checked>
-                                <span>Daily Completion </span>
-                            </label>
-                            <label class="radio-label">
-                                <input type="radio" name="goalType" value="cumulative">
-                                <span>Monthyly Goal </span>
-                            </label>
-                        </div>
-                    </div>                 
                     <div id="cumulativeFields" class="cumulative-fields hidden">
                         <div class="form-group">
                             <label for="habitMeasurement">Measurement:</label>
@@ -218,19 +205,20 @@
                         <div class="form-group">
                             <label for="habitGoalAmount">Goal Amount:</label>
                             <input type="number" id="habitGoalAmount" name="habitGoalAmount"
-                                min="1" max="100" step="1" required
-                                placeholder="e.g. miles, minutes, pages">
+                                min="1" max="100" step="1"
+                                placeholder="1 - 100, e.g. 30">
                         </div>
                         <div class="form-group">
                             <label for="habitIncrementAmount">Increment Amount:</label>
-                            <input type="text" id="habitIncrementAmount" name="habitIncrementAmount" 
-                                placeholder="e.g. miles, minutes, pages" maxlength="20">                            
+                            <input type="number" id="habitIncrementAmount" name="habitIncrementAmount" 
+                                min=".1" max="1" step=".1"
+                                placeholder=".1 - 1, e.g. 0.5">
                         </div>
                     </div>
                     
                     <div class="form-buttons">
                         <button type="submit">Create Habit</button>
-                        <button type="button" onclick="toggleShowHideForm('habitForm')">Cancel</button>
+                        <button type="button" onclick="toggleShowHideForm('habitDefinitions')">Cancel</button>
                     </div>
                 </form>
             </div>
