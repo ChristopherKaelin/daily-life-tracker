@@ -1,12 +1,13 @@
 const DEFAULT_HABIT_DEFINITION = {
     id: '',             // 'habit-0001', 'habit-0002', etc.
-    name: '',           // 'Walk', 'Study Programming'  
+    name: '',
     goalType: '',       // 'binary' or 'cumulative'
     // Cumulative habits details:
-    measurement: '',    // 'miles', 'hours', 'ounces'
-    goalAmount: 0,      // 30
-    incrementAmount: 0, // 0.5
-    isActive: true,     // true or false
+    measurement: '',
+    goalAmount: 0,
+    incrementAmount: 0,
+    // All habits details:
+    isActive: true,
     createdAt: '',
     updatedAt: '',
 };
@@ -200,7 +201,6 @@ function calculateTotalCheckboxes(habitDefinition) {
 // Calculate progress percentage for cumulative habit
 function calculateHabitProgress(habitDefinition, completedCheckboxes) {
     const totalCheckboxes = calculateTotalCheckboxes(habitDefinition);
-    // Avoid division by zero
     if (totalCheckboxes === 0) return 0; 
     return (completedCheckboxes / calculateTotalCheckboxes(habitDefinition)) * 100; 
 }
@@ -210,8 +210,7 @@ function getHabitGoalDisplayText(habitDefinition) {
     if (isBinaryHabit(habitDefinition)) {
         return habitDefinition.name; // Just the name
     } else if (isCumulativeHabit(habitDefinition)) {
-        return  `${habitDefinition.name} ${habitDefinition.goalAmount} ${habitDefinition.measurement} 
-                • ${habitDefinition.incrementAmount} ${habitDefinition.measurement} per box`;
+        return  `${habitDefinition.name} ${habitDefinition.goalAmount} ${habitDefinition.measurement} (${habitDefinition.incrementAmount} ${habitDefinition.measurement} increments)`;
     } else {
         return habitDefinition.name; // Fallback
     }

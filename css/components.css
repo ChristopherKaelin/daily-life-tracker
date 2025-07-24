@@ -198,39 +198,6 @@ body {
 
 /* SETTINGS FORM  */
 /* Desktop */
-    .settings-form {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-    }
-
-    .settings-form.hidden {
-        display: none;
-    }
-
-    .settings-content {
-        background: var(--color-input-bg);
-        padding: 2rem;
-        border-radius: 8px;
-        border: 1px solid var(--color-border);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        max-width: 400px;
-        width: 90%;
-    }
-
-    .settings-content h2 {
-        margin: 0 0 0.5rem 0;
-        color: var(--color-primary);
-        text-align: center;
-    }
-
     .form-group {
         margin-bottom: 0.5rem;
     }
@@ -279,39 +246,6 @@ body {
 
 /* KEY DATE FORM  */
 /* Desktop */
-    .key-date-form {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-    }
-
-    .key-date-form.hidden {
-        display: none;
-    }
-
-    .key-date-content {
-        background: var(--color-input-bg);
-        padding: 2rem;
-        border-radius: 8px;
-        border: 1px solid var(--color-border);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        max-width: 400px;
-        width: 90%;
-    }
-
-    .key-date-content h2 {
-        margin: 0 0 1.5rem 0;
-        color: var(--color-primary);
-        text-align: center;
-    }
-
     .key-date-content input[type="date"],
     .key-date-content input[type="text"] {
         width: 100%;
@@ -339,35 +273,6 @@ body {
 
 /* DELETE CONFiRMATION */
 /* Desktop */
-    .delete-confirm-form {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-    }
-
-    .delete-confirm-form.hidden {
-        display: none;
-    }
-
-    .delete-confirm-content {
-        font-size: var(--font-size-small);
-        background: var(--color-input-bg);
-        padding: 2rem;
-        border-radius: 8px;
-        border: 1px solid var(--color-border);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        max-width: 400px;
-        width: 90%;
-        text-align: center;
-    }
-
     .delete-confirm-content h3 {
         color: var(--color-primary);
     } 

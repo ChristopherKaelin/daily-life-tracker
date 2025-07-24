@@ -43,7 +43,8 @@
             <!-- NAVIGATION -->
             <nav class="main-nav">
                 <ul>
-                    <li><a href="#habits" class="nav-link">Habit Tracking</a></li>
+                    <li><a class="nav-link" onclick="toggleShowHideForm('habitForm')">Habit Def</a></li>
+                    <li><a href="#habits" class="nav-link">Habit Track</a></li>
                     <li><a href="#calendar" class="nav-link">Calendar</a></li>
                     <li><a href="#journal" class="nav-link">Journal</a></li>
                     <li><a class="nav-link" onclick="openSettingsForm()">Settings</a></li>
@@ -61,7 +62,7 @@
                     </div>
                     <div class="daily-quote">
                         <h4>Daily Quote</h4>
-                        <p id="dailyQuoteText" class="quote-text">
+                        <p id="dailyQuoteText" class="quote-text-long">
                             "To me, there are three things we all should do every day. Number one is laugh. 
                             You should laugh every day. Number two is think. You should spend some time in 
                             thought. And number three is you should have your emotions moved to tears, could 
@@ -101,8 +102,8 @@
         <!-- ----------------- -->
 
         <!-- USER SETTINGS FORM -->
-        <div id="settingsForm" class="settings-form hidden">
-            <div class="settings-content">
+        <div id="settingsForm" class="modal-form hidden">
+            <div class="modal-content">
                 <h2>Settings</h2>
                 <form id="userSettingsForm" onsubmit="submitSettingsForm(event)">
                     <div class="form-group">
@@ -145,8 +146,8 @@
         </div>
 
         <!-- KEY DATE ADD/EDIT FORM -->
-        <div id="keyDateForm" class="key-date-form hidden">
-            <div class="key-date-content">
+        <div id="keyDateForm" class="modal-form hidden">
+            <div class="modal-content">
                 <h2 id="modal-title">Add Key Date</h2>
                 
                 <form id="addKeyDateForm" onsubmit="submitKeyDateForm(event)">
@@ -169,10 +170,10 @@
             </div>
         </div>
 
-        <!-- DELETE CONFIRMATION -->
-        <div id="deleteKeyDateConfirmForm" class="delete-confirm-form hidden">
-            <div class="delete-confirm-content">
-                <h3>Delete Key Date</h3>
+        <!-- DELETE KEY DATE CONFIRMATION -->
+        <div id="deleteKeyDateConfirmForm" class="modal-form hidden">
+            <div class="modal-content">
+                <h2>Delete Key Date</h2>
                 <p>Confirm you want to delete key date:</p>
                 <p id="deleteKeyDateInfo" class="delete-info"></p>
                 
@@ -180,6 +181,58 @@
                     <button type="button" id="confirmDelete" class="btn-danger">Delete</button>
                     <button type="button" onclick="toggleShowHideForm('deleteKeyDateConfirmForm')">Cancel</button>
                 </div>
+            </div>
+        </div>
+
+        <!-- HABIT DEFINITION ADD/EDIT FORM -->
+        <div id="habitForm" class="modal-form hidden">
+            <div class="modal-content">
+                <h2>Create New Habit</h2>
+                
+                <form id="addHabitForm">
+                    <div class="form-group">
+                        <label for="habitName">Habit Name:</label>
+                        <input type="text" id="habitName" name="habitName" 
+                            placeholder="Enter habit name" maxlength="50" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Goal Type:</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="goalType" value="binary" checked>
+                                <span>Daily Completion </span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="goalType" value="cumulative">
+                                <span>Monthyly Goal </span>
+                            </label>
+                        </div>
+                    </div>                 
+                    <div id="cumulativeFields" class="cumulative-fields hidden">
+                        <div class="form-group">
+                            <label for="habitMeasurement">Measurement:</label>
+                            <input type="text" id="habitMeasurement" name="habitMeasurement" 
+                                placeholder="e.g. miles, minutes, pages" maxlength="20">
+                        </div>
+                        <div class="form-group">
+                            <label for="habitGoalAmount">Goal Amount:</label>
+                            <input type="number" id="habitGoalAmount" name="habitGoalAmount"
+                                min="1" max="100" step="1" required
+                                placeholder="e.g. miles, minutes, pages">
+                        </div>
+                        <div class="form-group">
+                            <label for="habitIncrementAmount">Increment Amount:</label>
+                            <input type="text" id="habitIncrementAmount" name="habitIncrementAmount" 
+                                placeholder="e.g. miles, minutes, pages" maxlength="20">                            
+                        </div>
+                    </div>
+                    
+                    <div class="form-buttons">
+                        <button type="submit">Create Habit</button>
+                        <button type="button" onclick="toggleShowHideForm('habitForm')">Cancel</button>
+                    </div>
+                </form>
             </div>
         </div>
     </body>

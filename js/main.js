@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
     //==========================================
     //  TESTING - Remove after testing
     //==========================================
-    testFunction();
+    // testFunction();
 
 });
 
@@ -173,23 +173,18 @@ function testFunction() {
         isActive: false,
     };
     const cumulativeHabitData = {
-        name: 'Walking',
+        name: 'Walk',
         goalType: 'cumulative',
         measurement: 'miles',
         goalAmount: 30,
         incrementAmount: 0.5
     };
 
-    console.log('Creating test binary habit...');
-    const binaryResult = saveHabitDefinition(cumulativeHabitData);
-    console.log('Binary habit result:', binaryResult);
-    
-    console.log('Creating test cumulative habit...');
-    const cumulativeResult = saveHabitDefinition(binaryHabitData);
-    console.log('Cumulative habit result:', cumulativeResult);
-    
     console.log('Current habits:', getActiveHabitDefinitions());
-    
+
+    console.log(getHabitGoalDisplayText(binaryHabitData));
+    console.log(getHabitGoalDisplayText(cumulativeHabitData));
+
     console.log(calculateTotalCheckboxes(binaryHabitData))
     console.log('=== Testing Completed ===');
 }
