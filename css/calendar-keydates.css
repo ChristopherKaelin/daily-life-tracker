@@ -4,11 +4,6 @@
     align-items: center;
 }
 
-.edit {
-    width: 20px;
-    cursor: pointer;
-}
-
 /* Delete/Edit/Add icon styling */
 img.delete, img.edit, img.add-icon  {
     width: 20px;

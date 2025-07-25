@@ -1,75 +1,3 @@
-//  CALENDAR FUNCTIONS
-//==========================================
-const dayToDayName = {0: 'Sunday', 1: 'Monday', 2: 'Tuesday', 3: 'Wednesday', 4: 'Thursday', 5: 'Friday', 6: 'Saturday'}
-const monthToMonthName = {0: 'January', 1: 'February', 2: 'March', 3: 'April', 4: 'May', 5: 'June',  6: 'July', 7: 'August', 8: 'September', 9: 'October', 10: 'November', 11: 'December'}
-
-// Get the correct 'st', 'nd', 'th' for the day.
-function getOrdinalSuffix(dayNum) {
-    if (dayNum >= 11 && dayNum <= 19) {
-        return 'th'
-    }
-
-    const lastDigit = dayNum % 10;
-    if (lastDigit == 1) {
-        return 'st';
-    } else if (lastDigit == 2 ) {
-        return 'nd';
-    } else if (lastDigit == 3) {
-        return 'rd';
-    } else {
-        return 'th';
-    }
-}
-
-// Generate calendar grid for current month
-function generateCalendarDisplay(dateInfo) {
-    
-    //  Create month/year header
-    const monthYearHeader = `<h3>${dateInfo.monthName} ${dateInfo.year}</h3>`;
-    
-    //  Add in day headers
-    const dayOfWeekHeader = '<div>Sun</div> <div>Mon</div> <div>Tue</div> <div>Wed</div> <div>Thu</div> <div>Fri</div> <div>Sat</div>'
-
-    // Calculate first day of month and number of days
-    const firstDayOfMonth = new Date(dateInfo.year, dateInfo.month, 1).getDay();
-
-    //  Create HTML for calendar grid
-    let calendarGrid = '';
-    //  Add in blank divs to push day to correct start
-    for (let i = 0; i < firstDayOfMonth; i++) {
-        calendarGrid += `<div class="empty-day"></div>`;
-    }
-    //  Add in the days of the month
-    for (let i = 1; i <= dateInfo.daysInMonth; i++) {
-        const dayDateString = `${dateInfo.year}-${(dateInfo.month+1).toString().padStart(2, '0')}-${i.toString().padStart(2, '0')}`;
-
-        // Check if this day has key dates
-        const currentMonthKeyDates = getKeyDatesForMonth(dateInfo.year, (dateInfo.month + 1).toString().padStart(2, '0'));
-        const hasKeyDate = currentMonthKeyDates.some(kd => kd.date === dayDateString);
-        const keyDateClass = hasKeyDate ? 'has-key-date' : '';  
-
-        const onclickAction = `onclick="openKeyDateForm('${dayDateString}')"`;
-
-        if (i == dateInfo.day) {
-            isTodayClass = ` today`;
-        } else {
-            isTodayClass = ``;
-        }
-        calendarGrid += `<div class="${keyDateClass}${isTodayClass}" ${onclickAction}>${i}</div>`;
-    }
-    
-    // Display the calendar
-    console.log('Display calendar grid');
-    const calendarElement = document.getElementById('calendarDisplay');
-
-    if (calendarElement) {
-        calendarElement.innerHTML = 
-            monthYearHeader + 
-            `<div class="calendar-grid">${dayOfWeekHeader} ${calendarGrid}</div>`;
-    }
-}
-
-
 //  KEY DATES FUNCTIONS
 //==========================================
 
@@ -150,7 +78,7 @@ function openKeyDateForm(clickedDate = null) {
     }
     
     // Change modal title
-    const modalTitle = document.getElementById('modal-title');
+    const modalTitle = document.getElementById('key-date-title');
     if (modalTitle) {
         modalTitle.textContent = 'Add Key Date';
     }
@@ -186,7 +114,7 @@ function submitKeyDateForm(event) {
 
         if (success) {
             delete form.dataset.editingId;
-            const modalTitle = document.getElementById('.modal-title');
+            const modalTitle = document.getElementById('key-date-title');
             if (modalTitle) {
                 modalTitle.textContent = 'Edit Key Date';
             }
@@ -223,13 +151,12 @@ function openEditKeyDateForm(keyDateId) {
         descriptionInput.value = keyDate.description;
     }
     
-    // Change modal title and store the ID for updating
-    const modalTitle = document.getElementById('modal-title');
+    // Change modal title
+    const modalTitle = document.getElementById('key-date-title');
     if (modalTitle) {
         modalTitle.textContent = 'Edit Key Date';
     }
     
-    // Store the ID so we know we're editing
     document.getElementById('keyDates').dataset.editingId = keyDateId;
     
     toggleShowHideForm('keyDates');
@@ -377,7 +304,7 @@ function generateKeyDatesDisplay(dateInfo) {
         keyDatesHTML += '</ul>';
     }
     
-    // Display in the key dates element`
+    // Display in the key dates element
     const keyDatesElement = document.getElementById('keyDatesDisplay');
     if (keyDatesElement) {
         keyDatesElement.innerHTML = keyDatesHTML;

@@ -86,6 +86,7 @@ body {
         max-width: 180px;
     }
     .nav-link {
+        font-size: var(--font-size-small);
         text-decoration: none;
         cursor: pointer;
         padding: 0.5rem 1rem;
@@ -284,18 +285,42 @@ body {
         font-weight: 600;
         color: var(--color-primary);
         margin: 0.25rem 0;
-}
+    }
 
     .btn-danger {
-        background: #dc3545;
+        background: var(--color-error);
         color: white;
     }
 
     .btn-danger:hover {
-        background: #9b1b27;
+        filter: brightness(0.85); 
     }
 
-    
+/* RESTORE CONFiRMATION */
+/* Desktop */
+    .restore-confirm-content h3 {
+        color: var(--color-primary);
+    } 
+    .restore-confirm-content p {
+        color: var(--color-text);
+    }
+
+    .restore-info {
+        font-weight: 600;
+        color: var(--color-primary);
+        margin: 0.25rem 0;
+}
+
+    .btn-restore {
+        background: var(--color-accent);
+        color: white;
+    }
+
+    .btn-restore:hover {
+        filter: brightness(0.85);
+    }
+
+
 /* CALENDAR DISPLAY */
 /* Desktop */
     /* Calendar Grid Layout */
@@ -359,38 +384,6 @@ body {
 
 /* KEY DATES DISPLAY */
 /* Desktop */
-    .key-dates-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    .key-date-item {
-        display: flex;
-        align-items: center;
-        padding: 0.25rem 1rem;
-        border-bottom: 1px solid var(--color-border);
-    }
-
-    .key-date-item:last-child {
-        border-bottom: none;
-    }
-
-    .key-date-info {
-        font-size: var(--font-size-small);
-        color: var(--color-primary);
-        min-width: 3rem;
-        margin-right: 0.5rem;
-        flex: 1;
-    }
-
-    .no-key-dates {
-        color: var(--color-muted);
-        font-style: italic;
-        margin: 1rem 0;
-        text-align: center;
-    }
-
     #calendar h4 {
         margin: 1rem 0 0 0;
         color: var(--color-primary);

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Habit Definitions</title>
+
+        <link rel="icon" type="image/svg+xml" href="./assests/images/favicon.svg">
+        
+        <meta name="description" content="Stay organized and motivated with daily habit tracking, journaling, and goal management designed to feel like your favorite paper planner.">
+        <meta name="theme-color" content="#663366">
+
+        <meta property="og:title" content="Daily Life Tracker">
+        <meta property="og:description" content="Personal habit, goals, and journalling dashboard">        
+
+        <!-- Font Awesome CSS -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+        <!-- My CSS --> 
+        <link rel="stylesheet" href="./css/modern-normalize.css">
+        <link rel="stylesheet" href="./css/main.css" />
+
+        <!-- My scripts -->
+        <script src="./js/main.js"></script>
+        <script src="./js/habit-definitions.js"></script>
+
+    </head>
+    <body>
+        <div class="main-container">
+            <!-- HEADER -->
+            <header class="main-header ">
+                <h1 class="user-greeting">
+                    <span id="userGreeting"></span>
+                    <span class="user-name" id="userDisplayName">[User Name]</span>
+                </h1>
+                <p id="todayIsDisplay">Today is:</p>
+            </header>
+            <!-- MAIN CONTENT -->
+            <main class="main-content">
+                <section id="habitDefinitions" class="habits-section">
+                    <h2>Manage Habit Definitions</h2>
+                    <h4 class="header-with-icon">
+                        <span>Habit Definitions</span>
+                        <img class="add-icon" src="./assests/images/add-calendar-icon.svg" alt="add icon" onclick="openHabitDefinitionFormForAddition()">
+                    </h4>
+                    <div id="habitDefinitionsDisplay"></div>
+                </section>
+            </main>
+
+            <!-- NAVIGATION -->
+            <nav class="main-nav">
+                <ul>
+                    <li><a class="nav-link" href="./index.html">Dashboard</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- MODALS -->
+        <!-- ----------------- -->
+
+        <!-- HABIT DEFINITION ADD/EDIT FORM -->
+        <div id="habitDefinitionsInput" class="modal-form hidden">
+            <div class="modal-content">
+                <h2 id="habit-title">Habit Definition</h2>
+                
+                <form id="habitDefinitionsForm" onsubmit="submitHabitDefinitionForm(event)">
+                    <div class="form-group">
+                        <label>Goal Type:</label>
+                        <select id="habitGoalType" onchange="handleGoalTypeChange()">
+                            <option value="binary">Daily Completion (Yes/No)</option>
+                            <option value="cumulative">Cumulative Goal (Track Progress)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="habitName">Habit Name:</label>
+                        <input type="text" id="habitName" name="habitName" 
+                            placeholder="Enter habit name" maxlength="50" required>
+                    </div>
+                    <div id="cumulativeFields" class="cumulative-fields hidden">
+                        <div class="form-group">
+                            <label for="habitMeasurement">Measurement:</label>
+                            <input type="text" id="habitMeasurement" name="habitMeasurement" 
+                                placeholder="e.g. miles, minutes, pages" maxlength="20">
+                        </div>
+                        <div class="form-group">
+                            <label for="habitGoalAmount">Goal Amount:</label>
+                            <input type="number" id="habitGoalAmount" name="habitGoalAmount"
+                                min="1" max="100" step="1"
+                                placeholder="1 - 100, e.g. 30">
+                        </div>
+                        <div class="form-group">
+                            <label for="habitIncrementAmount">Increment Amount:</label>
+                            <input type="number" id="habitIncrementAmount" name="habitIncrementAmount" 
+                                min=".1" max="1" step=".1"
+                                placeholder=".1 - 1, e.g. 0.5">
+                        </div>
+                    </div>
+                    
+                    <div class="form-buttons">
+                        <button type="submit">Submit</button>
+                        <button type="button" onclick="toggleShowHideForm('habitDefinitionsInput')">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- DELETE HABIT DEFINITION CONFIRMATION -->
+        <div id="deleteHabitDefinitionConfirmForm" class="modal-form hidden">
+            <div class="modal-content">
+                <h2 id="delete-habit-def-title">Delete Habit Definition</h2>
+                <p>Confirm you want to delete this habit definition:</p>
+                <p id="deleteHabitDefinitionInfo" class="delete-info"></p>
+                
+                <div class="form-buttons">
+                    <button type="button" id="confirmDelete" class="btn-danger">Delete</button>
+                    <button type="button" onclick="toggleShowHideForm('deleteHabitDefinitionConfirmForm')">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- RESTORE HABIT DEFINITION CONFIRMATION -->
+        <div id="restoreHabitDefinitionConfirmForm" class="modal-form hidden">
+            <div class="modal-content">
+                <h2 id="restore-habit-def-title">Restore Habit Definition</h2>
+                <p>Confirm you want to restore this habit definition:</p>
+                <p id="restoreHabitDefinitionInfo" class="restore-info"></p>
+                
+                <div class="form-buttons">
+                    <button type="button" id="confirmRestore" class="btn-restore">Restore</button>
+                    <button type="button" onclick="toggleShowHideForm('restoreHabitDefinitionConfirmForm')">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>

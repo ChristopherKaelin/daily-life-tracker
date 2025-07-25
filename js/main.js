@@ -3,36 +3,39 @@ let appDateInfo = null;
 let allKeyDates = [];
 let allHabitDefinitions = [];
 
-
 // App initialization - runs when page loads
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Daily Life Tracker starting...');
-    
+    console.log('MAIN.JS DOMContentLoaded Add Event Listner Running');
+
     // Get App Wide Data
     appDateInfo = getDateInfo();
-    allKeyDates = loadAllKeyDatesFromStorage();
-    allHabitDefinitions = loadAllHabitDefinitions();
-    
-    // Initialize User settings
-    console.log('Initialize user settings.');
-    initializeUserSettings();
 
     // Initialize Header Display
     console.log('Initialize Header display')
     initializeHeaderDisplay(appDateInfo);
-
-    //  Initialize Calendar Section Display 
-    generateCalendarDisplay(appDateInfo);
-    generateKeyDatesDisplay(appDateInfo, allKeyDates);
-    initializeKeyDateEventListeners() 
-
-
-    //==========================================
-    //  TESTING - Remove after testing
-    //==========================================
-    // testFunction();
-
 });
+
+// Get user settings from localStorage
+function getUserSettings() {
+    try {
+        // Try to get settings from localStorage
+        const savedSettings = localStorage.getItem('dailyLifeUserSettings');
+        
+        if (savedSettings) {
+            userSettings = JSON.parse(savedSettings);
+        } else {
+            // No saved settings, get defaults
+            userSettings = DEFAULT_USER_SETTINGS;
+        }
+        return userSettings;
+        
+    } catch (error) {
+        console.error('Error loading user settings:', error);
+        // Return defaults on error
+        userSettings = DEFAULT_USER_SETTINGS;
+        return userSettings;
+    }
+}
 
 //  UTILITY FUNCTIONS
 //==========================================
@@ -133,9 +136,81 @@ function getUserDisplayName() {
 
 // Toggle visibility of a form by its ID
 function toggleShowHideForm(toggleForm) {
-    console.log(`Show/Hide ${toggleForm} form.`);   // REMOVE after testing
+    // console.log(`Show/Hide ${toggleForm} form.`);   // REMOVE after testing
     let formElement = document.getElementById(toggleForm);
     formElement.classList.toggle('hidden');
+}
+
+//  CALENDAR FUNCTIONS
+//==========================================
+const dayToDayName = {0: 'Sunday', 1: 'Monday', 2: 'Tuesday', 3: 'Wednesday', 4: 'Thursday', 5: 'Friday', 6: 'Saturday'}
+const monthToMonthName = {0: 'January', 1: 'February', 2: 'March', 3: 'April', 4: 'May', 5: 'June',  6: 'July', 7: 'August', 8: 'September', 9: 'October', 10: 'November', 11: 'December'}
+
+// Get the correct 'st', 'nd', 'th' for the day.
+function getOrdinalSuffix(dayNum) {
+    if (dayNum >= 11 && dayNum <= 19) {
+        return 'th'
+    }
+
+    const lastDigit = dayNum % 10;
+    if (lastDigit == 1) {
+        return 'st';
+    } else if (lastDigit == 2 ) {
+        return 'nd';
+    } else if (lastDigit == 3) {
+        return 'rd';
+    } else {
+        return 'th';
+    }
+}
+
+// Generate calendar grid for current month
+function generateCalendarDisplay(dateInfo) {
+    console.log(dateInfo);
+    
+    //  Create month/year header
+    const monthYearHeader = `<h3>${dateInfo.monthName} ${dateInfo.year}</h3>`;
+    
+    //  Add in day headers
+    const dayOfWeekHeader = '<div>Sun</div> <div>Mon</div> <div>Tue</div> <div>Wed</div> <div>Thu</div> <div>Fri</div> <div>Sat</div>'
+
+    // Calculate first day of month and number of days
+    const firstDayOfMonth = new Date(dateInfo.year, dateInfo.month, 1).getDay();
+
+    //  Create HTML for calendar grid
+    let calendarGrid = '';
+    //  Add in blank divs to push day to correct start
+    for (let i = 0; i < firstDayOfMonth; i++) {
+        calendarGrid += `<div class="empty-day"></div>`;
+    }
+    //  Add in the days of the month
+    for (let i = 1; i <= dateInfo.daysInMonth; i++) {
+        const dayDateString = `${dateInfo.year}-${(dateInfo.month+1).toString().padStart(2, '0')}-${i.toString().padStart(2, '0')}`;
+
+        // Check if this day has key dates
+        const currentMonthKeyDates = getKeyDatesForMonth(dateInfo.year, (dateInfo.month + 1).toString().padStart(2, '0'));
+        const hasKeyDate = currentMonthKeyDates.some(kd => kd.date === dayDateString);
+        const keyDateClass = hasKeyDate ? 'has-key-date' : '';  
+
+        const onclickAction = `onclick="openKeyDateForm('${dayDateString}')"`;
+
+        if (i == dateInfo.day) {
+            isTodayClass = ` today`;
+        } else {
+            isTodayClass = ``;
+        }
+        calendarGrid += `<div class="${keyDateClass}${isTodayClass}" ${onclickAction}>${i}</div>`;
+    }
+    
+    // Display the calendar
+    console.log('Display calendar grid');
+    const calendarElement = document.getElementById('calendarDisplay');
+
+    if (calendarElement) {
+        calendarElement.innerHTML = 
+            monthYearHeader + 
+            `<div class="calendar-grid">${dayOfWeekHeader} ${calendarGrid}</div>`;
+    }
 }
 
 //  ERROR DISPLAY FUNCTIONS
@@ -171,26 +246,14 @@ function clearValidationErrors() {
 
 function testFunction() {
     console.log('=== Testing Started ===');
+    console.log('Habit Definitions:', allHabitDefinitions);
 
-    const binaryHabitData = {
-        name: 'Workout Daily',
-        goalType: 'binary',
-        isActive: false,
-    };
-    const cumulativeHabitData = {
-        name: 'Walk',
-        goalType: 'cumulative',
-        measurement: 'miles',
-        goalAmount: 30,
-        incrementAmount: 0.5
-    };
+    deleteHabitDefinition('habitDefinition-0004');
+    deleteHabitDefinition('habitDefinition-0005');
+    openHabitDefinitionFormForEditing('habitDefinition-0001');      // Yes/No
+    // openHabitDefinitionFormForEditing('habitDefinition-0002');   // Cumulative
 
-    console.log('Current habits:', getActiveHabitDefinitions());
-
-    console.log(getHabitGoalDisplayText(binaryHabitData));
-    console.log(getHabitGoalDisplayText(cumulativeHabitData));
-
-    console.log(calculateTotalCheckboxes(binaryHabitData))
+    console.log('Habit Definitions:', allHabitDefinitions);
     console.log('=== Testing Completed ===');
 }
 

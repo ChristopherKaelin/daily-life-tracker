@@ -57,26 +57,7 @@ function saveUserSettings(settings) {
 }
 
 // Get user settings from localStorage
-function getUserSettings() {
-    try {
-        // Try to get settings from localStorage
-        const savedSettings = localStorage.getItem('dailyLifeUserSettings');
-        
-        if (savedSettings) {
-            userSettings = JSON.parse(savedSettings);
-        } else {
-            // No saved settings, get defaults
-            userSettings = DEFAULT_USER_SETTINGS;
-        }
-        return userSettings;
-        
-    } catch (error) {
-        console.error('Error loading user settings:', error);
-        // Return defaults on error
-        userSettings = DEFAULT_USER_SETTINGS;
-        return userSettings;
-    }
-}
+// Part of main.js since it will be used by multiple pages
 
 // Update specific user settings without replacing everything
 function updateUserSettings(updates) {
