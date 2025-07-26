@@ -182,9 +182,7 @@ body {
         }
 
         .calendar-section,
-        .dashboard-section,
-        .habits-section,
-        .journal-section {
+        .habits-section {
             grid-column: 1;
             min-height: 200px;
             font-size: var(--font-size-small);
@@ -192,9 +190,7 @@ body {
         }
 
         .calendar-section {grid-row: 1;}
-        .dashboard-section{grid-row: 2;}
-        .habits-section{grid-row: 3;}
-        .journal-section{grid-row: 4;}
+        .habits-section{grid-row: 2;}
     }
 
 /* SETTINGS FORM  */
@@ -245,42 +241,8 @@ body {
     }
 
 
-/* KEY DATE FORM  */
-/* Desktop */
-    .key-date-content input[type="date"],
-    .key-date-content input[type="text"] {
-        width: 100%;
-        padding: 0.75rem;
-        border: 1px solid var(--color-border);
-        border-radius: 4px;
-        font-size: 1rem;
-        background: var(--color-input-bg);
-        font-family: inherit;
-        transition: border-color 0.3s;
-    }
-
-    .key-date-content input[type="date"]:focus,
-    .key-date-content input[type="text"]:focus {
-        outline: none;
-        border-color: var(--color-primary);
-        box-shadow: 0 0 0 2px rgba(106, 90, 205, 0.1);
-    }
-
-    .key-date-content .form-buttons button {
-        font-family: inherit;
-        font-weight: 500;
-        letter-spacing: 0.025em;
-    }
-
 /* DELETE CONFiRMATION */
 /* Desktop */
-    .delete-confirm-content h3 {
-        color: var(--color-primary);
-    } 
-    .delete-confirm-content p {
-        color: var(--color-text);
-    }
-
     .delete-info {
         font-weight: 600;
         color: var(--color-primary);
@@ -298,13 +260,6 @@ body {
 
 /* RESTORE CONFiRMATION */
 /* Desktop */
-    .restore-confirm-content h3 {
-        color: var(--color-primary);
-    } 
-    .restore-confirm-content p {
-        color: var(--color-text);
-    }
-
     .restore-info {
         font-weight: 600;
         color: var(--color-primary);

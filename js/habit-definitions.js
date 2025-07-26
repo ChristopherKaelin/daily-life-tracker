@@ -326,18 +326,23 @@ function handleGoalTypeChange() {
 }
 
 function getHabitDefinitionFormData() {
-    const nameInput = document.getElementById('habitName');
-    const goalTypeSelect = document.getElementById('habitGoalType');
-    const measurementInput = document.getElementById('habitMeasurement');
-    const goalAmountInput = document.getElementById('habitGoalAmount');
-    const incrementAmountInput = document.getElementById('habitIncrementAmount');
+    const nameInput = document.getElementById('habitName').value.trim();
+    const goalTypeSelect = document.getElementById('habitGoalType').value;
+    let measurementInput;
+    let goalAmountInput;
+    let incrementAmountInput
+    if (goalTypeSelect === 'cumulative') {
+        measurementInput = document.getElementById('habitMeasurement').value.trim();
+        goalAmountInput = parseFloat(document.getElementById('habitGoalAmount').value);
+        incrementAmountInput = parseFloat(document.getElementById('habitIncrementAmount').value);
+    }
     
     return {
-        name: nameInput.value.trim(),
-        goalType: goalTypeSelect.value,
-        measurement: measurementInput.value.trim(),
-        goalAmount: parseFloat(goalAmountInput.value) || 0,
-        incrementAmount: parseFloat(incrementAmountInput.value) || 0
+        name: nameInput,
+        goalType: goalTypeSelect,
+        measurement: measurementInput || '',
+        goalAmount: goalAmountInput || 0,
+        incrementAmount: incrementAmountInput || 0
     };
 }
 
@@ -405,16 +410,24 @@ function openHabitDefinitionFormForEditing(habitDefinitionId) {
     }
 
     const nameInput = document.getElementById('habitName');
-    const goalTypeSelect = document.getElementById('habitGoalType');
-    const measurementInput = document.getElementById('habitMeasurement');
-    const goalAmountInput = document.getElementById('habitGoalAmount');
-    const incrementAmountInput = document.getElementById('habitIncrementAmount');
-
     if (nameInput) nameInput.value = editHabitDefinition.name;
+
+    const goalTypeSelect = document.getElementById('habitGoalType');
     if (goalTypeSelect) goalTypeSelect.value = editHabitDefinition.goalType;
-    if (measurementInput) measurementInput.value = editHabitDefinition.measurement;
-    if (goalAmountInput) goalAmountInput.value = editHabitDefinition.goalAmount;
-    if (incrementAmountInput) incrementAmountInput.value = editHabitDefinition.incrementAmount; 
+
+    let measurementInput;
+    let goalAmountInput;
+    let incrementAmountInput
+    if (goalTypeSelect === 'cumulative') {
+        measurementInput = document.getElementById('habitMeasurement');
+        if (measurementInput) measurementInput.value = editHabitDefinition.measurement;
+
+        goalAmountInput = document.getElementById('habitGoalAmount');
+        if (goalAmountInput) goalAmountInput.value = editHabitDefinition.goalAmount;
+
+        incrementAmountInput = document.getElementById('habitIncrementAmount');
+        if (incrementAmountInput) incrementAmountInput.value = editHabitDefinition.incrementAmount; 
+    }
 
     console.log('// Trigger goal type change to show/hide fields')
     handleGoalTypeChange();
@@ -446,8 +459,8 @@ function generateHabitDefinitionsDisplay() {
                 habitDefinitionsHTML += 
                     `<li class="habit-def-item" data-habit-def-id="${habitDefinition.id}" data-habit-def-info="${habitDefinition.name} - ${habitDefinition.goalType}">
                         <span class="habit-def-info">${habitDefText}</span>
-                        <img class="edit" src="./assests/images/edit-icon.svg" alt="edit icon">
-                        <img class="delete" src="./assests/images/delete-icon.svg" alt="delete icon">
+                        <img class="edit-icon" src="./assests/images/edit-icon.svg" alt="edit icon">
+                        <img class="delete-icon" src="./assests/images/delete-icon.svg" alt="delete icon">
                     </li>`;
             });
         habitDefinitionsHTML += '</ul>';
@@ -462,7 +475,7 @@ function generateHabitDefinitionsDisplay() {
                 habitDefinitionsHTML += 
                     `<li class="habit-def-item" data-habit-def-id="${habitDefinition.id}" data-habit-def-info="${habitDefinition.name} - ${habitDefinition.goalType}">
                         <span class="habit-def-info">${habitDefText}</span>
-                        <img class="restore" src="./assests/images/undo-icon.svg" alt="undo icon">
+                        <img class="restore-icon" src="./assests/images/undo-icon.svg" alt="undo icon">
                     </li>`;
             });
         habitDefinitionsHTML += '</ul>';
@@ -482,14 +495,14 @@ function initializeHabitDefinitionEventListeners() {
     if (habitDefinitionContainer) {
         habitDefinitionContainer.addEventListener('click', function(e) {
             // Handle edit button clicks
-            if (e.target.classList.contains('edit')) {
+            if (e.target.classList.contains('edit-icon')) {
                 const habitDefinitionItem = e.target.closest('.habit-def-item');
                 const id = habitDefinitionItem.dataset.habitDefId;
                 openHabitDefinitionFormForEditing(id);
             }
             
             // Handle delete button clicks
-            if (e.target.classList.contains('delete')) {
+            if (e.target.classList.contains('delete-icon')) {
                 const habitDefinitionItem = e.target.closest('.habit-def-item');
                 const id = habitDefinitionItem.dataset.habitDefId;
                 const description = habitDefinitionItem.dataset.habitDefInfo; 
@@ -497,7 +510,7 @@ function initializeHabitDefinitionEventListeners() {
             }
             
             // Handle restore button clicks
-            if (e.target.classList.contains('restore')) {
+            if (e.target.classList.contains('restore-icon')) {
                 const habitDefinitionItem = e.target.closest('.habit-def-item');
                 const id = habitDefinitionItem.dataset.habitDefId;
                 const description = habitDefinitionItem.dataset.habitDefInfo; 

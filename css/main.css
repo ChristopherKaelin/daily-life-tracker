@@ -4,13 +4,6 @@
 /* Components */
 @import "./components.css";
 
-/* Features */
-@import "./features.css";
-
-/* Habits */
-@import "./calendar-keydates.css";
-
-
 /* Styling Resets */
 h1, h2, h3, h4, h5, h6, p {
     margin: 0;
@@ -18,41 +11,41 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 /* Shared Modal Styling */
-.modal-form {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
+    .modal-form {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
 
-.modal-form.hidden {
-    display: none;
-}
+    .modal-form.hidden {
+        display: none;
+    }
 
-.modal-content {
-    background: var(--color-input-bg);
-    padding: 2rem;
-    border-radius: 8px;
-    border: 1px solid var(--color-border);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    max-width: 500px;
-    width: 90%;
-}
+    .modal-content {
+        background: var(--color-input-bg);
+        padding: 2rem;
+        border-radius: 8px;
+        border: 1px solid var(--color-border);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        max-width: 500px;
+        width: 90%;
+    }
 
-.modal-content h2 {
-    margin: 0 0 1.5rem 0;
-    color: var(--color-primary);
-    text-align: center;
-}
+    .modal-content h2 {
+        margin: 0 0 1.5rem 0;
+        color: var(--color-primary);
+        text-align: center;
+    }
 
 /* Shared List styling */
-    .habit-def-list,
+    .habit-defs-list,
     .key-dates-list {
         list-style: none;
         padding: 0;
@@ -90,16 +83,29 @@ h1, h2, h3, h4, h5, h6, p {
     }
 
 /* Shared Icon Styling */
-.edit,
-.restore {
-    width: 24px;
-    cursor: pointer;
-}
+    .header-with-icon {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    img.delete-icon, img.edit-icon, img.add-icon, img.restore-icon  {
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+    }
+
+    img.add-icon {
+        margin-right: 1rem;
+    }
+
+    img.delete-icon:hover, img.edit-icon:hover, img.add-icon:hover {
+        opacity: 0.75;
+    }
 
 
 .daily-quote h4 { font-size: .85rem;}
-.quote-text-long,
-.quote-author {
+.quote-text-long, .quote-author {
     font-size: 0.75rem;
     line-height: 1.4;
     color: var(--color-text);

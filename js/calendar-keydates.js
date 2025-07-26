@@ -297,8 +297,8 @@ function generateKeyDatesDisplay(dateInfo) {
             keyDatesHTML += 
                 `<li class="key-date-item" data-key-date-id="${keyDate.id}" data-description="${keyDate.description}">
                     <span class="key-date-info">${key_date_info}</span>
-                    <img class="edit" src="./assests/images/edit-icon.svg" alt="edit icon">
-                    <img class="delete" src="./assests/images/delete-icon.svg" alt="delete icon">
+                    <img class="edit-icon" src="./assests/images/edit-icon.svg" alt="edit icon">
+                    <img class="delete-icon" src="./assests/images/delete-icon.svg" alt="delete icon">
                 </li>`;
         });
         keyDatesHTML += '</ul>';
