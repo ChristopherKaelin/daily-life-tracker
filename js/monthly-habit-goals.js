@@ -9,24 +9,24 @@ const DEFAULT_HABIT_MONTH_GOAL = {
 
 //  Open Manage Monthly Goals form   
 function openMonthlyGoalsForm() {
-    updateHabitMonthGoalsForm();
+    generateMonthlyGoalsDisplay();
     toggleShowHideForm('monthlyGoalsModal');
 }
 
 
 //  Update the Manage Monthly Goals Form
 //  Called when form is opened or when a habit goal is added/removed from being tracked
-function updateHabitMonthGoalsForm() {
+function generateMonthlyGoalsDisplay() {
     populateTrackedHabitsList();
-    populateAvailablecHabitsList();
+    populateAvailableHabitsList();
 }
 
 
 //  Populate list of habits BEING tracked for the given year/month
 //  <div id="enrolledHabitsList">
-function populateTrackedHabitsList(displayYearMonth = null) {
+function populateTrackedHabitsList(yearMonth = null) {
     let trackedHabitsHTML = "";
-    let trackedHabits = getTrackedHabitDefinitions(displayYearMonth);
+    let trackedHabits = getTrackedHabitDefinitions(yearMonth);
     if (trackedHabits.length === 0) {
         trackedHabitsHTML = 'There are no habits being tracked.'
     } else {
@@ -72,7 +72,7 @@ function removeHabitMonthGoal(goalID = null) {
         localStorage.setItem('dailyLifeHabitMonthGoals-2025', JSON.stringify(habitMonthGoals));
 
         //  Update the display form
-        updateHabitMonthGoalsForm();
+        generateMonthlyGoalsDisplay();
 
     } catch (error) {
         // Error handling
@@ -85,9 +85,9 @@ function removeHabitMonthGoal(goalID = null) {
 
 //  Populate list of habits NOT BEING tracked for the given year/month
 //  <div id="availableHabitsList">
-function populateAvailablecHabitsList(displayYearMonth = null) {
+function populateAvailableHabitsList(yearMonth = null) {
     let availableHabitsHTML = "";
-    let availableHabits = getAvailableHabitDefinitions(displayYearMonth);
+    let availableHabits = getAvailableHabitDefinitions(yearMonth);
     if (availableHabits.length === 0) {
         availableHabitsHTML = 'There are no untracked habits.';
     } else {
@@ -147,7 +147,7 @@ function saveNewHabitMonthGoal(habitDefId) {
         saveAllHabitMonthGoalsToStorage(habitMonthGoals);
 
         //  Update the display form
-        updateHabitMonthGoalsForm();
+        generateMonthlyGoalsDisplay();
         
     } catch (error) {
         // Error handling

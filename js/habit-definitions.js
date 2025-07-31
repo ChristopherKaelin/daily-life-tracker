@@ -53,7 +53,7 @@ function saveAllHabitDefinitionsToStorage() {
 }
 
 // Save habit definition to localStorage
-function saveHabitDefinition(habitData) {
+function addHabitDefinition(habitData) {
     try {
         // Generate next sequential ID
         const nextNumber = allHabitDefinitions.length + 1;
@@ -85,12 +85,12 @@ function saveHabitDefinition(habitData) {
 }
 
 // Update existing habit definition
-function updateHabitDefinition(habitDefinitionId, updatedData) {
+function updateHabitDefinition(habitDefId, updatedData) {
     try {
         // Find the habit definition in allHabitDefinitions array by ID
-        const updateIndex = allHabitDefinitions.findIndex(hd => hd.id === habitDefinitionId);
+        const updateIndex = allHabitDefinitions.findIndex(hd => hd.id === habitDefId);
         if (updateIndex === -1) {
-            console.error('Habit Definition not found:', habitDefinitionId);
+            console.error('Habit Definition not found:', habitDefId);
             return false;
         }
         
@@ -170,14 +170,14 @@ function deleteHabitDefinition(habitDefinitionId) {
 }
 
 // Show delete confirmation dialog
-function confirmDeleteHabitDefinition(habitDefinitionId, habitDefinitionsDescription) {
+function confirmDeleteHabitDefinition(habitDefId, habitDefDesc) {
     // Set the habit defifinition info in the dialog
     const deleteInfoElement = document.getElementById('deleteHabitDefinitionInfo');
     const confirmButton = document.getElementById('confirmDelete');
     if (confirmButton) {
-        confirmButton.onclick = () => executeDeleteHabitDefinition(habitDefinitionId);
+        confirmButton.onclick = () => executeDeleteHabitDefinition(habitDefId);
     }
-    deleteInfoElement.textContent = `${habitDefinitionsDescription}`;
+    deleteInfoElement.textContent = `${habitDefDesc}`;
     // Show the confirmation dialog
     toggleShowHideForm('deleteHabitDefinitionConfirmForm');
 }
@@ -345,7 +345,7 @@ function submitHabitDefinitionForm(event) {
         if (editingId) {
             saveSuccess = updateHabitDefinition(editingId, formHabitDefinitionData);
         } else {
-            saveSuccess = saveHabitDefinition(formHabitDefinitionData);
+            saveSuccess = addHabitDefinition(formHabitDefinitionData);
         }
         if (!saveSuccess) {
             console.error('Failed to save habit definition');
@@ -369,14 +369,16 @@ function clearHabitDefinitionForm() {
 }
 
 // Open Habit Definition Form For Addition
-function openHabitDefinitionFormForAddition() {
+function openHabitDefinitionForm(mode, habitDefId) {
     clearHabitDefinitionForm();
+    if (mode === 'edit') {
+        populateHabitDefinitionForm(habitDefId);
+    }
     toggleShowHideForm('habitDefinitionsInput');
-    handleGoalTypeChange();
 }
 
 // Open Habit Definition Form for Editing
-function openHabitDefinitionFormForEditing(habitDefinitionId) {
+function populateHabitDefinitionForm(habitDefinitionId) {
     console.log(`Opening habit definition form for editing: ${habitDefinitionId}`);
     clearHabitDefinitionForm();
 
@@ -473,8 +475,8 @@ function initializeHabitDefinitionEventListeners() {
             // Handle edit button clicks
             if (e.target.classList.contains('edit-icon')) {
                 const habitDefinitionItem = e.target.closest('.habit-def-item');
-                const id = habitDefinitionItem.dataset.habitDefId;
-                openHabitDefinitionFormForEditing(id);
+                const habitDefId = habitDefinitionItem.dataset.habitDefId;
+                openHabitDefinitionForm('edit', habitDefId);
             }
             
             // Handle delete button clicks

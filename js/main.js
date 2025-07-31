@@ -258,8 +258,8 @@ function testFunction() {
 
     deleteHabitDefinition('habitDefinition-0004');
     deleteHabitDefinition('habitDefinition-0005');
-    openHabitDefinitionFormForEditing('habitDefinition-0001');      // Yes/No
-    // openHabitDefinitionFormForEditing('habitDefinition-0002');   // Cumulative
+    openHabitDefinitionForm('edit', 'habitDefinition-0001');      // Yes/No
+    // openHabitDefinitionForm('edit', 'habitDefinition-0002');   // Cumulative
 
     console.log('=== Testing Completed ===');
 }
