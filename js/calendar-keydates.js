@@ -24,7 +24,6 @@ function getKeyDatesForMonth(year, month) {
 function saveAllKeyDatesToStorage() {
     try {
         localStorage.setItem('dailyLifeKeyDates', JSON.stringify(allKeyDates));
-        console.log('Key dates saved to storage successfully');
         return true;
     } catch (error) {
         console.error('Error saving key dates to storage:', error);
@@ -105,11 +104,9 @@ function submitKeyDateForm(event) {
         if (editingId) {
             // We're editing - call updateKeyDate()
             success = updateKeyDate(editingId, formData.description);
-            console.log('Key date updated successfully');
         } else {
             // We're adding new - call addKeyDate()
             success = addKeyDate(formData.description, formData.date);
-            console.log('Key date added successfully');
         }
 
         if (success) {
@@ -192,7 +189,6 @@ function addKeyDate(description, selectedDate = null) {
 
 // Read Form Data
 function getKeyDateFormData() {
-    console.log("Get Key Date Form Data");
     const keyDateSelect = document.getElementById('keyDateDate');
     const DescriptionInput = document.getElementById('keyDateDescription');
     
@@ -267,8 +263,6 @@ function executeDeleteKeyDate(keyDateId) {
     const success = deleteKeyDate(keyDateId);
     
     if (success) {
-        console.log('Key date deleted successfully');
-        
         // Refresh the calendar and key dates display
         generateCalendarDisplay(appDateInfo);
         generateKeyDatesDisplay(appDateInfo);
@@ -318,7 +312,7 @@ function initializeKeyDateEventListeners() {
     if (keyDatesContainer) {
         keyDatesContainer.addEventListener('click', function(e) {
             // Handle delete button clicks
-            if (e.target.classList.contains('delete')) {
+            if (e.target.classList.contains('delete-icon')) {
                 const keyDateItem = e.target.closest('.key-date-item');
                 const id = keyDateItem.dataset.keyDateId;
                 const description = keyDateItem.dataset.description;
@@ -326,7 +320,7 @@ function initializeKeyDateEventListeners() {
             }
             
             // Handle edit button clicks
-            if (e.target.classList.contains('edit')) {
+            if (e.target.classList.contains('edit-icon')) {
                 const keyDateItem = e.target.closest('.key-date-item');
                 const id = keyDateItem.dataset.keyDateId;
                 openEditKeyDateForm(id);

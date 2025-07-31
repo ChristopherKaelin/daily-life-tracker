@@ -3,10 +3,6 @@
 
 // Habit Initialization - runs when page loads
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Habit Definitions starting...');
-    
-    // Get Habit Definition Data
-    allHabitDefinitions = loadAllHabitDefinitions();
     
     generateHabitDefinitionsDisplay();
     initializeHabitDefinitionEventListeners() 
@@ -20,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
 const DEFAULT_HABIT_DEFINITION = {
     id: '',             // 'habit-0001', 'habit-0002', etc.
     name: '',
-    goalType: '',       // 'binary' or 'cumulative'
+    goalType: '',       // 'daily' or 'cumulative'
     // Cumulative habits details:
     measurement: '',
     goalAmount: 0,
@@ -30,12 +26,6 @@ const DEFAULT_HABIT_DEFINITION = {
     createdAt: '',
     updatedAt: '',
 };
-
-// Load all habit definitions from localStorage
-function loadAllHabitDefinitions() {
-    allHabitDefinitions = JSON.parse(localStorage.getItem('dailyLifeHabitDefinitions')) || [];
-    return allHabitDefinitions;
-}
 
 // Get active habit definitions
 function getActiveHabitDefinitions() {
@@ -55,7 +45,6 @@ function getInactiveHabitDefinitions() {
 function saveAllHabitDefinitionsToStorage() {
     try {
         localStorage.setItem('dailyLifeHabitDefinitions', JSON.stringify(allHabitDefinitions));
-        console.log('Habit definitions saved to storage successfully');
         return true;
     } catch (error) {
         console.error('Error saving habit definitions to storage:', error);
@@ -69,13 +58,12 @@ function saveHabitDefinition(habitData) {
         // Generate next sequential ID
         const nextNumber = allHabitDefinitions.length + 1;
         let nextHabitDefinitionId = `habitDefinition-${nextNumber.toString().padStart(4, '0')}`;
-        console.log('Next Habit Definition ID:', nextHabitDefinitionId);
         
         // Create the new habit definition object
         let newHabitDefinition = {
             id: nextHabitDefinitionId,
             name: habitData.name || '',
-            goalType: habitData.goalType || 'binary',
+            goalType: habitData.goalType || 'daily',
             measurement: habitData.measurement || '',
             goalAmount: habitData.goalAmount || 0,
             incrementAmount: habitData.incrementAmount || 0,
@@ -83,7 +71,7 @@ function saveHabitDefinition(habitData) {
             createdAt: new Date().toISOString(),
         };
 
-        // Add to keyDates array
+        // Add to allHabitDefinitions array
         allHabitDefinitions.push(newHabitDefinition);
         
         // Save updated array to localStorage
@@ -98,7 +86,6 @@ function saveHabitDefinition(habitData) {
 
 // Update existing habit definition
 function updateHabitDefinition(habitDefinitionId, updatedData) {
-    console.log(`Attempting to update ${habitDefinitionId}`)
     try {
         // Find the habit definition in allHabitDefinitions array by ID
         const updateIndex = allHabitDefinitions.findIndex(hd => hd.id === habitDefinitionId);
@@ -130,7 +117,6 @@ function updateHabitDefinition(habitDefinitionId, updatedData) {
 
 // Show delete confirmation dialog
 function confirmRestoreHabitDefinition(habitDefinitionId, habitDefinitionsDescription) {
-    console.log(`Delete ${habitDefinitionId} - ${habitDefinitionsDescription}`);
     // Set the habit defifinition info in the dialog
     const restoreInfoElement = document.getElementById('restoreHabitDefinitionInfo');
     const confirmButton = document.getElementById('confirmRestore');
@@ -144,14 +130,12 @@ function confirmRestoreHabitDefinition(habitDefinitionId, habitDefinitionsDescri
 
 // Execute the habit definition deletion
 function executeRestoreHabitDefinition(habitDefId) {
-    console.log("executeRestoreHabitDefinition");
     const habitData = { isActive: true };
     const success = updateHabitDefinition(habitDefId, habitData);
     
     if (success) {
        
         // Refresh the calendar and key dates display
-        console.log("Regenerate Habit Def Display");
         generateHabitDefinitionsDisplay();
         
         // Close the confirmation dialog
@@ -163,7 +147,6 @@ function executeRestoreHabitDefinition(habitDefId) {
 
 // Delete (Inactivate) habit definition
 function deleteHabitDefinition(habitDefinitionId) {
-    console.log("deleteHabitDefinition")
     try {
         // Find the habit definition in allHabitDefinitions array by ID
         const deleteIndex = allHabitDefinitions.findIndex(hd => hd.id === habitDefinitionId);
@@ -188,7 +171,6 @@ function deleteHabitDefinition(habitDefinitionId) {
 
 // Show delete confirmation dialog
 function confirmDeleteHabitDefinition(habitDefinitionId, habitDefinitionsDescription) {
-    console.log(`Delete ${habitDefinitionId} - ${habitDefinitionsDescription}`);
     // Set the habit defifinition info in the dialog
     const deleteInfoElement = document.getElementById('deleteHabitDefinitionInfo');
     const confirmButton = document.getElementById('confirmDelete');
@@ -202,13 +184,11 @@ function confirmDeleteHabitDefinition(habitDefinitionId, habitDefinitionsDescrip
 
 // Execute the habit definition deletion
 function executeDeleteHabitDefinition(habitDefId) {
-    console.log("executeDeleteHabitDefinition");
     const success = deleteHabitDefinition(habitDefId);
     
     if (success) {
        
         // Refresh habit definition display
-        console.log("Regenerate Habit Def Display");
         generateHabitDefinitionsDisplay();
         
         // Close the confirmation dialog
@@ -221,7 +201,6 @@ function executeDeleteHabitDefinition(habitDefId) {
 // Validate cumulative habit definition
 function validateCumulativeHabitDefinition(habitDefinition) {
     const cumulativeErrors = [];
-    console.log('Validating cumulative habit definition:', habitDefinition);
     
     if (!habitDefinition.measurement || habitDefinition.measurement.trim() === '') {
         cumulativeErrors.push('Measurement unit is required (miles, hours, pages, etc.)');
@@ -261,9 +240,9 @@ function validateHabitDefinition(habitDefinition) {
     if  (habitDefinition.goalType === 'cumulative') {
         const cumulativeValidation = validateCumulativeHabitDefinition(habitDefinition);
         errors.push(...cumulativeValidation.errors);
-    } else if (habitDefinition.goalType !== 'binary') {
+    } else if (habitDefinition.goalType !== 'daily') {
         // Invalid goal type
-        errors.push('Invalid goal type. Must be "binary" or "cumulative"');
+        errors.push('Invalid goal type. Must be "daily" or "cumulative"');
     }
     
     // Combine and return results
@@ -273,9 +252,9 @@ function validateHabitDefinition(habitDefinition) {
     };
 }
 
-// Check if habit is binary type
-function isBinaryHabit(habitDefinition) {
-    return habitDefinition.goalType === 'binary';
+// Check if habit is daily type
+function isDailyHabit(habitDefinition) {
+    return habitDefinition.goalType === 'daily';
 }
 
 // Check if habit is cumulative type  
@@ -288,7 +267,7 @@ function calculateTotalCheckboxes(habitDefinition) {
     // Return number of checkboxes needed
     if (isCumulativeHabit(habitDefinition)) {
         return Math.ceil(habitDefinition.goalAmount / habitDefinition.incrementAmount);
-    } else if (isBinaryHabit(habitDefinition)) {
+    } else if (isDailyHabit(habitDefinition)) {
         return 1;
     }
 }
@@ -302,7 +281,7 @@ function calculateHabitProgress(habitDefinition, completedCheckboxes) {
 
 // Get display text for habit goal
 function getHabitGoalDisplayText(habitDefinition) {
-    if (isBinaryHabit(habitDefinition)) {
+    if (isDailyHabit(habitDefinition)) {
         return habitDefinition.name; // Just the name
     } else if (isCumulativeHabit(habitDefinition)) {
         return  `${habitDefinition.name} - Goal: ${habitDefinition.goalAmount} ${habitDefinition.measurement} in ${habitDefinition.incrementAmount} ${habitDefinition.measurement} increments.`;
@@ -352,8 +331,6 @@ function submitHabitDefinitionForm(event) {
     
     // Get form data
     const formHabitDefinitionData = getHabitDefinitionFormData();
-
-    console.log(formHabitDefinitionData);  // REMOVE after testing
 
     // Validate the form
     const habitValidation = validateHabitDefinition(formHabitDefinitionData);
@@ -445,7 +422,6 @@ function openHabitDefinitionFormForEditing(habitDefinitionId) {
 function generateHabitDefinitionsDisplay() {
     // Generate HTML
     let habitDefinitionsHTML = "";
-    console.log(allHabitDefinitions);
 
     activeHabitDefinitions = getActiveHabitDefinitions();
     inactiveHabitDefinitions = getInactiveHabitDefinitions()

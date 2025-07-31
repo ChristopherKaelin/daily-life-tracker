@@ -23,7 +23,6 @@ function initializeUserSettings() {
     
     // If this is a completely new user (no createdAt timestamp)
     if (!savedSettings.createdAt) {
-        console.log('New user detected, opening settings...');
         // Small delay to let page load completely
         setTimeout(() => {
             openSettingsForm();
@@ -47,7 +46,6 @@ function saveUserSettings(settings) {
         // Update global userSettings object
         userSettings = { ...settingsToSave };
         
-        console.log('User settings saved successfully:', settingsToSave);
         return true;
         
     } catch (error) {
@@ -77,7 +75,6 @@ function updateUserSettings(updates) {
         const saveSuccess = saveUserSettings(updatedSettings);
         
         if (saveSuccess) {
-            console.log('User settings updated successfully:', updates);
             return updatedSettings;
         } else {
             console.error('Failed to save updated settings');
@@ -168,7 +165,6 @@ function submitSettingsForm(event) {
         const success = updateUserSettings(newSettings);
         
         if (success) {
-            console.log('Settings saved successfully');
             updateUserNameDisplay();
             toggleShowHideForm('userSettings');
         } else {

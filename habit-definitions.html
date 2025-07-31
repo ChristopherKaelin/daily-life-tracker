@@ -39,7 +39,7 @@
             <main class="main-content">
                 <section id="habitDefinitions" class="habits-section">
                     <h2>Manage Habit Definitions</h2>
-                    <h4 class="header-with-icon">
+                    <h4 class="with-icon">
                         <span>Habit Definitions</span>
                         <img class="add-icon" src="./assests/images/add-calendar-icon.svg" alt="add icon" onclick="openHabitDefinitionFormForAddition()">
                     </h4>
@@ -67,7 +67,7 @@
                     <div class="form-group">
                         <label>Goal Type:</label>
                         <select id="habitGoalType" onchange="handleGoalTypeChange()">
-                            <option value="binary">Daily Completion (Yes/No)</option>
+                            <option value="daily">Daily Completion (Yes/No)</option>
                             <option value="cumulative">Cumulative Goal (Track Progress)</option>
                         </select>
                     </div>
@@ -97,8 +97,8 @@
                     </div>
                     
                     <div class="form-buttons">
-                        <button type="submit">Submit</button>
-                        <button type="button" onclick="toggleShowHideForm('habitDefinitionsInput')">Cancel</button>
+                        <button type="submit" class="btn btn-save">Submit</button>
+                        <button type="button" class="btn btn-cancel" onclick="toggleShowHideForm('habitDefinitionsInput')">Cancel</button>
                     </div>
                 </form>
             </div>
@@ -112,8 +112,8 @@
                 <p id="deleteHabitDefinitionInfo" class="delete-info"></p>
                 
                 <div class="form-buttons">
-                    <button type="button" id="confirmDelete" class="btn-danger">Delete</button>
-                    <button type="button" onclick="toggleShowHideForm('deleteHabitDefinitionConfirmForm')">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmDelete" class="btn-danger">Delete</button>
+                    <button type="button" class="btn btn-cancel" onclick="toggleShowHideForm('deleteHabitDefinitionConfirmForm')">Cancel</button>
                 </div>
             </div>
         </div>
@@ -126,8 +126,8 @@
                 <p id="restoreHabitDefinitionInfo" class="restore-info"></p>
                 
                 <div class="form-buttons">
-                    <button type="button" id="confirmRestore" class="btn-restore">Restore</button>
-                    <button type="button" onclick="toggleShowHideForm('restoreHabitDefinitionConfirmForm')">Cancel</button>
+                    <button type="button" class="btn btn-restore" id="confirmRestore" class="btn-restore">Restore</button>
+                    <button type="button" class="btn btn-cancel" onclick="toggleShowHideForm('restoreHabitDefinitionConfirmForm')">Cancel</button>
                 </div>
             </div>
         </div>

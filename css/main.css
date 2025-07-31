@@ -83,10 +83,11 @@ h1, h2, h3, h4, h5, h6, p {
     }
 
 /* Shared Icon Styling */
-    .header-with-icon {
+    .with-icon {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        margin-right: 1rem;
     }
 
     img.delete-icon, img.edit-icon, img.add-icon, img.restore-icon  {
@@ -95,15 +96,33 @@ h1, h2, h3, h4, h5, h6, p {
         cursor: pointer;
     }
 
-    img.add-icon {
-        margin-right: 1rem;
-    }
-
     img.delete-icon:hover, img.edit-icon:hover, img.add-icon:hover {
         opacity: 0.75;
     }
 
+/* Shared Button Styling */
+    .btn {
+        filter: brightness(0.85); 
+        color: white;
+        box-shadow: -1px -1px 2px ;
+    }
 
+    .btn-save { background: var(--color-success); }
+
+    .btn-cancel { background: var(--color-muted); }
+
+    .btn-danger { background: var(--color-error); }
+
+    .btn-restore { background: var(--color-accent); }
+
+    .btn:hover {
+        color: #222;
+        filter: brightness(1.15);
+        box-shadow: 1px 1px 2px ;
+    }
+
+
+.spacing-base{ margin-right: var(--spacing-base);}
 .daily-quote h4 { font-size: .85rem;}
 .quote-text-long, .quote-author {
     font-size: 0.75rem;

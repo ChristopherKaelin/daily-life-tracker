@@ -25,6 +25,7 @@
         <script src="./js/dashboard.js"></script>
         <script src="./js/calendar-keydates.js"></script>
         <script src="./js/user-settings.js"></script>
+        <script src="./js/monthly-habit-goals.js"></script>
 
     </head>
     <body>
@@ -51,10 +52,10 @@
                     <div class="daily-quote">
                         <h4>Daily Quote</h4>
                         <p id="dailyQuoteText" class="quote-text-long">
-                            <!-- "To me, there are three things we all should do every day. Number one is laugh.  -->
-                            <!-- You should laugh every day. Number two is think. You should spend some time in  -->
-                            <!-- thought. And number three is you should have your emotions moved to tears, could  -->
-                            <!-- be happiness or joy. But think about it.  -->
+                            <!-- "To me, there are three things we all should do every day. Number one is laugh. 
+                            You should laugh every day. Number two is think. You should spend some time in 
+                            thought. And number three is you should have your emotions moved to tears, could 
+                            be happiness or joy. But think about it.  -->
                             If you laugh, you think and you cry, that's a full day. That's a heck of a day"
                         </p>
                         <p id="quoteAuthor" class="quote-author">
@@ -67,15 +68,15 @@
                 <div class="two-column-layout">
                     <section id="calendar" class="calendar-section">
                         <div id="calendarDisplay"></div>
-                        <h4 class="header-with-icon">
+                        <h4 class="with-icon">
                             <span>Key Dates This Month</span>
-                            <img class="add-icon" src="./assests/images/add-calendar-icon.svg" alt="add icon" onclick="openKeyDateForm()">
+                            <img class="add-icon spacing-base" src="./assests/images/add-calendar-icon.svg" alt="add icon" onclick="openKeyDateForm()">
                         </h4>
                         <div id="keyDatesDisplay"></div>
                     </section>
                     <section id="habits" class="habits-section">
-                        <h2>Habit Tracking</h2>
-                        <p>Track your daily habits and build consistency.</p>
+                        <h2>Habit Goal Tracking</h2>
+                        <p>Track your daily and monthly habits and build consistency.</p>
                     </section>
                 </div>
             </main>
@@ -83,8 +84,9 @@
             <!-- NAVIGATION -->
             <nav class="main-nav">
                 <ul>
+                    <li><a class="nav-link" onclick="openMonthlyGoalsForm()">Manage Montly Goals</a></li>
                     <li><a class="nav-link" href="./habit-definitions.html">Habit Definitions</a></li>
-                    <li><a class="nav-link" onclick="openSettingsForm()">Settings</a></li>
+                    <li><a class="nav-link" onclick="openSettingsForm()">User Settings</a></li>
                 </ul>
             </nav>
 
@@ -173,6 +175,36 @@
                 </div>
             </div>
         </div>
+
+        <!-- MANAGE MONTHLY GOALS -->
+        <div id="monthlyGoalsModal" class="modal-form hidden">
+            <div class="modal-content">
+                <h2 id="manage-goals-title">Manage Monthly Goals</h2>
+                <div>
+                    <h3 id="currentMonthTitle"></h3>
+                    
+                    <div>
+                    <h4>Current Goals</h4>
+                    <div id="enrolledHabitsList">
+                        <!-- Enrolled habits will be populated here -->
+                    </div>
+                    </div>
+                    
+                    <div>
+                    <h4>Available Habits</h4>
+                    <div id="availableHabitsList">
+                        <!-- Available habits will be populated here -->
+                    </div>
+                    </div>
+                </div>
+                
+                <div class="form-buttons">
+                    <!-- <button type="button" class="btn btn-save">Save Changes</button> -->
+                    <button type="button" class="btn btn-cancel" onclick="toggleShowHideForm('monthlyGoalsModal')">Close</button>
+                </div>
+            </div>
+        </div>
+
 
     </body>
 </html>

@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', function() {
     allKeyDates = loadAllKeyDatesFromStorage();
     
     // Initialize User settings
-    console.log('Initialize user settings.');
     initializeUserSettings();
 
     //  Initialize Calendar Section Display 

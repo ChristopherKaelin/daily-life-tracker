@@ -9,9 +9,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Get App Wide Data
     appDateInfo = getDateInfo();
+    console.log('App Date Info');
+    console.log(appDateInfo);
 
+    allHabitDefinitions = loadAllHabitDefinitions(); 
+    console.log('All Habit Definitions');
+    console.log(allHabitDefinitions);
+        
     // Initialize Header Display
-    console.log('Initialize Header display')
     initializeHeaderDisplay(appDateInfo);
 });
 
@@ -37,7 +42,7 @@ function getUserSettings() {
     }
 }
 
-//  UTILITY FUNCTIONS
+//  UTILITY/SHARED FUNCTIONS
 //==========================================
 // Get current date information
 function getDateInfo(inputDate = null) {
@@ -50,13 +55,13 @@ function getDateInfo(inputDate = null) {
     } else {
         currentDate = new Date();
     }
-    console.log('Current Date:', currentDate);
     
     const currentYear = currentDate.getFullYear();
 
     //  Returns a zero based MONTH (Jan=0, Feb=1, Mar=2, etc.)
     const currentMonth = currentDate.getMonth();
     const currentMonthName = monthToMonthName[currentMonth];
+    const currentYearMonth = `${currentYear}-${(currentMonth+1).toString().padStart(2, '0')}`;
     const currentDayofMonth = currentDate.getDate();
     const currentDayOrdinal = currentDayofMonth + getOrdinalSuffix(currentDayofMonth);
 
@@ -70,6 +75,7 @@ function getDateInfo(inputDate = null) {
 
     return {
         year: currentYear,
+        yearMonth: currentYearMonth,
         month: currentMonth,
         monthName: currentMonthName,
         day: currentDayofMonth,
@@ -136,9 +142,15 @@ function getUserDisplayName() {
 
 // Toggle visibility of a form by its ID
 function toggleShowHideForm(toggleForm) {
-    // console.log(`Show/Hide ${toggleForm} form.`);   // REMOVE after testing
     let formElement = document.getElementById(toggleForm);
     formElement.classList.toggle('hidden');
+}
+
+// Load all habit definitions from localStorage
+function loadAllHabitDefinitions() {
+    const allHabits = JSON.parse(localStorage.getItem('dailyLifeHabitDefinitions')) || [];
+    allHabitDefinitions = JSON.parse(localStorage.getItem('dailyLifeHabitDefinitions')) || [];
+    return allHabitDefinitions;
 }
 
 //  CALENDAR FUNCTIONS
@@ -166,10 +178,8 @@ function getOrdinalSuffix(dayNum) {
 
 // Generate calendar grid for current month
 function generateCalendarDisplay(dateInfo) {
-    console.log(dateInfo);
-    
     //  Create month/year header
-    const monthYearHeader = `<h3>${dateInfo.monthName} ${dateInfo.year}</h3>`;
+    const nonthYearHeader = `<h3>${dateInfo.monthName} ${dateInfo.year}</h3>`;
     
     //  Add in day headers
     const dayOfWeekHeader = '<div>Sun</div> <div>Mon</div> <div>Tue</div> <div>Wed</div> <div>Thu</div> <div>Fri</div> <div>Sat</div>'
@@ -203,12 +213,11 @@ function generateCalendarDisplay(dateInfo) {
     }
     
     // Display the calendar
-    console.log('Display calendar grid');
     const calendarElement = document.getElementById('calendarDisplay');
 
     if (calendarElement) {
         calendarElement.innerHTML = 
-            monthYearHeader + 
+            nonthYearHeader + 
             `<div class="calendar-grid">${dayOfWeekHeader} ${calendarGrid}</div>`;
     }
 }
@@ -246,14 +255,12 @@ function clearValidationErrors() {
 
 function testFunction() {
     console.log('=== Testing Started ===');
-    console.log('Habit Definitions:', allHabitDefinitions);
 
     deleteHabitDefinition('habitDefinition-0004');
     deleteHabitDefinition('habitDefinition-0005');
     openHabitDefinitionFormForEditing('habitDefinition-0001');      // Yes/No
     // openHabitDefinitionFormForEditing('habitDefinition-0002');   // Cumulative
 
-    console.log('Habit Definitions:', allHabitDefinitions);
     console.log('=== Testing Completed ===');
 }
 
