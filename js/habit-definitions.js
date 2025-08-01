@@ -224,34 +224,6 @@ function validateCumulativeHabitDefinition(habitDefinition) {
     };
 }
 
-// Main validation function that handles both goal types
-function validateHabitDefinition(habitDefinition) {
-    const errors = [];
-
-    // Common validation for all habit types
-    if (!habitDefinition.name || habitDefinition.name.trim() === '') {
-        errors.push('Habit name is required');
-    }
-    if (!habitDefinition.goalType || habitDefinition.goalType.trim() === '') {
-        errors.push('Habit goal type is required');
-    }
-    
-    // Goal type specific validation
-    if  (habitDefinition.goalType === 'cumulative') {
-        const cumulativeValidation = validateCumulativeHabitDefinition(habitDefinition);
-        errors.push(...cumulativeValidation.errors);
-    } else if (habitDefinition.goalType !== 'daily') {
-        // Invalid goal type
-        errors.push('Invalid goal type. Must be "daily" or "cumulative"');
-    }
-    
-    // Combine and return results
-    return {
-        isValid: errors.length === 0,
-        errors: errors
-    };
-}
-
 // Check if habit is daily type
 function isDailyHabit(habitDefinition) {
     return habitDefinition.goalType === 'daily';
@@ -379,7 +351,6 @@ function openHabitDefinitionForm(mode, habitDefId) {
 
 // Open Habit Definition Form for Editing
 function populateHabitDefinitionForm(habitDefinitionId) {
-    console.log(`Opening habit definition form for editing: ${habitDefinitionId}`);
     clearHabitDefinitionForm();
 
     const editHabitDefinition = allHabitDefinitions.find(hd => hd.id === habitDefinitionId);
@@ -408,7 +379,6 @@ function populateHabitDefinitionForm(habitDefinitionId) {
         if (incrementAmountInput) incrementAmountInput.value = editHabitDefinition.incrementAmount; 
     }
 
-    console.log('// Trigger goal type change to show/hide fields')
     handleGoalTypeChange();
     
     // Change modal title

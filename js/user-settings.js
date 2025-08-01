@@ -110,28 +110,6 @@ function loadCurrentSettingsIntoForm() {
     }
 }
 
-//  Validate settings form inputs
-function validateSettingsForm(formData) {
-    const errors = [];
-    
-    // Validate name
-    if (!formData.name || formData.name.trim() === '') {
-        errors.push('Name is required');
-    } else if (formData.name.length > 50) {
-        errors.push('Name must be 50 characters or less');
-    }
-    
-    // Validate city
-    if (!formData.city || formData.city === '') {
-        errors.push('Please select a city');
-    }
-    
-    return {
-        isValid: errors.length === 0,
-        errors: errors
-    };
-}
-
 // Get Form Data
 function getSettingsFormData() {
     const nameInput = document.getElementById('userName');

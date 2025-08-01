@@ -1,8 +1,8 @@
 // App initialization - runs when page loads
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Dashboard.JS DOMContentLoaded Add Event Listner Running');
     
     // Get Dashboard Data
+    appDateInfo = getDateInfo();
     allKeyDates = loadAllKeyDatesFromStorage();
     
     // Initialize User settings
@@ -20,3 +20,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // testFunction();
 
 });
+
+function testFunction() {
+    console.log('===========  Testing Started  ============');
+    console.log('==========================================')
+
+
+
+    console.log('==========================================')
+    console.log('===========  Testing Completed  ==========');
+}
