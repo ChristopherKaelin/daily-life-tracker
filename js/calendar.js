@@ -1,6 +1,5 @@
 // Generate calendar grid for current month
 function generateCalendarDisplay(dateInfo) {
-    console.log(dateInfo);
     //  Create month/year header
     const nonthYearHeader = `<h3>${dateInfo.monthName} ${dateInfo.year}</h3>`;
     

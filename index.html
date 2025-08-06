@@ -23,6 +23,7 @@
         <!-- Utility scripts -->
         <script src="./js/utils/date-utils.js"></script>
         <script src="./js/utils/ui-utils.js"></script>
+        <script src="./js/utils/validation-utils.js"></script>
 
         <!-- Feature scripts -->
         <script src="./js/calendar.js"></script>
@@ -52,39 +53,41 @@
             <!-- MAIN CONTENT -->
             <main class="main-content">
                 <!-- Full-width weather and quote section -->
-                <section class="weather-quote-section">
-                    <div class="weather-forecast">
-                        <h4>Weather Forecast</h4>
-                        <p>Partly cloudy, 75°F</p>
-                    </div>
-                    <div class="daily-quote">
-                        <h4>Daily Quote</h4>
-                        <p id="dailyQuoteText" class="quote-text-long">
-                            <!-- "To me, there are three things we all should do every day. Number one is laugh. 
-                            You should laugh every day. Number two is think. You should spend some time in 
-                            thought. And number three is you should have your emotions moved to tears, could 
-                            be happiness or joy. But think about it.  -->
-                            If you laugh, you think and you cry, that's a full day. That's a heck of a day"
-                        </p>
-                        <p id="quoteAuthor" class="quote-author">
-                            Jim Valvano
-                        </p>
-                    </div>
+                <section class="daily-highlight-section">
+                  <div class="weather-forecast">
+                      <h4>Weather Forecast</h4>
+                      <p>Partly cloudy, 75°F</p>
+                  </div>
+                  <div class="daily-quote">
+                      <h4>Daily Quote</h4>
+                      <p id="dailyQuoteText" class="quote-text-long">
+                          <!-- "To me, there are three things we all should do every day. Number one is laugh. 
+                          You should laugh every day. Number two is think. You should spend some time in 
+                          thought. And number three is you should have your emotions moved to tears, could 
+                          be happiness or joy. But think about it.  -->
+                          If you laugh, you think and you cry, that's a full day. That's a heck of a day"
+                      </p>
+                      <p id="quoteAuthor" class="quote-author">
+                          Jim Valvano
+                      </p>
+                  </div>
                 </section>
 
-                <!-- Two-column layout for calendar and habits -->
-                <div class="two-column-layout">
+                <!-- Main Dashboard Body -->
+                <div class="dashboard-body">
                     <section id="calendar" class="calendar-section">
-                        <div id="calendarDisplay"></div>
-                        <h4 class="with-icon">
-                            <span>Key Dates This Month</span>
-                            <img class="add-icon spacing-base" src="./assets/images/add-calendar-icon.svg" alt="add icon" onclick="openKeyDateForm()">
-                        </h4>
-                        <div id="keyDatesDisplay"></div>
+                      <div id="calendarDisplay"></div>
+                      <h4 class="with-icon">
+                        <span>Key Dates This Month</span>
+                        <img class="add-icon spacing-base" src="./assets/images/add-calendar-icon.svg" alt="add icon" onclick="openKeyDateForm()">
+                      </h4>
+                      <div id="keyDatesDisplay"></div>
                     </section>
-                    <section id="habits" class="habits-section">
-                        <h2>Habit Goal Tracking</h2>
-                        <p>Track your daily and monthly habits and build consistency.</p>
+                    <section id="habit-tracker" class="habits-section">
+                      <h2>Habit Tracker</h2>
+                      <p>Track your daily and monthly habits and build consistency.</p>
+                      <div id="today-work" class="progress"></div>
+                      <div id="monthly-work" class="progress"></div>
                     </section>
                 </div>
             </main>
@@ -92,7 +95,7 @@
             <!-- NAVIGATION -->
             <nav class="main-nav">
                 <ul>
-                    <li><a class="nav-link" onclick="openMonthlyGoalsForm()">Manage Montly Goals</a></li>
+                    <li><a class="nav-link" onclick="openManageMonthlyGoalsForm()">Manage Montly Goals</a></li>
                     <li><a class="nav-link" href="./habit-definitions.html">Habit Definitions</a></li>
                     <li><a class="nav-link" onclick="openSettingsForm()">User Settings</a></li>
                 </ul>
@@ -138,8 +141,8 @@
                     </div>
                     
                     <div class="form-buttons">
-                        <button type="submit" id="submitSettings">Save Settings</button>
-                        <button type="button" id="cancelSettings" onclick="toggleShowHideForm('userSettings')">Cancel</button>
+                        <button type="submit" class="btn btn-save" id="submitSettings">Save Settings</button>
+                        <button type="button" class="btn btn-cancel" id="cancelSettings" onclick="toggleShowHideForm('userSettings')">Cancel</button>
                     </div>
                 </form>
             </div>
@@ -150,7 +153,7 @@
             <div class="modal-content">
                 <h2 id="key-date-title">Add Key Date</h2>
                 
-                <form id="keyDateForm" onsubmit="submitKeyDateForm(event)">
+                <form id="keyDateForm" onsubmit="submitKeyDateForm(event)"> 
                     <div class="form-group">
                         <label for="keyDateDate">Date:</label>
                         <input type="date" id="keyDateDate" name="keyDateDate">
@@ -163,8 +166,8 @@
                     </div>
                     
                     <div class="form-buttons">
-                        <button type="submit">Submit</button>
-                        <button type="button" id="cancelKeyDate" onclick="toggleShowHideForm('keyDates')">Cancel</button>
+                        <button type="submit" class="btn btn-save">Submit</button>
+                        <button type="button" class="btn btn-cancel" id="cancelKeyDate" onclick="toggleShowHideForm('keyDates')">Cancel</button>
                     </div>
                 </form>
             </div>
@@ -208,11 +211,19 @@
                 
                 <div class="form-buttons">
                     <!-- <button type="button" class="btn btn-save">Save Changes</button> -->
-                    <button type="button" class="btn btn-cancel" onclick="toggleShowHideForm('monthlyGoalsModal')">Close</button>
+                    <button type="button" class="btn btn-cancel" onclick="generateHabitTrackerDisplay();toggleShowHideForm('monthlyGoalsModal')">Close</button>
                 </div>
             </div>
         </div>
 
+        <!-- PROGRESS TRACKING -->
+        <div id="progressTrackingModal" class="modal-form hidden">
+            <div class="modal-content">
+                <h2 id="progress-track-title">Progress Tracking</h2>
+                <form id="keyDateForm" onsubmit="submitProgressTrackingForm(event)">\
 
+                </form>
+            </div>
+        </div>    
     </body>
 </html>

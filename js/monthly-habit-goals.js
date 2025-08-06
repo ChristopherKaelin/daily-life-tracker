@@ -1,47 +1,51 @@
 //  HabitMonthGoals - tracks which habits to monitor each month
 const DEFAULT_HABIT_MONTH_GOAL = {
  id: '',
- habitDefId: '',
- yearMonth: '',        //  "yyyy-mm" format
+ habitDefId: '',        // Links to the habit definition data model
+ yearMonth: '',         //  "yyyy-mm" format
  updatedAt: ''
 };
 
 
 //  Open Manage Monthly Goals form   
-function openMonthlyGoalsForm() {
-    generateMonthlyGoalsDisplay();
+function openManageMonthlyGoalsForm() {
+    console.log('Opening Monthly Goals Form');
+    generateManageMonthlyGoalsDisplay();
     toggleShowHideForm('monthlyGoalsModal');
+    console.log('Monthly Goals Form opened');
 }
 
 
 //  Update the Manage Monthly Goals Form
 //  Called when form is opened or when a habit goal is added/removed from being tracked
-function generateMonthlyGoalsDisplay() {
+function generateManageMonthlyGoalsDisplay() {
+    console.log('Generating Monthly Goals Display');
     populateTrackedHabitsList();
     populateAvailableHabitsList();
 }
 
 
 //  Populate list of habits BEING tracked for the given year/month
-//  <div id="enrolledHabitsList">
 function populateTrackedHabitsList(yearMonth = null) {
-    let trackedHabitsHTML = "";
-    let trackedHabits = getTrackedHabitDefinitions(yearMonth);
-    if (trackedHabits.length === 0) {
-        trackedHabitsHTML = 'There are no habits being tracked.'
-    } else {
-        trackedHabitsHTML += "<ul>"
-        for (habit of trackedHabits) {
-            trackedHabitsHTML += `<li class='with-icon'>${habit.name}`;
-            trackedHabitsHTML += (habit.goalType == 'cumulative') ? ` - ${habit.goalAmount} ${habit.measurement}` :  ``
-            trackedHabitsHTML += `<img class="delete-icon" src="../assets/images/remove-target.svg" alt="remove target" onclick="removeHabitMonthGoal('${habit.id}')"></li>`;
-        }
-        trackedHabitsHTML += "</ul>"
-
+  console.log('Populating Tracked Habits List for:', yearMonth);
+  let trackedHabitsHTML = "";
+  let trackedHabits = getTrackedHabitDefinitions(yearMonth);
+  if (trackedHabits.length === 0) {
+    trackedHabitsHTML = 'There are no habits being tracked.'
+  } else {
+    trackedHabitsHTML += "<ul>"
+    for (habit of trackedHabits) {
+        trackedHabitsHTML += `<li class='with-icon'>${habit.name}`;
+        trackedHabitsHTML += (habit.goalType == 'cumulative') ? ` - ${habit.goalAmount} ${habit.measurement}` :  ``
+        trackedHabitsHTML += `<img class="delete-icon" src="../assets/images/remove-target.svg" alt="remove target" onclick="removeHabitMonthGoal('${habit.id}')"></li>`;
     }
-    const enrolledHabitsElement = document.getElementById('enrolledHabitsList');
-    enrolledHabitsElement.innerHTML = trackedHabitsHTML;
+    trackedHabitsHTML += "</ul>"
+
+  }
+  const enrolledHabitsElement = document.getElementById('enrolledHabitsList');
+  enrolledHabitsElement.innerHTML = trackedHabitsHTML;
 }
+
 
 //  Get Tracked Habit Definitions
 function getTrackedHabitDefinitions(yearMonth = null) {
@@ -60,6 +64,7 @@ function getTrackedHabitDefinitions(yearMonth = null) {
     });
 }
 
+
 function removeHabitMonthGoal(goalID = null) {
     try {
         // Get the current data
@@ -72,7 +77,7 @@ function removeHabitMonthGoal(goalID = null) {
         localStorage.setItem('dailyLifeHabitMonthGoals-2025', JSON.stringify(habitMonthGoals));
 
         //  Update the display form
-        generateMonthlyGoalsDisplay();
+        generateManageMonthlyGoalsDisplay();
 
     } catch (error) {
         // Error handling
@@ -84,25 +89,26 @@ function removeHabitMonthGoal(goalID = null) {
 
 
 //  Populate list of habits NOT BEING tracked for the given year/month
-//  <div id="availableHabitsList">
 function populateAvailableHabitsList(yearMonth = null) {
-    let availableHabitsHTML = "";
-    let availableHabits = getAvailableHabitDefinitions(yearMonth);
-    if (availableHabits.length === 0) {
-        availableHabitsHTML = 'There are no untracked habits.';
-    } else {
-        availableHabitsHTML += "<ul>"
-        for (habit of availableHabits) {
-            availableHabitsHTML += `<li class='with-icon'>${habit.name}`;
-            availableHabitsHTML += (habit.goalType == 'cumulative') ? ` - ${habit.goalAmount} ${habit.measurement}` :  ``
-            availableHabitsHTML += `<img class="add-icon" src="../assets/images/add-target.svg" alt="add icon" onclick="saveNewHabitMonthGoal('${habit.id}')"></li>`;
-        }
-        availableHabitsHTML += "</ul>"
+  console.log('Populating Available Habits List for:', yearMonth);
+  let availableHabitsHTML = "";
+  let availableHabits = getAvailableHabitDefinitions(yearMonth);
+  if (availableHabits.length === 0) {
+    availableHabitsHTML = 'There are no untracked habits.';
+  } else {
+    availableHabitsHTML += "<ul>"
+    for (habit of availableHabits) {
+      availableHabitsHTML += `<li class='with-icon'>${habit.name}`;
+      availableHabitsHTML += (habit.goalType == 'cumulative') ? ` - ${habit.goalAmount} ${habit.measurement}` :  ``
+      availableHabitsHTML += `<img class="add-icon" src="../assets/images/add-target.svg" alt="add icon" onclick="saveNewHabitMonthGoal('${habit.id}')"></li>`;
     }
+    availableHabitsHTML += "</ul>"
+  }
 
-    const availableHabitsElement = document.getElementById('availableHabitsList');
-    availableHabitsElement.innerHTML = availableHabitsHTML;
+  const availableHabitsElement = document.getElementById('availableHabitsList');
+  availableHabitsElement.innerHTML = availableHabitsHTML;
 }
+
 
 //  Get Available (untracked) Habit Definitions
 function getAvailableHabitDefinitions(yearMonth = null) {
@@ -119,13 +125,17 @@ function getAvailableHabitDefinitions(yearMonth = null) {
     return availableHabitDefinitions;
 }
 
+
 function saveNewHabitMonthGoal(habitDefId) {
     try {
+        console.log('Saving new habit monthly goal for:', habitDefId);
         const habitMonthGoals = getMonthlyHabitGoals();
+        console.log('Current habit month goals:', habitMonthGoals);
         const lastGoal = habitMonthGoals[habitMonthGoals.length - 1];
+        console.log('Last goal:', lastGoal);
 
         // Generate next sequential ID for the month
-        let nextGoalNumber;
+        let nextGoalNumber = 1;
         if (lastGoal) {
             const lastGoalNumber = parseInt(lastGoal.id.split('-')[1]);
             nextGoalNumber = lastGoalNumber + 1;
@@ -147,7 +157,7 @@ function saveNewHabitMonthGoal(habitDefId) {
         saveAllHabitMonthGoalsToStorage(habitMonthGoals);
 
         //  Update the display form
-        generateMonthlyGoalsDisplay();
+        generateManageMonthlyGoalsDisplay();
         
     } catch (error) {
         // Error handling
@@ -156,6 +166,7 @@ function saveNewHabitMonthGoal(habitDefId) {
     }
     
 }
+
 
 // Save all habit monthly goals to localStorage
 function saveAllHabitMonthGoalsToStorage(habitMonthGoals, year = null) {
@@ -171,12 +182,13 @@ function saveAllHabitMonthGoalsToStorage(habitMonthGoals, year = null) {
 
 }
 
+
 // Load all habit definitions from localStorage
 function getMonthlyHabitGoals(yearMonth = null) {
-    if (!yearMonth) {
-        yearMonth = `${appDateInfo.year}-${appDateInfo.month.toString().padStart(2, '0')}`;
-    }
-    monthlyGoals = JSON.parse(localStorage.getItem(`dailyLifeHabitMonthGoals-${appDateInfo.year}`)) || [];
-    return monthlyGoals;
+  if (!yearMonth) {
+    yearMonth = `${appDateInfo.year}-${appDateInfo.month.toString().padStart(2, '0')}`;
+  }
+  monthlyGoals = JSON.parse(localStorage.getItem(`dailyLifeHabitMonthGoals-${appDateInfo.year}`)) || [];
+  return monthlyGoals;
 }
 

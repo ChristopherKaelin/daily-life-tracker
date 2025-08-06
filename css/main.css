@@ -45,6 +45,15 @@ h1, h2, h3, h4, h5, h6, p {
     }
 
 /* Shared List styling */
+    .habit-defs-title {
+        color: var(--color-primary);
+        font-size: var(--font-size-medium);
+        font-weight: bold;
+        text-decoration: underline 3px;
+        margin-top: 1.5rem;
+        margin-bottom: 0.1rem;
+    }
+
     .habit-defs-list,
     .key-dates-list {
         list-style: none;
@@ -88,6 +97,11 @@ h1, h2, h3, h4, h5, h6, p {
         justify-content: space-between;
         align-items: center;
         margin-right: 1rem;
+    }
+
+    .list-header {
+        font-size: var(--font-size-xl);
+        font-weight: bold;
     }
 
     img.delete-icon, img.edit-icon, img.add-icon, img.restore-icon  {

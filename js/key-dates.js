@@ -103,10 +103,12 @@ function submitKeyDateForm(event) {
         let success;
         if (editingId) {
             // We're editing - call updateKeyDate()
-            success = updateKeyDate(editingId, formData.description);
+            console.log(`Update Key Date ${editingId}`)
+            success = updateKeyDate(editingId, formData.date, formData.description);
         } else {
             // We're adding new - call addKeyDate()
-            success = addKeyDate(formData.description, formData.date);
+            console.log(`Add Key Date.`)
+            success = addKeyDate(formData.date, formData.description);
         }
 
         if (success) {
@@ -131,37 +133,37 @@ function submitKeyDateForm(event) {
 
 // Open key date form for editing
 function openEditKeyDateForm(keyDateId) {
-    // Find the key date in the global array
-    const keyDate = allKeyDates.find(kd => kd.id === keyDateId);
-    
-    if (!keyDate) {
-        console.error('Key date not found:', keyDateId);
-        return;
-    }
-    
-    // Pre-populate form fields 
-    const dateInput = document.getElementById('keyDateDate');
-    const descriptionInput = document.getElementById('keyDateDescription');
-    
-    if (dateInput && descriptionInput) {
-        dateInput.value = keyDate.date; // Already in YYYY-MM-DD format
-        descriptionInput.value = keyDate.description;
-    }
-    
-    // Change modal title
-    const modalTitle = document.getElementById('key-date-title');
-    if (modalTitle) {
-        modalTitle.textContent = 'Edit Key Date';
-    }
-    
-    document.getElementById('keyDates').dataset.editingId = keyDateId;
-    
-    toggleShowHideForm('keyDates');
+  // Find the key date in the global array
+  const keyDate = allKeyDates.find(kd => kd.id === keyDateId);
+  
+  if (!keyDate) {
+    console.error('Key date not found:', keyDateId);
+    return;
+  }
+  
+  // Pre-populate form fields 
+  const dateInput = document.getElementById('keyDateDate');
+  const descriptionInput = document.getElementById('keyDateDescription');
+  
+  if (dateInput && descriptionInput) {
+    dateInput.value = keyDate.date; // Already in YYYY-MM-DD format
+    descriptionInput.value = keyDate.description;
+  }
+  
+  // Change modal title
+  const modalTitle = document.getElementById('key-date-title');
+  if (modalTitle) {
+    modalTitle.textContent = 'Edit Key Date';
+  }
+  
+  document.getElementById('keyDateForm').dataset.editingId = keyDateId;
+  
+  toggleShowHideForm('keyDates');
 }
 
 // Create new key date to localStorage
-function addKeyDate(description, selectedDate = null) {
-    const dateInfo = selectedDate ? getDateInfo(selectedDate) : appDateInfo;
+function addKeyDate(newDate, newDescription) {
+    const dateInfo = newDate ? getDateInfo(newDate) : appDateInfo;
 
     try {
         // Generate next sequential ID for the month
@@ -171,7 +173,7 @@ function addKeyDate(description, selectedDate = null) {
         const newKeyDate = {
             id: nextKeyDateId,
             date: `${dateInfo.year}-${(dateInfo.month+1).toString().padStart(2, '0')}-${dateInfo.day.toString().padStart(2, '0')}`,
-            description: description,
+            description: newDescription,
             createdAt: new Date().toISOString(),
         }
 
@@ -199,7 +201,7 @@ function getKeyDateFormData() {
 }
 
 // Update existing key date by ID
-function updateKeyDate(keyDateId, newDescription) {
+function updateKeyDate(keyDateId, newDate, newDescription) {
     try {
         // Find the key date in allKeyDates array by ID
         const updateIndex = allKeyDates.findIndex(kd => kd.id === keyDateId);
@@ -209,6 +211,7 @@ function updateKeyDate(keyDateId, newDescription) {
         }
                 
         // Update the fields
+        allKeyDates[updateIndex].date = newDate;
         allKeyDates[updateIndex].description = newDescription;
 
         // Save updated array to localStorage

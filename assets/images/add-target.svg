@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
-<svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg width="800px" height="800px" viewBox="1 1 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
     <!-- Outer ring (radius 10) -->
     <circle cx="12" cy="12" r="10" stroke="#664444" stroke-width="1.5" fill="none" />
     <!-- Middle ring (radius 7) -->
     <circle cx="12" cy="12" r="7" stroke="#664444" stroke-width="1.5" fill="none" />
     <!-- Inner ring (radius 4) -->
     <circle cx="12" cy="12" r="4" stroke="#664444" stroke-width="1.5" fill="none" />
-    <path d="M06 12H18H14" stroke="#00bb00" stroke-width="5.0" stroke-linecap="round" stroke-linejoin="round" />
-    <path d="M12 18V6V8" stroke="#00bb00" stroke-width="5.0" stroke-linecap="round" stroke-linejoin="round" />
-
+    <!-- Plus Icon Group (Bottom Right Quadrant) -->
+    <g transform="translate(10, 10) scale(0.4)">
+      <circle cx="14" cy="14" r="18" fill="#006600" />
+      <path d="M16 10 L16 22 M10 16 L22 16" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round"/>
+    </g>
 </svg>

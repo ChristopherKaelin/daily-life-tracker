@@ -143,7 +143,7 @@ body {
         padding: 1rem 1rem;
     }
 
-    .weather-quote-section {
+    .daily-highlight-section {
         display: flex;
         gap: 2rem;
         padding: 1.5rem;
@@ -157,7 +157,7 @@ body {
         flex: 1;
     }
 
-    .two-column-layout {
+    .dashboard-body {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: var(--spacing-base);
@@ -169,7 +169,13 @@ body {
         border: 1px solid #ddd;
         border-radius: 8px;
         padding: var(--spacing-base);
-        min-height: 300px;
+        height: auto;
+    }
+
+    .habits-section h1 {
+        font-size: var(--font-size-xxl);
+        font-weight: bold;
+        margin-bottom: 1.5rem;
     }
 
 /* Mobile responsive */
@@ -180,18 +186,33 @@ body {
             gap: var(--spacing-small);
         }
 
+        .daily-highlight-section {flex-direction: column;}
+
+        .dashboard-body {
+          display: flex;
+          gap: 1rem;
+        }
+                
         .calendar-section,
         .habits-section {
-            grid-column: 1;
-            min-height: 200px;
+            flex: 1;
+            height: auto;
             font-size: var(--font-size-small);
             padding: var(--spacing-small);
         }
-
-        .calendar-section {grid-row: 1;}
-        .habits-section{grid-row: 2;}
     }
 
+    @media (max-width: 675px) {
+      .dashboard-body {
+        flex-direction: column;
+      }
+      
+      .calendar-section,
+      .habits-section {
+        height: auto;
+        width: 100%;
+      }
+    }
 /* SETTINGS FORM  */
 /* Desktop */
     .form-group {
@@ -217,7 +238,7 @@ body {
     .form-buttons {
         display: flex;
         gap: 1rem;
-        margin-top: 0.5rem;
+        margin-top: 2rem;
     }
 
     .form-buttons button {
@@ -230,6 +251,10 @@ body {
         transition: background-color 0.3s;
     }
 
+    .form-buttons button:only-child {
+        flex: 0 0 50%;
+        margin: 0 auto;
+    }    
 
 
 /* DELETE CONFiRMATION */
@@ -339,3 +364,38 @@ body {
             gap: 0.5px;
         }
     }
+
+/* HABIT TRACKER PROGRESS */
+/* Desktop */
+  .progress h4 {
+    margin-top: 1.5rem;
+    margin-bottom: 0;
+  }
+
+  .progress-content {
+    margin-top: 0;
+    padding: 0.5rem;
+    background: var(--color-input-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+  }
+
+  .habit-entry {
+    display: flex;
+  }
+
+  .habit-name {
+    width: 33%; 
+  }
+
+  .done::after {
+    content: "✔"; 
+    color: green;
+    font-weight:900;
+  }
+
+  .not-done::after {
+    content: "✗"; 
+    color: darkred;
+    font-weight:900;
+  }

@@ -401,7 +401,7 @@ function generateHabitDefinitionsDisplay() {
     if (activeHabitDefinitions.length === 0) {
         habitDefinitionsHTML += '<p class="no-habit-defs">No active habit definitions</p>';
     } else {
-        habitDefinitionsHTML += '<p>Acitve</p><ul class="habit-defs-list">';
+        habitDefinitionsHTML += '<p class="habit-defs-title">Acitve</p><ul class="habit-defs-list">';
         activeHabitDefinitions.forEach(habitDefinition => {
                 habitDefText = getHabitGoalDisplayText(habitDefinition);
                 habitDefinitionsHTML += 
@@ -417,7 +417,7 @@ function generateHabitDefinitionsDisplay() {
     if (inactiveHabitDefinitions.length === 0) {
         habitDefinitionsHTML += '<p class="no-habit-defs">No inactive habit definitions</p>';
     } else {
-        habitDefinitionsHTML += '<p>Inacitve</p><ul class="habit-defs-list">';
+        habitDefinitionsHTML += '<p class="habit-defs-title">Inacitve</p><ul class="habit-defs-list">';
         inactiveHabitDefinitions.forEach(habitDefinition => {
                 habitDefText = getHabitGoalDisplayText(habitDefinition);
                 habitDefinitionsHTML += 
