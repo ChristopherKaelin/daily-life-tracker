@@ -120,7 +120,9 @@ function getAvailableHabitDefinitions(yearMonth = null) {
         .map(goal => goal.habitDefId);
 
     //  List of habit definitions that are not being tracked 
-    const availableHabitDefinitions = allHabitDefinitions.filter(def => !trackedHabitDefIds.includes(def.id));
+    const availableHabitDefinitions = allHabitDefinitions
+      .filter(def => !trackedHabitDefIds.includes(def.id))
+      .filter(def => def.isActive);
 
     return availableHabitDefinitions;
 }

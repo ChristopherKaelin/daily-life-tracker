@@ -206,42 +206,63 @@ function generateHabitTrackerDisplay(yearMonth = null) {
         ${todayDisplay}
       </div>`;
       
-      monthlyWorkHTML += `<div class="habit-entry">
-        <span class="habit-name">${habitDef.name}:</span> 
-        ${monthCount} days
-      </div>`;
     } else {
       // Cumulative habits - get current values
       const todayValue = todaysWork
         .filter(entry => entry.habitMonthGoalId === habitDef.id)
         .reduce((sum, entry) => sum + entry.dailyValue, 0);
       
-      const monthValue = monthlyWork
-        .filter(entry => entry.habitMonthGoalId === habitDef.id)
-        .reduce((sum, entry) => sum + entry.dailyValue, 0);
-
       // Get habit definition for increment amount
       const habitDefinition = allHabitDefinitions.find(h => h.id === habitDef.habitDefId);
       const incrementAmount = habitDefinition ? habitDefinition.incrementAmount : 0.5;
       
       // Calculate display values
       const todayDisplayValue = (todayValue * incrementAmount).toFixed(1);
-      const monthDisplayValue = (monthValue * incrementAmount).toFixed(1);
 
-      todaysWorkHTML += `<div class="habit-entry">
-        <span class="habit-name">${habitDef.name}:</span>
-        <div class="habit-controls">
-          <img src="./assets/images/remove.svg" alt="decrease" class="delete-icon-sm" onclick="decrementHabit('${habitDef.id}', ${incrementAmount})">
-          <span class="habit-progress">${todayDisplayValue} ${habitDef.measurement}</span>
-          <img src="./assets/images/add.svg" alt="increase" class="add-icon-sm" onclick="incrementHabit('${habitDef.id}', ${incrementAmount})">
-        </div>
-      </div>`;
-      
-      monthlyWorkHTML += `<div class="habit-entry">
-        <span class="habit-name">${habitDef.name}:</span> 
-        ${monthDisplayValue} ${habitDef.measurement}
-      </div>`;
+      todaysWorkHTML += 
+        `<div class="habit-entry">
+          <span class="habit-name">${habitDef.name}:</span>
+          <div class="habit-controls">
+            <img src="./assets/images/remove.svg" alt="decrease" class="delete-icon-sm" onclick="decrementHabit('${habitDef.id}', ${incrementAmount})">
+            <span class="habit-progress">${todayDisplayValue} ${habitDef.measurement}</span>
+            <img src="./assets/images/add.svg" alt="increase" class="add-icon-sm" onclick="incrementHabit('${habitDef.id}', ${incrementAmount})">
+          </div>
+        </div>`;
     }
+    
+    // Monthly Work with Progress Bars
+    const monthValue = monthlyWork
+      .filter(entry => entry.habitMonthGoalId === habitDef.id)
+      .reduce((sum, entry) => sum + entry.dailyValue, 0);
+
+    let monthDisplayValue, progressPercentage, goalTotal;
+
+    if (habitDef.goalType === 'daily') {
+      monthDisplayValue = monthValue;
+      goalTotal = new Date().getDate();
+      progressPercentage = (monthDisplayValue / goalTotal) * 100, 100;
+    } else {
+      const habitDefinition = allHabitDefinitions.find(h => h.id === habitDef.habitDefId);
+      const incrementAmount = habitDefinition ? habitDefinition.incrementAmount : 0.5;
+      monthDisplayValue = (monthValue * incrementAmount).toFixed(1);
+      goalTotal = habitDefinition ? habitDefinition.goalAmount : 1;
+      progressPercentage = (monthDisplayValue / goalTotal) * 100, 100;
+    }
+
+    monthlyWorkHTML += `
+      <div class="habit-progress-item">
+        <div class="habit-progress-header">
+          <span class="habit-name">${habitDef.name}:</span>
+          <span class="habit-value">${monthDisplayValue} ${habitDef.measurement || (habitDef.goalType === 'daily' ? 'days' : '')}</span>
+        </div>
+        <div class="progress-bar-container">
+          <div class="progress-bar">
+            <div class="progress-fill ${getProgressColorClass(progressPercentage)}" style="width: ${progressPercentage}%"></div>
+          </div>
+          <span class="progress-percentage">${Math.round(progressPercentage)}%</span>
+        </div>
+      </div>
+    `;
   }
 
   todaysWorkHTML += "</div>";
@@ -354,4 +375,13 @@ function removeProgressEntry(entryId, yearMonth) {
   const progressEntries = getProgressForMonth(yearMonth);
   const filteredEntries = progressEntries.filter(entry => entry.id !== entryId);
   saveAllProgressToStorage(filteredEntries, yearMonth);
+}
+
+function getProgressColorClass(percentage) {
+  if (percentage > 100) return 'progress-exceeded';
+  if (percentage >= 90) return 'progress-full';
+  if (percentage >= 70) return 'progress-high';
+  if (percentage >= 50) return 'progress-medium'
+  if (percentage >= 30) return 'progress-low-medium';
+  return 'progress-low';
 }

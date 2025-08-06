@@ -31,7 +31,18 @@ const DEFAULT_HABIT_DEFINITION = {
 function getActiveHabitDefinitions() {
     // Always get fresh data from storage
     const allHabits = JSON.parse(localStorage.getItem('dailyLifeHabitDefinitions')) || [];
-    return allHabits.filter(hd => hd.isActive);
+    const sortedHabits = 
+      allHabits
+      .filter(hd => hd.isActive)
+      .sort((a, b) => {
+        // Sort by goalType first (daily before cumulative)
+        if (a.goalType !== b.goalType) {
+          return a.goalType === 'daily' ? -1 : 1;
+        }
+        // Then sort alphabetically by name within each group
+        return a.name.localeCompare(b.name);
+      });
+    return sortedHabits;
 }
 
 // Get active habit definitions
@@ -399,40 +410,40 @@ function generateHabitDefinitionsDisplay() {
     inactiveHabitDefinitions = getInactiveHabitDefinitions()
 
     if (activeHabitDefinitions.length === 0) {
-        habitDefinitionsHTML += '<p class="no-habit-defs">No active habit definitions</p>';
+      habitDefinitionsHTML += '<p class="no-habit-defs">No active habit definitions</p>';
     } else {
-        habitDefinitionsHTML += '<p class="habit-defs-title">Acitve</p><ul class="habit-defs-list">';
-        activeHabitDefinitions.forEach(habitDefinition => {
-                habitDefText = getHabitGoalDisplayText(habitDefinition);
-                habitDefinitionsHTML += 
-                    `<li class="habit-def-item" data-habit-def-id="${habitDefinition.id}" data-habit-def-info="${habitDefinition.name} - ${habitDefinition.goalType}">
-                        <span class="habit-def-info">${habitDefText}</span>
-                        <img class="edit-icon" src="./assets/images/edit-icon.svg" alt="edit icon">
-                        <img class="delete-icon" src="./assets/images/delete-icon.svg" alt="delete icon">
-                    </li>`;
-            });
-        habitDefinitionsHTML += '</ul>';
+      habitDefinitionsHTML += '<p class="habit-defs-title">Acitve</p><ul class="habit-defs-list">';
+      activeHabitDefinitions.forEach(habitDefinition => {
+        habitDefText = getHabitGoalDisplayText(habitDefinition);
+        habitDefinitionsHTML += 
+          `<li class="habit-def-item" data-habit-def-id="${habitDefinition.id}" data-habit-def-info="${habitDefinition.name} - ${habitDefinition.goalType}">
+            <span class="habit-def-info">${habitDefText}</span>
+            <img class="edit-icon" src="./assets/images/edit-icon.svg" alt="edit icon">
+            <img class="delete-icon" src="./assets/images/delete-icon.svg" alt="delete icon">
+          </li>`;
+      });
+      habitDefinitionsHTML += '</ul>';
     }
 
     if (inactiveHabitDefinitions.length === 0) {
-        habitDefinitionsHTML += '<p class="no-habit-defs">No inactive habit definitions</p>';
+      habitDefinitionsHTML += '<p class="no-habit-defs">No inactive habit definitions</p>';
     } else {
-        habitDefinitionsHTML += '<p class="habit-defs-title">Inacitve</p><ul class="habit-defs-list">';
-        inactiveHabitDefinitions.forEach(habitDefinition => {
-                habitDefText = getHabitGoalDisplayText(habitDefinition);
-                habitDefinitionsHTML += 
-                    `<li class="habit-def-item" data-habit-def-id="${habitDefinition.id}" data-habit-def-info="${habitDefinition.name} - ${habitDefinition.goalType}">
-                        <span class="habit-def-info">${habitDefText}</span>
-                        <img class="restore-icon" src="./assets/images/undo-icon.svg" alt="undo icon">
-                    </li>`;
-            });
-        habitDefinitionsHTML += '</ul>';
+      habitDefinitionsHTML += '<p class="habit-defs-title">Inacitve</p><ul class="habit-defs-list">';
+      inactiveHabitDefinitions.forEach(habitDefinition => {
+        habitDefText = getHabitGoalDisplayText(habitDefinition);
+        habitDefinitionsHTML += 
+          `<li class="habit-def-item" data-habit-def-id="${habitDefinition.id}" data-habit-def-info="${habitDefinition.name} - ${habitDefinition.goalType}">
+            <span class="habit-def-info">${habitDefText}</span>
+            <img class="restore-icon" src="./assets/images/undo-icon.svg" alt="undo icon">
+          </li>`;
+      });
+      habitDefinitionsHTML += '</ul>';
     }
 
     // Display in the key dates element`
     const habitDefinitionsElement = document.getElementById('habitDefinitionsDisplay');
     if (habitDefinitionsElement) {
-        habitDefinitionsElement.innerHTML = habitDefinitionsHTML;
+      habitDefinitionsElement.innerHTML = habitDefinitionsHTML;
     }
 }
 

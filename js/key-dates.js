@@ -103,11 +103,9 @@ function submitKeyDateForm(event) {
         let success;
         if (editingId) {
             // We're editing - call updateKeyDate()
-            console.log(`Update Key Date ${editingId}`)
             success = updateKeyDate(editingId, formData.date, formData.description);
         } else {
             // We're adding new - call addKeyDate()
-            console.log(`Add Key Date.`)
             success = addKeyDate(formData.date, formData.description);
         }
 
@@ -123,7 +121,7 @@ function submitKeyDateForm(event) {
         }
     } else {
         // Show validation errors
-        console.log('Validation errors:', validation.errors);
+        console.error('Validation errors:', validation.errors);
         displayValidationErrors(validation.errors, 'keyDateForm');
     }
     generateCalendarDisplay(appDateInfo);
