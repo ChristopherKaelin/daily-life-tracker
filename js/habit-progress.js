@@ -12,7 +12,7 @@ function saveProgressEntry(progressData) {
     // Generate next sequential ID for the month
     const yearMonth = progressData.date ? progressData.date.substring(0, 7) : appDateInfo.yearMonth;
     console.log(`Saving progress for yearMonth: ${yearMonth}`);
-    const habitProgressEntries = getProgressForHabit(yearMonth);
+    const habitProgressEntries = getProgressForMonth(yearMonth);
     console.log(`Current entries for ${yearMonth}:`, habitProgressEntries);
     const lastEntry = habitProgressEntries[habitProgressEntries.length - 1];
 
@@ -186,9 +186,7 @@ function generateHabitTrackerDisplay(yearMonth = null) {
 
   // Get the monthly and today progress entries
   let monthlyWork = getProgressForMonth(yearMonth);
-
   let todaysWork = getProgressForDate(`${yearMonth}-${appDateInfo.day.toString().padStart(2, '0')}`, monthlyWork);
-  console.log(todaysWork);
 
   // Generate HTML for progress today and monthly
   todaysWorkHTML += "<div class='progress-content'>";
@@ -197,28 +195,53 @@ function generateHabitTrackerDisplay(yearMonth = null) {
 
     if (habitDef.goalType === 'daily') {
       // Today's Work
-      if (todaysWork.filter(entry => entry.habitMonthGoalId === habitDef.id).length === 0) {
-        todayIncrement = "<span class='not-done'> </span>";
-      } else {
-        todayIncrement = "<span class='done'> </span>";
-      }
+      const isCompleted = todaysWork.filter(entry => entry.habitMonthGoalId === habitDef.id).length > 0;
+      const checkboxChecked = isCompleted ? 'checked' : '';
+      const todayDisplay = `<input type="checkbox" ${checkboxChecked} onchange="toggleDailyHabit('${habitDef.id}')" class="habit-checkbox">`;
       
       // Monthly Work
-      monthIncrement = monthlyWork.filter(entry => entry.habitMonthGoalId === habitDef.id).length;
+      const monthCount = monthlyWork.filter(entry => entry.habitMonthGoalId === habitDef.id).length;
+      todaysWorkHTML += `<div class="habit-entry">
+        <span class="habit-name">${habitDef.name}:</span> 
+        ${todayDisplay}
+      </div>`;
+      
+      monthlyWorkHTML += `<div class="habit-entry">
+        <span class="habit-name">${habitDef.name}:</span> 
+        ${monthCount} days
+      </div>`;
     } else {
-      todayIncrement = todaysWork
+      // Cumulative habits - get current values
+      const todayValue = todaysWork
         .filter(entry => entry.habitMonthGoalId === habitDef.id)
-        .reduce((sum, entry) => sum + entry.dailyValue, 0)
-        * allHabitDefinitions.find(h => h.id === habitDef.habitDefId).incrementAmount;
-
-      monthIncrement = monthlyWork
+        .reduce((sum, entry) => sum + entry.dailyValue, 0);
+      
+      const monthValue = monthlyWork
         .filter(entry => entry.habitMonthGoalId === habitDef.id)
-        .reduce((sum, entry) => sum + entry.dailyValue, 0)
-        * allHabitDefinitions.find(h => h.id === habitDef.habitDefId).incrementAmount;
+        .reduce((sum, entry) => sum + entry.dailyValue, 0);
 
+      // Get habit definition for increment amount
+      const habitDefinition = allHabitDefinitions.find(h => h.id === habitDef.habitDefId);
+      const incrementAmount = habitDefinition ? habitDefinition.incrementAmount : 0.5;
+      
+      // Calculate display values
+      const todayDisplayValue = (todayValue * incrementAmount).toFixed(1);
+      const monthDisplayValue = (monthValue * incrementAmount).toFixed(1);
+
+      todaysWorkHTML += `<div class="habit-entry">
+        <span class="habit-name">${habitDef.name}:</span>
+        <div class="habit-controls">
+          <img src="./assets/images/remove.svg" alt="decrease" class="delete-icon-sm" onclick="decrementHabit('${habitDef.id}', ${incrementAmount})">
+          <span class="habit-progress">${todayDisplayValue} ${habitDef.measurement}</span>
+          <img src="./assets/images/add.svg" alt="increase" class="add-icon-sm" onclick="incrementHabit('${habitDef.id}', ${incrementAmount})">
+        </div>
+      </div>`;
+      
+      monthlyWorkHTML += `<div class="habit-entry">
+        <span class="habit-name">${habitDef.name}:</span> 
+        ${monthDisplayValue} ${habitDef.measurement}
+      </div>`;
     }
-    todaysWorkHTML += `<div class="habit-entry"><span class="habit-name">${habitDef.name}:</span> ${todayIncrement} ${habitDef.measurement}</div>`;
-    monthlyWorkHTML += `<div class="habit-entry"><span class="habit-name">${habitDef.name}:</span> ${monthIncrement} ${habitDef.measurement}</div>`;
   }
 
   todaysWorkHTML += "</div>";
@@ -233,4 +256,102 @@ function generateHabitTrackerDisplay(yearMonth = null) {
   // <div id="monthly-progress"></div>
   const monthlyWorkElement = document.getElementById('monthly-work');
   monthlyWorkElement.innerHTML = monthlyWorkHTML;
+}
+
+
+// Handle daily habit checkbox toggle
+function toggleDailyHabit(habitMonthGoalId) {
+  const today = new Date().toISOString().split('T')[0];
+  const yearMonth = today.substring(0, 7);
+  
+  // Get current progress for this habit today
+  const todaysEntries = getProgressForDate(today);
+  const existingEntry = todaysEntries.find(entry => entry.habitMonthGoalId === habitMonthGoalId);
+  
+  if (existingEntry) {
+    // Remove the entry (uncheck)
+    removeProgressEntry(existingEntry.id, yearMonth);
+  } else {
+    // Add new entry (check)
+    const progressData = {
+      habitMonthGoalId: habitMonthGoalId,
+      date: today,
+      dailyValue: 1
+    };
+    saveProgressEntry(progressData);
+  }
+  
+  // Refresh display
+  generateHabitTrackerDisplay();
+}
+
+
+// Handle increment for cumulative habits
+function incrementHabit(habitMonthGoalId, incrementAmount) {
+  const today = new Date().toISOString().split('T')[0];
+  
+  // Get today's entry or create new one
+  const todaysEntries = getProgressForDate(today);
+  const existingEntry = todaysEntries.find(entry => entry.habitMonthGoalId === habitMonthGoalId);
+  
+  if (existingEntry) {
+    // Update existing entry
+    updateProgressEntry(existingEntry.id, existingEntry.dailyValue + 1);
+  } else {
+    // Create new entry
+    const progressData = {
+      habitMonthGoalId: habitMonthGoalId,
+      date: today,
+      dailyValue: 1
+    };
+    saveProgressEntry(progressData);
+  }
+  
+  // Refresh display
+  generateHabitTrackerDisplay();
+}
+
+
+// Handle decrement for cumulative habits
+function decrementHabit(habitMonthGoalId, incrementAmount) {
+  const today = new Date().toISOString().split('T')[0];
+  const yearMonth = today.substring(0, 7);
+  
+  // Get today's entry
+  const todaysEntries = getProgressForDate(today);
+  const existingEntry = todaysEntries.find(entry => entry.habitMonthGoalId === habitMonthGoalId);
+  
+  if (existingEntry && existingEntry.dailyValue > 1) {
+    // Decrease the value
+    updateProgressEntry(existingEntry.id, existingEntry.dailyValue - 1);
+  } else if (existingEntry && existingEntry.dailyValue === 1) {
+    // Remove the entry entirely
+    removeProgressEntry(existingEntry.id, yearMonth);
+  }
+  // If no entry exists, do nothing (can't go below 0)
+  
+  // Refresh display
+  generateHabitTrackerDisplay();
+}
+
+
+// Update existing progress entry
+function updateProgressEntry(entryId, newDailyValue) {
+  const yearMonth = appDateInfo.yearMonth;
+  const progressEntries = getProgressForMonth(yearMonth);
+  
+  const entryIndex = progressEntries.findIndex(entry => entry.id === entryId);
+  if (entryIndex !== -1) {
+    progressEntries[entryIndex].dailyValue = newDailyValue;
+    progressEntries[entryIndex].updatedAt = new Date().toISOString();
+    saveAllProgressToStorage(progressEntries, yearMonth);
+  }
+}
+
+
+// Remove progress entry
+function removeProgressEntry(entryId, yearMonth) {
+  const progressEntries = getProgressForMonth(yearMonth);
+  const filteredEntries = progressEntries.filter(entry => entry.id !== entryId);
+  saveAllProgressToStorage(filteredEntries, yearMonth);
 }

@@ -110,6 +110,12 @@ h1, h2, h3, h4, h5, h6, p {
         cursor: pointer;
     }
 
+    img.delete-icon-sm, img.add-icon-sm{
+        width: 14px;
+        height: 14px;
+        cursor: pointer;
+    }
+
     img.delete-icon:hover, img.edit-icon:hover, img.add-icon:hover {
         opacity: 0.75;
     }

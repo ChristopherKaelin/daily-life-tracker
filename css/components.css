@@ -117,19 +117,19 @@ body {
     }
     @media (max-width: 675px) {
         .main-nav ul {
-            flex-wrap: wrap;
+          flex-direction: column;
+          align-items: center;
             gap: 1rem;
             max-width: 450px;
             margin: 0 auto;
         }
         .main-nav li {
-            flex: 0 0 170px;
-            min-width: 170px;
+            flex: 0 0 auto;
+            min-width: 200px;
+            max-width: 200px;
             }
         .nav-link {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            white-space: normal;
             }
     }
 
@@ -213,6 +213,7 @@ body {
         width: 100%;
       }
     }
+
 /* SETTINGS FORM  */
 /* Desktop */
     .form-group {
@@ -346,24 +347,24 @@ body {
     }
 
 /* Responsive */
-    @media (max-width: 900px) {
-        .calendar-grid div {
-            min-height: 35px;
-            font-size: 0.9rem;
-        }
+  @media (max-width: 900px) {
+    .calendar-grid div {
+      min-height: 35px;
+      font-size: 0.9rem;
     }
+  }
 
-    @media (max-width: 675px) {
-        .calendar-grid div {
-            padding: 0.25rem;
-            min-height: 30px;
-            font-size: 0.75rem;
-        }
-        
-        .calendar-grid {
-            gap: 0.5px;
-        }
+  @media (max-width: 675px) {
+    .calendar-grid div {
+      padding: 0.25rem;
+      min-height: 30px;
+      font-size: 0.75rem;
     }
+    
+    .calendar-grid {
+      gap: 0.5px;
+    }
+  }
 
 /* HABIT TRACKER PROGRESS */
 /* Desktop */
@@ -398,4 +399,30 @@ body {
     content: "✗"; 
     color: darkred;
     font-weight:900;
+  }
+
+  .habit-checkbox {
+    transform: scale(1.25);
+    cursor: pointer;
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 675px) {
+    .habit-entry {
+      padding: 0.25rem 0;
+    }
+    
+    .habit-name {
+      font-size: var(--font-size-small);
+    }
+    
+    .habit-progress {
+      font-size: var(--font-size-xs);
+      min-width: 50px;
+    }
+    
+    .habit-btn {
+      width: 20px;
+      height: 20px;
+    }
   }
