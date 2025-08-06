@@ -2,10 +2,10 @@
 let appDateInfo = null;
 let allKeyDates = [];
 let allHabitDefinitions = [];
+const weatherKey = CONFIG.WeatherAPI_KEY;
 
 // App initialization - runs when page loads
 document.addEventListener('DOMContentLoaded', function() {
-
     // Get App Wide Data
     allHabitDefinitions = loadAllHabitDefinitions(); 
         

@@ -9,17 +9,14 @@ const DEFAULT_HABIT_MONTH_GOAL = {
 
 //  Open Manage Monthly Goals form   
 function openManageMonthlyGoalsForm() {
-    console.log('Opening Monthly Goals Form');
     generateManageMonthlyGoalsDisplay();
     toggleShowHideForm('monthlyGoalsModal');
-    console.log('Monthly Goals Form opened');
 }
 
 
 //  Update the Manage Monthly Goals Form
 //  Called when form is opened or when a habit goal is added/removed from being tracked
 function generateManageMonthlyGoalsDisplay() {
-    console.log('Generating Monthly Goals Display');
     populateTrackedHabitsList();
     populateAvailableHabitsList();
 }
@@ -27,7 +24,6 @@ function generateManageMonthlyGoalsDisplay() {
 
 //  Populate list of habits BEING tracked for the given year/month
 function populateTrackedHabitsList(yearMonth = null) {
-  console.log('Populating Tracked Habits List for:', yearMonth);
   let trackedHabitsHTML = "";
   let trackedHabits = getTrackedHabitDefinitions(yearMonth);
   if (trackedHabits.length === 0) {
@@ -90,7 +86,6 @@ function removeHabitMonthGoal(goalID = null) {
 
 //  Populate list of habits NOT BEING tracked for the given year/month
 function populateAvailableHabitsList(yearMonth = null) {
-  console.log('Populating Available Habits List for:', yearMonth);
   let availableHabitsHTML = "";
   let availableHabits = getAvailableHabitDefinitions(yearMonth);
   if (availableHabits.length === 0) {
@@ -130,11 +125,8 @@ function getAvailableHabitDefinitions(yearMonth = null) {
 
 function saveNewHabitMonthGoal(habitDefId) {
     try {
-        console.log('Saving new habit monthly goal for:', habitDefId);
         const habitMonthGoals = getMonthlyHabitGoals();
-        console.log('Current habit month goals:', habitMonthGoals);
         const lastGoal = habitMonthGoals[habitMonthGoals.length - 1];
-        console.log('Last goal:', lastGoal);
 
         // Generate next sequential ID for the month
         let nextGoalNumber = 1;

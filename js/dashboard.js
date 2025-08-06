@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
     //==========================================
     //  TESTING - Remove after testing
     //==========================================
-    // testFunction();
+    testFunction();
 
 });
 
@@ -27,19 +27,10 @@ function testFunction() {
     console.log('===========  Testing Started  ============');
     console.log('==========================================')
 
-    // Get App Wide Data
-    allHabitDefinitions = loadAllHabitDefinitions(); 
-    
-    // currentProgressEntries = getProgressForMonth('2025-08');
-    // console.log('Current Progress Entries for 2025-08:', currentProgressEntries);
-
-    specificDate = new Date().toISOString().substring(0, 10)
-    dateSpecificEntries = getProgressForDate(specificDate);
-    console.log(`'Current Progress Entries for ${specificDate}:`, dateSpecificEntries);
-
-    // Get Monthly Progress for a specific habit
-    console.log(getMonthlyProgress('goal-0005','habitDefinition-0001', '2025-08'));
-    console.log(getMonthlyProgress('goal-0006','habitDefinition-0002', '2025-08'));
+    // Test weather API
+    getWeatherData('Lexginton,KY').then(weather => {
+      console.log('Weather data:', weather);
+    });
 
     console.log('==========================================')
     console.log('===========  Testing Completed  ==========');

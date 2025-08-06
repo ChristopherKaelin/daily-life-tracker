@@ -150,7 +150,7 @@ function submitSettingsForm(event) {
         }
     } else {
         // Show validation errors
-        console.log('Validation errors:', validation.errors);
+        console.error('Validation errors:', validation.errors);
         displayValidationErrors(validation.errors, 'userSettingsForm');
     }
 }

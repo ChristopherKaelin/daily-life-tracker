@@ -11,9 +11,7 @@ function saveProgressEntry(progressData) {
   try {
     // Generate next sequential ID for the month
     const yearMonth = progressData.date ? progressData.date.substring(0, 7) : appDateInfo.yearMonth;
-    console.log(`Saving progress for yearMonth: ${yearMonth}`);
     const habitProgressEntries = getProgressForMonth(yearMonth);
-    console.log(`Current entries for ${yearMonth}:`, habitProgressEntries);
     const lastEntry = habitProgressEntries[habitProgressEntries.length - 1];
 
     let nextNumber = 1;
@@ -71,7 +69,6 @@ function getProgressForDate(progressDate, monthlyWork = null) {
         throw new Error('Date must be in YYYY-MM-DD format');
     }
     if (!monthlyWork) {
-      console.log(`Loading monthly work for date: ${progressDate}`);
       const yearMonth = progressDate ? progressDate.substring(0, 7) : `${appDateInfo.year}-${appDateInfo.month.toString().padStart(2, '0')}`;
       monthlyWork = getProgressForMonth(yearMonth);
     }
@@ -87,7 +84,6 @@ function getProgressForDate(progressDate, monthlyWork = null) {
 
 function getMonthlyProgress(habitMonthGoalId, habitDefId, yearMonth) {
   try {
-    console.log(`Getting monthly progress for goal: ${habitMonthGoalId}, habit: ${habitDefId}, month: ${yearMonth}`);
     // Validate yearMonth format
     if (yearMonth && !/^\d{4}-\d{2}$/.test(yearMonth)) {
       throw new Error('yearMonth must be in YYYY-MM format');
@@ -101,7 +97,6 @@ function getMonthlyProgress(habitMonthGoalId, habitDefId, yearMonth) {
     // Load all progress entries for the month
     const progressEntries = getProgressForMonth(yearMonth);
     const habitEntries = progressEntries.filter(entry => entry.habitMonthGoalId === habitMonthGoalId);
-    console.log(`Found ${habitEntries.length} entries for habit goal: ${habitMonthGoalId}`);
 
     // Get habit definition to check goalAmount
     const habitDef = allHabitDefinitions.find(habit => habit.id === habitDefId);
