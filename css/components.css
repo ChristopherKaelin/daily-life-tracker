@@ -152,7 +152,7 @@ body {
         border-radius: 8px;
     }
 
-    .weather-forecast,
+    .weather-section,
     .daily-quote {
         flex: 1;
     }

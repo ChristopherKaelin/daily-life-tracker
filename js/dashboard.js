@@ -9,7 +9,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize User settings
     initializeUserSettings();
 
-    //  Initialize Calendar Section Display 
+    //  Initialize Calendar Section Display
+    generateWeatherDisplay();
     generateCalendarDisplay(appDateInfo);
     generateKeyDatesDisplay(appDateInfo, allKeyDates);
     generateHabitTrackerDisplay(appDateInfo.yearMonth);
@@ -19,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
     //==========================================
     //  TESTING - Remove after testing
     //==========================================
-    testFunction();
+    // testFunction();
 
 });
 
@@ -27,10 +28,7 @@ function testFunction() {
     console.log('===========  Testing Started  ============');
     console.log('==========================================')
 
-    // Test weather API
-    getWeatherData('Lexginton,KY').then(weather => {
-      console.log('Weather data:', weather);
-    });
+
 
     console.log('==========================================')
     console.log('===========  Testing Completed  ==========');
