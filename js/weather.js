@@ -24,7 +24,6 @@ async function getWeatherData(city, userRefresh = false) {
     }
     
     const data = await response.json();
-    console.log(data);
     return {
       temperature: Math.round(data.current.temp_f),
       condition: data.current.condition.text,
@@ -97,7 +96,7 @@ function generateWeatherDisplay() {
         
         // Update city header
         const weatherLocation = `${formatted.city}, ${formatted.region}`
-        document.getElementById('weather-city').textContent = `Weather Forecast For ${weatherLocation || city}:`;
+        document.getElementById('weather-city').textContent = `${weatherLocation || city} weather: `;
         
         // Update weather data
         const weatherDataElement = document.getElementById('weather-data');

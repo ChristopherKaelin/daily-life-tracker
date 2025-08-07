@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     //  Initialize Calendar Section Display
     generateWeatherDisplay();
+    generateQuoteDisplay();
     generateCalendarDisplay(appDateInfo);
     generateKeyDatesDisplay(appDateInfo, allKeyDates);
     generateHabitTrackerDisplay(appDateInfo.yearMonth);

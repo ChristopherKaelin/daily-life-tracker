@@ -56,17 +56,12 @@
   }
 
   .daily-highlight-section {
-    display: flex;
+    display: block;
     gap: 2rem;
     padding: 1.5rem;
     background: white;
     border: 1px solid #ddd;
     border-radius: 8px;
-  }
-
-  .weather-section,
-  .daily-quote {
-    flex: 1;
   }
 
   .daily-quote h4 { font-size: var(--font-size-base)}
@@ -99,7 +94,17 @@
     margin-bottom: 1.5rem;
   }
 
-  .weather-data { margin-left: 0.5rem;}
+  .weather-section {
+    display: flex;
+    align-items: flex-end;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    font-size: var(--font-size-large);
+  }
+
+  .weather-city {
+    font-weight: bolder;
+  }
 
 /* Mobile responsive */
   @media (max-width: 900px) {
@@ -108,8 +113,6 @@
       grid-template-rows: auto auto;
       gap: var(--spacing-small);
     }
-
-    .daily-highlight-section {flex-direction: column;}
 
     .dashboard-body {
       display: flex;
