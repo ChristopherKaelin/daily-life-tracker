@@ -2,150 +2,16 @@
 @import "./variables.css";
 
 /* Components */
-@import "./components.css";
+@import "./components/forms.css";
+@import "./components/layout.css";
+@import "./components/navigation.css";
+@import "./components/sections.css";
+@import "./components/shared.css";
 
-/* Styling Resets */
+
+/*  Styling resets in addition to
+    those found in Modern Normalize */
 h1, h2, h3, h4, h5, h6, p {
     margin: 0;
     padding: 0;
 }
-
-/* Shared Modal Styling */
-    .modal-form {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-    }
-
-    .modal-form.hidden {
-        display: none;
-    }
-
-    .modal-content {
-        background: var(--color-input-bg);
-        padding: 2rem;
-        border-radius: 8px;
-        border: 1px solid var(--color-border);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        max-width: 500px;
-        width: 90%;
-    }
-
-    .modal-content h2 {
-        margin: 0 0 1.5rem 0;
-        color: var(--color-primary);
-        text-align: center;
-    }
-
-/* Shared List styling */
-    .habit-defs-title {
-        color: var(--color-primary);
-        font-size: var(--font-size-medium);
-        font-weight: bold;
-        text-decoration: underline 3px;
-        margin-top: 1.5rem;
-        margin-bottom: 0.1rem;
-    }
-
-    .habit-defs-list,
-    .key-dates-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    .habit-def-item,
-    .key-date-item {
-        display: flex;
-        align-items: center;
-        padding: 0.25rem 1rem;
-        border-bottom: 1px solid var(--color-border);
-    }
-
-    .habit-def-item:last-child,
-    .key-date-item:last-child {
-        border-bottom: none;
-    }
-
-    .habit-def-info,
-    .key-date-info {
-        font-size: var(--font-size-small);
-        color: var(--color-primary);
-        min-width: 3rem;
-        margin-right: 0.5rem;
-        flex: 1;
-    }
-
-    .no-habit-defs,
-    .no-key-dates {
-        color: var(--color-muted);
-        font-style: italic;
-        margin: 1rem 0;
-        text-align: center;
-    }
-
-/* Shared Icon Styling */
-    .with-icon {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-right: 1rem;
-    }
-
-    .list-header {
-        font-size: var(--font-size-xl);
-        font-weight: bold;
-    }
-
-    img.delete-icon, img.edit-icon, img.add-icon, img.restore-icon  {
-        width: 24px;
-        height: 24px;
-        cursor: pointer;
-    }
-
-    img.delete-icon-sm, img.add-icon-sm{
-        width: 14px;
-        height: 14px;
-        cursor: pointer;
-    }
-
-    img.delete-icon:hover, img.edit-icon:hover, img.add-icon:hover {
-        opacity: 0.75;
-    }
-
-    .weather-icon {
-        width: 30px;
-        position: relative;
-        top: 8px;
-    }
-
-/* Shared Button Styling */
-    .btn {
-        filter: brightness(0.85); 
-        color: white;
-        box-shadow: -1px -1px 2px ;
-    }
-
-    .btn-save { background: var(--color-success); }
-
-    .btn-cancel { background: var(--color-muted); }
-
-    .btn-danger { background: var(--color-error); }
-
-    .btn-restore { background: var(--color-accent); }
-
-    .btn:hover {
-        color: #222;
-        filter: brightness(1.15);
-        box-shadow: 1px 1px 2px ;
-    }
-
-
-.spacing-base{ margin-right: var(--spacing-base);}

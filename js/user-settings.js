@@ -144,6 +144,7 @@ function submitSettingsForm(event) {
         
         if (success) {
             updateUserNameDisplay();
+            generateWeatherDisplay();
             toggleShowHideForm('userSettings');
         } else {
             console.error('Failed to save settings');
