@@ -99,6 +99,8 @@
     margin-bottom: 1.5rem;
   }
 
+  .weather-data { margin-left: 0.5rem;}
+
 /* Mobile responsive */
   @media (max-width: 900px) {
     .main-content {
@@ -253,6 +255,12 @@
 
   .habit-name {
     width: 33%; 
+  }
+
+  .habit-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; /* optional: adds space between icon/text/icon */
   }
 
   .done::after {

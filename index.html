@@ -57,7 +57,11 @@
                 <section class="daily-highlight-section">
                   <div class="weather-section" id="weather-section">
                       <h4 class="weather-city" id="weather-city">Weather Forecast For</h4>
-                      <p class="weather-data" id="weather-data">No Weather Data Available</p>
+                      <span>
+                        <img class="refresh icon icon-sm" src="./assets/images/refresh-icon.svg" alt="refresh weather" 
+                          onclick="refreshWeatherData()" title="Refresh Weather">
+                        <span class="weather-data" id="weather-data">No Weather Data Available</span>
+                      </span>
                   </div>
                   <div class="daily-quote">
                       <h4>Daily Quote</h4> 
@@ -78,9 +82,9 @@
                 <div class="dashboard-body">
                     <section id="calendar" class="calendar-section">
                       <div id="calendarDisplay"></div>
-                      <h4 class="with-icon">
+                      <h4 class="hdr-with-icon">
                         <span>Key Dates This Month</span>
-                        <img class="add-icon spacing-base" src="./assets/images/add-calendar-icon.svg" alt="add icon" onclick="openKeyDateForm()">
+                        <img class="add icon icon-md spacing-base" src="./assets/images/add-calendar-icon.svg" alt="add icon" onclick="openKeyDateForm()">
                       </h4>
                       <div id="keyDatesDisplay"></div>
                     </section>

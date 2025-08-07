@@ -1,10 +1,21 @@
 // Weather API configuration
 const WEATHER_API_KEY = CONFIG.WeatherAPI_KEY;
 const WEATHER_BASE_URL = 'https://api.weatherapi.com/v1/current.json';
+const WEATHER_CACHE_DURATION = 15 * 60 * 1000; // 15 minutes in milliseconds
+let lastWeatherFetch = null;
+
 
 // Fetch weather data for a city
-async function getWeatherData(city) {
+async function getWeatherData(city, userRefresh = false) {
   try {
+    const now = Date.now();
+    
+    // Check if we have recent data and this isn't a forced refresh
+    if (!userRefresh && lastWeatherFetch && (now - lastWeatherFetch) < WEATHER_CACHE_DURATION) {
+      console.log('Using cached weather data (fetched within last 15 minutes)');
+      return null; // Return null to indicate cached data should be used
+    }
+
     const url = `${WEATHER_BASE_URL}?key=${WEATHER_API_KEY}&q=${encodeURIComponent(city)}`;
     const response = await fetch(url);
     
@@ -76,8 +87,13 @@ function generateWeatherDisplay() {
   const userCity = userSettings.city || 'Lexington, KY';
  
   getWeatherData(userCity)
-    .then(weather => 
-      {const formatted = formatWeatherDisplay(weather);
+    .then(weather => {
+      if (weather === null) {
+        console.log('Using cached weather data, no display update needed');
+        return;
+      }
+      
+      const formatted = formatWeatherDisplay(weather);
         
         // Update city header
         const weatherLocation = `${formatted.city}, ${formatted.region}`
@@ -89,7 +105,7 @@ function generateWeatherDisplay() {
             weatherDataElement.textContent = formatted.message;
         } else {
             weatherDataElement.innerHTML = `
-                <img src="${formatted.icon}" alt="${formatted.icon.alt}" class="weather-icon">
+                <img src="${formatted.icon}" alt="${formatted.icon.alt}" class="weather-icon icon-xl">
                 ${formatted.temperature} • ${formatted.condition}
             `;
         }    

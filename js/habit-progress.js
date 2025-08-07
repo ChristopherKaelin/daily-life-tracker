@@ -218,9 +218,9 @@ function generateHabitTrackerDisplay(yearMonth = null) {
         `<div class="habit-entry">
           <span class="habit-name">${habitDef.name}:</span>
           <div class="habit-controls">
-            <img src="./assets/images/remove.svg" alt="decrease" class="delete-icon-sm" onclick="decrementHabit('${habitDef.id}', ${incrementAmount})">
+            <img src="./assets/images/remove.svg" alt="decrease" class="icon icon-sm" onclick="decrementHabit('${habitDef.id}', ${incrementAmount})">
             <span class="habit-progress">${todayDisplayValue} ${habitDef.measurement}</span>
-            <img src="./assets/images/add.svg" alt="increase" class="add-icon-sm" onclick="incrementHabit('${habitDef.id}', ${incrementAmount})">
+            <img src="./assets/images/add.svg" alt="increase" class="icon icon-sm" onclick="incrementHabit('${habitDef.id}', ${incrementAmount})">
           </div>
         </div>`;
     }

@@ -8,7 +8,7 @@
 }
 
   /* Shared Icon Styling */
-    .with-icon {
+    .hdr-with-icon {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -20,27 +20,19 @@
         font-weight: bold;
     }
 
-    img.delete-icon, img.edit-icon, img.add-icon, img.restore-icon  {
-        width: 24px;
-        height: 24px;
-        cursor: pointer;
-    }
-
-    img.delete-icon-sm, img.add-icon-sm{
-        width: 14px;
-        height: 14px;
-        cursor: pointer;
-    }
-
-    img.delete-icon:hover, img.edit-icon:hover, img.add-icon:hover {
-        opacity: 0.75;
-    }
-
     .weather-icon {
-        width: 30px;
         position: relative;
-        top: 8px;
+        top: 10px;
     }
+
+    img.icon {cursor: pointer;}
+    img.icon:hover { opacity: 0.67; }
+
+    .icon-xs { width: 12px; }
+    .icon-sm { width: 18px; }
+    .icon-md { width: 24px; }
+    .icon-lg { width: 30px; }
+    .icon-xl { width: 36px; }
 
 
 /* Shared Button Styling */

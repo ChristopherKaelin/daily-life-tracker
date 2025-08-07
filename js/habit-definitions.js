@@ -418,8 +418,8 @@ function generateHabitDefinitionsDisplay() {
         habitDefinitionsHTML += 
           `<li class="habit-def-item" data-habit-def-id="${habitDefinition.id}" data-habit-def-info="${habitDefinition.name} - ${habitDefinition.goalType}">
             <span class="habit-def-info">${habitDefText}</span>
-            <img class="edit-icon" src="./assets/images/edit-icon.svg" alt="edit icon">
-            <img class="delete-icon" src="./assets/images/delete-icon.svg" alt="delete icon">
+            <img class="edit icon icon-sm" src="./assets/images/edit-icon.svg" alt="edit icon">
+            <img class="delete icon icon-sm" src="./assets/images/delete-icon.svg" alt="delete icon">
           </li>`;
       });
       habitDefinitionsHTML += '</ul>';
@@ -434,7 +434,7 @@ function generateHabitDefinitionsDisplay() {
         habitDefinitionsHTML += 
           `<li class="habit-def-item" data-habit-def-id="${habitDefinition.id}" data-habit-def-info="${habitDefinition.name} - ${habitDefinition.goalType}">
             <span class="habit-def-info">${habitDefText}</span>
-            <img class="restore-icon" src="./assets/images/undo-icon.svg" alt="undo icon">
+            <img class="restore icon icon-md" src="./assets/images/undo-icon.svg" alt="undo icon">
           </li>`;
       });
       habitDefinitionsHTML += '</ul>';
@@ -454,14 +454,14 @@ function initializeHabitDefinitionEventListeners() {
     if (habitDefinitionContainer) {
         habitDefinitionContainer.addEventListener('click', function(e) {
             // Handle edit button clicks
-            if (e.target.classList.contains('edit-icon')) {
+            if (e.target.classList.contains('edit')) {
                 const habitDefinitionItem = e.target.closest('.habit-def-item');
                 const habitDefId = habitDefinitionItem.dataset.habitDefId;
                 openHabitDefinitionForm('edit', habitDefId);
             }
             
             // Handle delete button clicks
-            if (e.target.classList.contains('delete-icon')) {
+            if (e.target.classList.contains('delete')) {
                 const habitDefinitionItem = e.target.closest('.habit-def-item');
                 const id = habitDefinitionItem.dataset.habitDefId;
                 const description = habitDefinitionItem.dataset.habitDefInfo; 
@@ -469,7 +469,7 @@ function initializeHabitDefinitionEventListeners() {
             }
             
             // Handle restore button clicks
-            if (e.target.classList.contains('restore-icon')) {
+            if (e.target.classList.contains('restore')) {
                 const habitDefinitionItem = e.target.closest('.habit-def-item');
                 const id = habitDefinitionItem.dataset.habitDefId;
                 const description = habitDefinitionItem.dataset.habitDefInfo; 

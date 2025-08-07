@@ -62,8 +62,8 @@ function generateKeyDatesDisplay(dateInfo) {
             keyDatesHTML += 
                 `<li class="key-date-item" data-key-date-id="${keyDate.id}" data-description="${keyDate.description}">
                     <span class="key-date-info">${key_date_info}</span>
-                    <img class="edit-icon" src="./assets/images/edit-icon.svg" alt="edit icon">
-                    <img class="delete-icon" src="./assets/images/delete-icon.svg" alt="delete icon">
+                    <img class="edit icon icon-md" src="./assets/images/edit-icon.svg" alt="edit icon">
+                    <img class="delete icon icon-md" src="./assets/images/delete-icon.svg" alt="delete icon">
                 </li>`;
         });
         keyDatesHTML += '</ul>';
@@ -84,7 +84,7 @@ function initializeKeyDateEventListeners() {
     if (keyDatesContainer) {
         keyDatesContainer.addEventListener('click', function(e) {
             // Handle delete button clicks
-            if (e.target.classList.contains('delete-icon')) {
+            if (e.target.classList.contains('delete')) {
                 const keyDateItem = e.target.closest('.key-date-item');
                 const id = keyDateItem.dataset.keyDateId;
                 const description = keyDateItem.dataset.description;
@@ -92,7 +92,7 @@ function initializeKeyDateEventListeners() {
             }
             
             // Handle edit button clicks
-            if (e.target.classList.contains('edit-icon')) {
+            if (e.target.classList.contains('edit')) {
                 const keyDateItem = e.target.closest('.key-date-item');
                 const id = keyDateItem.dataset.keyDateId;
                 openEditKeyDateForm(id);

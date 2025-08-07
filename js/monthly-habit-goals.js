@@ -31,9 +31,9 @@ function populateTrackedHabitsList(yearMonth = null) {
   } else {
     trackedHabitsHTML += "<ul>"
     for (habit of trackedHabits) {
-        trackedHabitsHTML += `<li class='with-icon'>${habit.name}`;
+        trackedHabitsHTML += `<li class='hdr-with-icon'>${habit.name}`;
         trackedHabitsHTML += (habit.goalType == 'cumulative') ? ` - ${habit.goalAmount} ${habit.measurement}` :  ``
-        trackedHabitsHTML += `<img class="delete-icon" src="../assets/images/remove-target.svg" alt="remove target" onclick="removeHabitMonthGoal('${habit.id}')"></li>`;
+        trackedHabitsHTML += `<img class="icon icon-md" src="../assets/images/remove-target.svg" alt="remove target" onclick="removeHabitMonthGoal('${habit.id}')"></li>`;
     }
     trackedHabitsHTML += "</ul>"
 
@@ -93,9 +93,9 @@ function populateAvailableHabitsList(yearMonth = null) {
   } else {
     availableHabitsHTML += "<ul>"
     for (habit of availableHabits) {
-      availableHabitsHTML += `<li class='with-icon'>${habit.name}`;
+      availableHabitsHTML += `<li class='hdr-with-icon'>${habit.name}`;
       availableHabitsHTML += (habit.goalType == 'cumulative') ? ` - ${habit.goalAmount} ${habit.measurement}` :  ``
-      availableHabitsHTML += `<img class="add-icon" src="../assets/images/add-target.svg" alt="add icon" onclick="saveNewHabitMonthGoal('${habit.id}')"></li>`;
+      availableHabitsHTML += `<img class="add icon icon-md" src="../assets/images/add-target.svg" alt="add icon" onclick="saveNewHabitMonthGoal('${habit.id}')"></li>`;
     }
     availableHabitsHTML += "</ul>"
   }
