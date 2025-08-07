@@ -2,7 +2,6 @@
 function initializeHeaderDisplay(dateInfo) {
     updateGreetingDisplay();
     updateUserNameDisplay();
-    updateTodayIsDisplay(dateInfo);
 }
 
 
@@ -37,15 +36,6 @@ function updateUserNameDisplay() {
         } else {
             userNameElement.classList.remove('placeholder-name');
         }
-    }
-}
-
-
-// Update "Today is" header display with formatted date
-function updateTodayIsDisplay(dateInfo) {
-    const todayIsElement = document.getElementById('todayIsDisplay');
-    if (todayIsElement) {
-        todayIsElement.textContent = `Today is ${dateInfo.dayName}, ${dateInfo.monthName} ${dateInfo.dayOrdinal}, ${dateInfo.year}`;
     }
 }
 

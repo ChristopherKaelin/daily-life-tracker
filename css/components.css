@@ -3,7 +3,7 @@ body {
     font-size: var(--font-size-base);
     line-height: 1.6;
     /* min-height: 90vh; */
-    max-width: 1200px;
+    max-width: 1500px;
     margin: 0 auto;
     padding: 0;
 }
@@ -44,31 +44,44 @@ body {
 
 /* HEADER & FOOTER */
 /* Desktop */
-    .main-header {
-    font-size: var(--font-size-xl);
-    text-align: center;
-    margin: 0 0 1rem 0;
-    }
+  .main-header {
+  font-size: var(--font-size-xl);
+  text-align: center;
+  margin: 0 0 1rem 0;
+  }
 
-    .main-footer {
-        font-size: var(--font-size-small);
-        text-align: center;
-        margin: 1rem 0 0 0;
-    }
+  .user-greeting {
+    font-size: var(--font-size-xxl);
+  }
+
+  .main-tagline {
+    font-size: var(--font-size-large);
+  }
+
+  .today-is {
+    font-size: var(--font-size-large);
+  }
+
+  .main-footer {
+      font-size: var(--font-size-small);
+      text-align: center;
+      margin: 1rem 0 0 0;
+  }
+
 /* Responsive */
-    @media (max-width: 900px) {
-        .main-header {
-            font-size: var(--font-size-base);
-        }
+  @media (max-width: 900px) {
+    .main-header {
+      font-size: var(--font-size-base);
     }
-    @media (max-width: 675px) {
-        .main-header {
-            font-size: var(--font-size-small);
-        }
-        .main-footer {
-            font-size: var(--font-size-xs);
-        }
+  }
+  @media (max-width: 675px) {
+    .main-header {
+      font-size: var(--font-size-small);
     }
+    .main-footer {
+      font-size: var(--font-size-xs);
+    }
+  }
 
 
 /* SITE NAVIGATION */
@@ -136,47 +149,56 @@ body {
 
 /* GRID LAYOUT FOR MAIN CONTENT */
 /* Desktop */
-    .main-content {
-        display: grid;
-        grid-template-rows: auto auto;
-        gap: var(--spacing-base);
-        padding: 1rem 1rem;
-    }
+  .main-content {
+    display: grid;
+    grid-template-rows: auto auto;
+    gap: var(--spacing-base);
+    padding: 1rem 1rem;
+  }
 
-    .daily-highlight-section {
-        display: flex;
-        gap: 2rem;
-        padding: 1.5rem;
-        background: white;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-    }
+  .daily-highlight-section {
+    display: flex;
+    gap: 2rem;
+    padding: 1.5rem;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+  }
 
-    .weather-section,
-    .daily-quote {
-        flex: 1;
-    }
+  .weather-section,
+  .daily-quote {
+    flex: 1;
+  }
 
-    .dashboard-body {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: var(--spacing-base);
-    }
+  .daily-quote h4 { font-size: var(--font-size-base)}
 
-    .calendar-section,
-    .habits-section {
-        background: white;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        padding: var(--spacing-base);
-        height: auto;
-    }
+  .quote-text, .quote-author {
+    font-size: var(--font-size-base);
+    line-height: 1.4;
+    color: var(--color-text);
+    margin-bottom: 0.25rem;
+  }
 
-    .habits-section h1 {
-        font-size: var(--font-size-xxl);
-        font-weight: bold;
-        margin-bottom: 1.5rem;
-    }
+  .dashboard-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-base);
+  }
+
+  .calendar-section,
+  .habits-section {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: var(--spacing-base);
+    height: auto;
+  }
+
+  .habits-section h1 {
+    font-size: var(--font-size-xxl);
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+  }
 
 /* Mobile responsive */
     @media (max-width: 900px) {
@@ -415,7 +437,7 @@ body {
 /* HABIT PROGRESS BARS */
   /* Desktop */
   .habit-progress-item {
-    padding: 0.75rem 0;
+    padding: 0.5rem 0;
     border-bottom: 1px solid var(--color-border);
   }
 
@@ -427,7 +449,6 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 0.5rem;
   }
 
   .habit-progress-header .habit-name {
@@ -436,28 +457,28 @@ body {
   }
 
   .habit-value {
-    color: var(--color-muted);
+    color: var(--color-info);
     font-size: var(--font-size-small);
   }
 
   .progress-bar-container {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.33rem;
   }
 
   .progress-bar {
     flex: 1;
-    height: 20px;
+    height: 16px;
     background: var(--color-border);
-    border-radius: 10px;
+    border-radius: 8px;
     overflow: hidden;
   }
 
   .progress-fill {
     height: 100%;
     background: var(--color-success);
-    border-radius: 10px;
+    border-radius: 8px;
     transition: width 0.3s ease;
   }
 
