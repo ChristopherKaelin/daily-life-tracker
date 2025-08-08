@@ -277,8 +277,8 @@ function generateHabitTrackerDisplay(yearMonth = null) {
 
 // Handle daily habit checkbox toggle
 function toggleDailyHabit(habitMonthGoalId) {
-  const today = new Date().toISOString().split('T')[0];
-  const yearMonth = today.substring(0, 7);
+  const today = appDateInfo.today;
+  const yearMonth = appDateInfo.yearMonth;
   
   // Get current progress for this habit today
   const todaysEntries = getProgressForDate(today);
@@ -304,8 +304,9 @@ function toggleDailyHabit(habitMonthGoalId) {
 
 // Handle increment for cumulative habits
 function incrementHabit(habitMonthGoalId, incrementAmount) {
-  const today = new Date().toISOString().split('T')[0];
-  
+  const today = appDateInfo.today;
+  const yearMonth = appDateInfo.yearMonth;
+    
   // Get today's entry or create new one
   const todaysEntries = getProgressForDate(today);
   const existingEntry = todaysEntries.find(entry => entry.habitMonthGoalId === habitMonthGoalId);
@@ -330,8 +331,8 @@ function incrementHabit(habitMonthGoalId, incrementAmount) {
 
 // Handle decrement for cumulative habits
 function decrementHabit(habitMonthGoalId, incrementAmount) {
-  const today = new Date().toISOString().split('T')[0];
-  const yearMonth = today.substring(0, 7);
+  const today = appDateInfo.today;
+  const yearMonth = appDateInfo.yearMonth;
   
   // Get today's entry
   const todaysEntries = getProgressForDate(today);

@@ -1,7 +1,7 @@
 // Generate calendar grid for current month
 function generateCalendarDisplay(dateInfo) {
     //  Create month/year header
-    const nonthYearHeader = `<h3>${dateInfo.monthName} ${dateInfo.year}</h3>`;
+    const nonthYearHeader = `<h3 class="year-month">${dateInfo.monthName} ${dateInfo.year}</h3>`;
     
     //  Add in day headers
     const dayOfWeekHeader = '<div>Sun</div> <div>Mon</div> <div>Tue</div> <div>Wed</div> <div>Thu</div> <div>Fri</div> <div>Sat</div>'

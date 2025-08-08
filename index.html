@@ -54,26 +54,18 @@
 
             <!-- MAIN CONTENT -->
             <main class="main-content">
-                <!-- Full-width weather and quote section -->
                 <section class="daily-highlight-section">
+                  <!-- Weather Section -->
                   <div class="weather-section" id="weather-section">
                     <span class="weather-city" id="weather-city">Current Weather</span>
                     <span class="weather-data" id="weather-data">No Weather Data Available</span>
                     <img class="refresh icon icon-sm" src="./assets/images/refresh-icon.svg" alt="refresh weather" 
                         onclick="refreshWeatherData()" title="Refresh Weather">
                   </div>
+                  <!-- Quotes Section -->
                   <div class="daily-quote">
-                      <h4>Daily Quote</h4> 
-                      <p id="dailyQuoteText" class="quote-text">
-                          "To me, there are three things we all should do every day. Number one is laugh. 
-                          You should laugh every day. Number two is think. You should spend some time in 
-                          thought. And number three is you should have your emotions moved to tears, could 
-                          be happiness or joy. But think about it. 
-                          If you laugh, you think and you cry, that's a full day. That's a heck of a day"
-                      </p>
-                      <p id="quoteAuthor" class="quote-author">
-                          Jim Valvano
-                      </p>
+                      <p id="dailyQuoteText" class="quote-text"></p>
+                      <p id="quoteAuthor" class="quote-author"></p>
                   </div>
                 </section>
 
@@ -81,7 +73,7 @@
                 <div class="dashboard-body">
                     <section id="calendar" class="calendar-section">
                       <div id="calendarDisplay"></div>
-                      <h4 class="hdr-with-icon">
+                      <h4 class="hdr-with-icon key-date">
                         <span>Key Dates This Month</span>
                         <img class="add icon icon-md spacing-base" src="./assets/images/add-calendar-icon.svg" alt="add icon" onclick="openKeyDateForm()">
                       </h4>

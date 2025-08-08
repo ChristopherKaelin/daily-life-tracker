@@ -7,9 +7,9 @@ function getDateInfo(inputDate = null) {
         const [year, month, day] = inputDate.split('-');
         currentDate = new Date(year, month - 1, day); 
     } else {
-        currentDate = new Date();
+        currentDate = new Date();//.toISOString();
     }
-    
+
     const currentYear = currentDate.getFullYear();
 
     //  Returns a zero based MONTH (Jan=0, Feb=1, Mar=2, etc.) 
@@ -17,6 +17,7 @@ function getDateInfo(inputDate = null) {
     const currentMonthName = monthToMonthName[currentMonth];
     const currentYearMonth = `${currentYear}-${(currentMonth+1).toString().padStart(2, '0')}`;
     const currentDayofMonth = currentDate.getDate();
+    const currentYearMonthDay = `${currentYear}-${(currentMonth+1).toString().padStart(2, '0')}-${(currentDayofMonth).toString().padStart(2, '0')}`;
     const currentDayOrdinal = currentDayofMonth + getOrdinalSuffix(currentDayofMonth);
 
     //  Returns a zero based DAY (Sun=0, Mon=1, Tue=2, etc.)
@@ -36,7 +37,8 @@ function getDateInfo(inputDate = null) {
         dayOrdinal:  currentDayOrdinal,
         dayOfWeek: currentDayofWeek,
         dayName: currentDayName,
-        daysInMonth: daysInCurrentMonth
+        daysInMonth: daysInCurrentMonth,
+        today: currentYearMonthDay
     }
 }
 
