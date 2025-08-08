@@ -47,7 +47,10 @@
 
   .btn-cancel { background: var(--color-muted); }
 
-  .btn-danger { background: var(--color-error); }
+  .btn-danger { 
+    background: var(--color-error); 
+    color: white;
+  }
 
   .btn-restore { background: var(--color-accent); }
 

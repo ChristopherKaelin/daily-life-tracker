@@ -344,6 +344,12 @@ function submitHabitDefinitionForm(event) {
 
 // Clear Habit Definition Form
 function clearHabitDefinitionForm() {
+    // Reset modal title
+    const modalTitle = document.getElementById('habit-title');
+    if (modalTitle) {
+        modalTitle.textContent = 'Add Habit Definition';
+    }
+  
     const form = document.getElementById('habitDefinitionsForm');
     if (form) {
         form.reset();
@@ -353,11 +359,11 @@ function clearHabitDefinitionForm() {
 
 // Open Habit Definition Form For Addition
 function openHabitDefinitionForm(mode, habitDefId) {
-    clearHabitDefinitionForm();
-    if (mode === 'edit') {
-        populateHabitDefinitionForm(habitDefId);
-    }
-    toggleShowHideForm('habitDefinitionsInput');
+  clearHabitDefinitionForm();
+  if (mode === 'edit') {
+    populateHabitDefinitionForm(habitDefId);
+  }
+  toggleShowHideForm('habitDefinitionsInput');
 }
 
 // Open Habit Definition Form for Editing
@@ -396,10 +402,8 @@ function populateHabitDefinitionForm(habitDefinitionId) {
     const modalTitle = document.getElementById('habit-title');
     if (modalTitle) {
         modalTitle.textContent = 'Edit Habit Definition';
-    }    
+    }
     document.getElementById('habitDefinitionsInput').dataset.editingId = habitDefinitionId;
-
-    toggleShowHideForm('habitDefinitionsInput');
 }
 
 function generateHabitDefinitionsDisplay() {
@@ -418,8 +422,8 @@ function generateHabitDefinitionsDisplay() {
         habitDefinitionsHTML += 
           `<li class="habit-def-item" data-habit-def-id="${habitDefinition.id}" data-habit-def-info="${habitDefinition.name} - ${habitDefinition.goalType}">
             <span class="habit-def-info">${habitDefText}</span>
-            <img class="edit icon icon-sm" src="./assets/images/edit-icon.svg" alt="edit icon">
-            <img class="delete icon icon-sm" src="./assets/images/delete-icon.svg" alt="delete icon">
+            <img class="edit icon icon-md" src="./assets/images/edit-icon.svg" alt="edit icon">
+            <img class="delete icon icon-md" src="./assets/images/delete-icon.svg" alt="delete icon">
           </li>`;
       });
       habitDefinitionsHTML += '</ul>';

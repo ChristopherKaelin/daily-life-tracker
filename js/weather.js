@@ -88,7 +88,6 @@ function generateWeatherDisplay() {
   getWeatherData(userCity)
     .then(weather => {
       if (weather === null) {
-        console.log('Using cached weather data, no display update needed');
         return;
       }
       

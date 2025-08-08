@@ -126,48 +126,6 @@ function getMonthlyProgress(habitMonthGoalId, habitDefId, yearMonth) {
 }
 
 
-function getProgressTrackingFormData() {
-  const habitToTrackId = document.getElementById('habitDefinitionToTrackId').value;
-  const habitTrackDate = document.getElementById('habitTrackDate').value;
-  const amountDone = document.getElementById('habitMeasurement').value.trim();
-  const yearMonth = parseFloat(document.getElementById('habitGoalAmount').value);
-  const incrementAmountInput = parseFloat(document.getElementById('habitIncrementAmount').value);
-
-  return {
-    name: nameInput,  
-    goalType: goalTypeSelect,
-    measurement: measurementInput || '',
-    goalAmount: goalAmountInput || 0,
-    incrementAmount: incrementAmountInput || 0
-  };
-}
-
-
-function submitProgressTrackingForm(event) {
-  event.preventDefault();
-  const formData = getProgressTrackingFormData();
-
-  // Validate here
-  const validation = validateProgressEntry(formData);
-  if (!validation.isValid) {
-      displayValidationErrors(validation.errors, 'progressTrackingForm');
-      return;
-  }
-  
-  const success = saveProgressEntry(formData);
-  if (success) {
-    // Clear form and close modal
-    document.getElementById('progressTrackingForm').reset();
-    toggleShowHideForm('progressTrackingModal');
-    
-    // Refresh any displays that show progress
-    // generateHabitsDisplay() or similar
-  } else {
-    displayValidationErrors(['Failed to save progress'], 'progressTrackingForm');
-  }
-}
-
-
 function generateHabitTrackerDisplay(yearMonth = null) {
   if (!yearMonth) {
     yearMonth = appDateInfo.yearMonth;

@@ -13,9 +13,6 @@
         <meta property="og:title" content="Daily Life Tracker">
         <meta property="og:description" content="Personal habit, goals, and journalling dashboard">        
 
-        <!-- Font Awesome CSS -->
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
-
         <!-- My CSS --> 
         <link rel="stylesheet" href="./css/modern-normalize.css">
         <link rel="stylesheet" href="./css/main.css" />
@@ -60,7 +57,7 @@
                     <span class="weather-city" id="weather-city">Current Weather</span>
                     <span class="weather-data" id="weather-data">No Weather Data Available</span>
                     <img class="refresh icon icon-sm" src="./assets/images/refresh-icon.svg" alt="refresh weather" 
-                        onclick="refreshWeatherData()" title="Refresh Weather">
+                        onclick="generateWeatherDisplay()" title="Refresh Weather">
                   </div>
                   <!-- Quotes Section -->
                   <div class="daily-quote">
@@ -90,7 +87,7 @@
             <!-- NAVIGATION -->
             <nav class="main-nav">
                 <ul>
-                    <li><a class="nav-link" onclick="openManageMonthlyGoalsForm()">Manage Montly Goals</a></li>
+                    <li><a class="nav-link" onclick="openManageMonthlyGoalsForm()">Manage Monthly Goals</a></li>
                     <li><a class="nav-link" href="./habit-definitions.html">Habit Definitions</a></li>
                     <li><a class="nav-link" onclick="openSettingsForm()">User Settings</a></li>
                 </ul>
@@ -229,8 +226,8 @@
                 <p id="deleteKeyDateInfo" class="delete-info"></p>
                 
                 <div class="form-buttons">
-                    <button type="button" id="confirmDelete" class="btn-danger">Delete</button>
-                    <button type="button" onclick="toggleShowHideForm('deleteKeyDateConfirmForm')">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmDelete">Delete</button>
+                    <button type="button" class="btn btn-cancel" onclick="toggleShowHideForm('deleteKeyDateConfirmForm')">Cancel</button>
                 </div>
             </div>
         </div>
@@ -264,14 +261,5 @@
             </div>
         </div>
 
-        <!-- PROGRESS TRACKING -->
-        <div id="progressTrackingModal" class="modal-form hidden">
-            <div class="modal-content">
-                <h2 id="progress-track-title">Progress Tracking</h2>
-                <form id="keyDateForm" onsubmit="submitProgressTrackingForm(event)">\
-
-                </form>
-            </div>
-        </div>    
     </body>
 </html>

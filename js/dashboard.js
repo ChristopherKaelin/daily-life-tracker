@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     //==========================================
-    //  TESTING - Remove after testing
+    //  TESTING Function
     //==========================================
     // testFunction();
 

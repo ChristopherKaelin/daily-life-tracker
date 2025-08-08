@@ -1,5 +1,5 @@
 // Quote API configuration
-const QUOTES_BASE_URL = 'http://api.quotable.io/quotes/';
+const QUOTES_BASE_URL = 'http://api.quotable.io/quotes/random';
 const FALLBACK_QUOTE = {
     quote: "To me, there are three things we all should do every day. Number one is laugh. You should laugh every day. Number two is think. You should spend some time in thought. And number three is you should have your emotions moved to tears, could be happiness or joy. But think about it. If you laugh, you think and you cry, that's a full day. That's a heck of a day.",
     author: "Jim Valvano"
@@ -62,9 +62,4 @@ function updateQuoteDisplay(quoteDisplay) {
 
         quoteText.textContent = quoteDisplay.quote;
         quoteAuthor.textContent = quoteDisplay.author;
-}
-
-// Optional: Refresh quote function for manual refresh
-function refreshQuote() {
-    generateQuoteDisplay();
 }

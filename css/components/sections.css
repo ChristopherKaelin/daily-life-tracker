@@ -1,8 +1,7 @@
 /* Shared List styling */
-/* TODO Maybe move to shared? */
     .habit-defs-title {
         color: var(--color-primary);
-        font-size: var(--font-size-medium);
+        font-size: var(--font-size-large);
         font-weight: bold;
         text-decoration: underline 3px;
         margin-top: 1.5rem;
@@ -31,7 +30,7 @@
 
     .habit-def-info,
     .key-date-info {
-        font-size: var(--font-size-small);
+        font-size: var(--font-size-base);
         color: var(--color-primary);
         min-width: 3rem;
         margin-right: 0.5rem;
