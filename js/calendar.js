@@ -17,16 +17,22 @@ function generateCalendarDisplay(dateInfo) {
 
   //  Create HTML for calendar grid
   let calendarGrid = '';
-  //  Add in blank divs to push day to correct start
+  //  Add in previous month dates to fill the start of the grid
   for (let i = 0; i < firstDayOfMonth; i++) {
-    calendarGrid += `<div class="empty-day"></div>`;
+    // Calculate which day from previous month to show
+    const prevMonth = dateInfo.month === 0 ? 11 : dateInfo.month - 1;
+    const prevYear = dateInfo.month === 0 ? dateInfo.year - 1 : dateInfo.year;
+    const daysInPrevMonth = new Date(prevYear, prevMonth + 1, 0).getDate();
+    const prevMonthDay = daysInPrevMonth - (firstDayOfMonth - 1 - i);
+    
+    calendarGrid += `<div class="empty-day">${prevMonthDay}</div>`;
   }
   
   const currentMonthKeyDates = getKeyDatesForMonth(dateInfo.yearMonth);
 
   //  Add in the days of the month
   for (let i = 1; i <= dateInfo.daysInMonth; i++) {
-    let dateClassList = '';
+    let dateClassList = 'date ';
 
     // Check if this day has key dates
     const dayDateString = `${dateInfo.yearMonth}-${(i).toString().padStart(2,'0')}`;
@@ -40,6 +46,14 @@ function generateCalendarDisplay(dateInfo) {
     calendarGrid += `<div class="${dateClassList}" >${i}</div>`;
   }
   
+  //  Add in next month dates to fill the end of the grid
+  const totalCellsUsed = firstDayOfMonth + dateInfo.daysInMonth;
+  const remainingCellsInRow = totalCellsUsed % 7 === 0 ? 0 : 7 - (totalCellsUsed % 7);
+  console.log(remainingCellsInRow);
+  for (let i = 0; i < remainingCellsInRow; i++) {
+    calendarGrid += `<div class="empty-day">${i+1}</div>`;
+  }
+
   // Display the calendar
   const calendarElement = document.getElementById('calendarDisplay');
 
