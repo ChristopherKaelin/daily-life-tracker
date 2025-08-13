@@ -1,22 +1,23 @@
 // App initialization - runs when page loads
 document.addEventListener('DOMContentLoaded', function() {
-    
+    console.log(`<=====  DASHBOARD.JS  =====>`);
+
     // Get Dashboard Data
-    appDateInfo = getDateInfo();
     allKeyDates = loadAllKeyDatesFromStorage();
     allHabitDefinitions = loadAllHabitDefinitions(); 
     
-    // Initialize User settings
-    initializeUserSettings();
-
-    //  Initialize Calendar Section Display
+    //  Generate Display
+    generateCalendarDisplay(appDateInfo);
     generateWeatherDisplay();
     generateQuoteDisplay();
-    generateCalendarDisplay(appDateInfo);
+    // TODO: GenerateBibleVerseDisplay()
     generateKeyDatesDisplay(appDateInfo, allKeyDates);
     generateHabitTrackerDisplay(appDateInfo.yearMonth);
-    initializeKeyDateEventListeners() 
 
+    //  Initialize Click Handlers
+    initializeCalendarClickHandler();
+    initializeKeyDatesClickHandlers();
+    
 
     //==========================================
     //  TESTING Function
@@ -24,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // testFunction();
 
 });
-
+  
 function testFunction() {
     console.log('===========  Testing Started  ============');
     console.log('==========================================')

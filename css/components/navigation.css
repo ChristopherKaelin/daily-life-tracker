@@ -14,10 +14,6 @@
     font-size: var(--font-size-large);
   }
 
-  .today-is {
-    font-size: var(--font-size-large);
-  }
-
   .main-footer {
       font-size: var(--font-size-small);
       text-align: center;

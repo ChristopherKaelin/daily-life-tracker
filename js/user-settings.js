@@ -12,8 +12,6 @@ const DEFAULT_USER_SETTINGS = {
     lastUpdated: null
 };
 
-// Current user settings (will be loaded from localStorage)
-let userSettings = { ...DEFAULT_USER_SETTINGS };
 
 // Initialize user settings
 function initializeUserSettings() {
@@ -44,7 +42,7 @@ function saveUserSettings(settings) {
         localStorage.setItem('dailyLifeUserSettings', JSON.stringify(settingsToSave));
         
         // Update global userSettings object
-        userSettings = { ...settingsToSave };
+        appUserSettings = { ...settingsToSave };
         
         return true;
         
@@ -95,7 +93,7 @@ function openSettingsForm() {
 
 // Load current settings into the form
 function loadCurrentSettingsIntoForm() {
-    const currentSettings = getUserSettings();
+    const currentSettings = appUserSettings;
     
     // Load name
     const nameInput = document.getElementById('userName');

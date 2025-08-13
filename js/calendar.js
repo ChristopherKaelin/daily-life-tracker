@@ -1,103 +1,119 @@
 // Generate calendar grid for current month
 function generateCalendarDisplay(dateInfo) {
-    //  Create month/year header
-    const nonthYearHeader = `<h3 class="year-month">${dateInfo.monthName} ${dateInfo.year}</h3>`;
+
+  //  Create month/year header
+  const nonthYearHeader = 
+    `<div class="calendar-header">
+      <img class="icon icon-md nav-arrow-left" src="./assets/images/arrow.svg" onclick='navigateMonth(-1)';>
+      <h3 class="year-month">${dateInfo.monthName} ${dateInfo.year}</h3>
+      <img class="icon icon-md nav-arrow-right " src="./assets/images/arrow.svg" onclick='navigateMonth(1)';>
+    </div>`;
+  
+  //  Add in day headers
+  const dayOfWeekHeader = '<div>Sun</div> <div>Mon</div> <div>Tue</div> <div>Wed</div> <div>Thu</div> <div>Fri</div> <div>Sat</div>'
+
+  // Calculate first day of month and number of days
+  const firstDayOfMonth = new Date(dateInfo.year, dateInfo.month, 1).getDay();
+
+  //  Create HTML for calendar grid
+  let calendarGrid = '';
+  //  Add in blank divs to push day to correct start
+  for (let i = 0; i < firstDayOfMonth; i++) {
+    calendarGrid += `<div class="empty-day"></div>`;
+  }
+  
+  const currentMonthKeyDates = getKeyDatesForMonth(dateInfo.yearMonth);
+
+  //  Add in the days of the month
+  for (let i = 1; i <= dateInfo.daysInMonth; i++) {
+    let dateClassList = '';
+
+    // Check if this day has key dates
+    const dayDateString = `${dateInfo.yearMonth}-${(i).toString().padStart(2,'0')}`;
+    const hasKeyDate = currentMonthKeyDates.some(kd => kd.date === dayDateString);
+    dateClassList += hasKeyDate ? 'has-key-date ' : '';  
+
+    dateClassList += dayDateString == todayDateInfo.date ? `is-today ` : ``;
+    dateClassList += dayDateString > todayDateInfo.date ? 'future-date ' : ``;
+    dateClassList += dayDateString === selectedHabitDate ? 'selected-date ' : '';
     
-    //  Add in day headers
-    const dayOfWeekHeader = '<div>Sun</div> <div>Mon</div> <div>Tue</div> <div>Wed</div> <div>Thu</div> <div>Fri</div> <div>Sat</div>'
+    calendarGrid += `<div class="${dateClassList}" >${i}</div>`;
+  }
+  
+  // Display the calendar
+  const calendarElement = document.getElementById('calendarDisplay');
 
-    // Calculate first day of month and number of days
-    const firstDayOfMonth = new Date(dateInfo.year, dateInfo.month, 1).getDay();
+  if (calendarElement) {
+    calendarElement.innerHTML = 
+      nonthYearHeader + 
+      `<div class="calendar-grid">${dayOfWeekHeader} ${calendarGrid}</div>`;
+  }
+}
 
-    //  Create HTML for calendar grid
-    let calendarGrid = '';
-    //  Add in blank divs to push day to correct start
-    for (let i = 0; i < firstDayOfMonth; i++) {
-        calendarGrid += `<div class="empty-day"></div>`;
-    }
-    //  Add in the days of the month
-    for (let i = 1; i <= dateInfo.daysInMonth; i++) {
-        const dayDateString = `${dateInfo.year}-${(dateInfo.month+1).toString().padStart(2, '0')}-${i.toString().padStart(2, '0')}`;
 
-        // Check if this day has key dates
-        const currentMonthKeyDates = getKeyDatesForMonth(dateInfo.year, (dateInfo.month + 1).toString().padStart(2, '0'));
-        const hasKeyDate = currentMonthKeyDates.some(kd => kd.date === dayDateString);
-        const keyDateClass = hasKeyDate ? 'has-key-date' : '';  
+// Add calendar click handler for habit date selection
+function initializeCalendarClickHandler() {
+  console.log('<=====  initializeCalendarClickHandler  =====>');
+  const calendarElement = document.getElementById('calendarDisplay');
+  
+  if (calendarElement) {
+    calendarElement.addEventListener('click', function(e) {
+        // Check if clicked element is a calendar day (has a number and isn't empty)
+        const clickedDay = e.target;
+        if (clickedDay.textContent && !clickedDay.classList.contains('empty-day') && clickedDay.tagName === 'DIV'
+          && !clickedDay.classList.contains('future-date') && !clickedDay.classList.contains('calendar-grid')) 
+          {
+            const dayNumber = parseInt(clickedDay.textContent);
+            if (!isNaN(dayNumber)) {
+              // Build the selected date string
+              const selectedDate = `${appDateInfo.yearMonth}-${(dayNumber).toString().padStart(2,'0')}`;
+              console.log(selectedDate);
 
-        const onclickAction = `onclick="openKeyDateForm('${dayDateString}')"`;
+              // Update global selected date
+              selectedHabitDate = selectedDate;
 
-        if (i == dateInfo.day) {
-            isTodayClass = ` today`;
-        } else {
-            isTodayClass = ``;
+              // Remove previous selection
+              document.querySelectorAll('.selected-date').forEach(el => el.classList.remove('selected-date'));
+
+              // Add to clicked day  
+              if (selectedHabitDate != todayDateInfo.date) {
+                clickedDay.classList.add('selected-date');
+              }
+
+              // Update habit tracker display for selected date
+              generateHabitTrackerDisplay(selectedDate);
+
+            }
         }
-        calendarGrid += `<div class="${keyDateClass}${isTodayClass}" ${onclickAction}>${i}</div>`;
-    }
-    
-    // Display the calendar
-    const calendarElement = document.getElementById('calendarDisplay');
-
-    if (calendarElement) {
-        calendarElement.innerHTML = 
-            nonthYearHeader + 
-            `<div class="calendar-grid">${dayOfWeekHeader} ${calendarGrid}</div>`;
-    }
+    });
+  }
 }
 
 
-function generateKeyDatesDisplay(dateInfo) {
-    // Get key dates for current month
-    const currentMonthKeyDates = getKeyDatesForMonth(dateInfo.year, (dateInfo.month + 1).toString().padStart(2, '0'));
-    currentMonthKeyDates.sort((a, b) => a.date.localeCompare(b.date));
+// Navigate to previous/next month
+function navigateMonth(direction) {
+  // Calculate new month and year
+  let newMonth = appDateInfo.month + direction;
+  let newYear = appDateInfo.year;
+  
+  // Handle month overflow/underflow
+  if (newMonth > 11) {
+      newMonth = 0;
+      newYear++;
+  } else if (newMonth < 0) {
+      newMonth = 11;
+      newYear--;
+  }
+  
+  // Create date string for the first day of the new month
+  const newDateString = `${newYear}-${(newMonth + 1).toString().padStart(2, '0')}-01`;
+  
+  // Update appDateInfo with new month data
+  appDateInfo = getDateInfo(newDateString);
+  selectedHabitDate = appDateInfo.date;
 
-    // Generate HTML
-    let keyDatesHTML;
-    if (currentMonthKeyDates.length === 0) {
-        keyDatesHTML = '<p class="no-key-dates">No key dates for this month</p>';
-    } else {
-        keyDatesHTML = '<ul class="key-dates-list">';
-        currentMonthKeyDates.forEach(keyDate => {
-            const day = parseInt(keyDate.date.split('-')[2]);
-            const key_date_info = `${day}${getOrdinalSuffix(day)} - ${keyDate.description || 'No description'}`;
-            keyDatesHTML += 
-                `<li class="key-date-item" data-key-date-id="${keyDate.id}" data-description="${keyDate.description}">
-                    <span class="key-date-info">${key_date_info}</span>
-                    <img class="edit icon icon-md" src="./assets/images/edit-icon.svg" alt="edit icon">
-                    <img class="delete icon icon-md" src="./assets/images/delete-icon.svg" alt="delete icon">
-                </li>`;
-        });
-        keyDatesHTML += '</ul>';
-    }
-    
-    // Display in the key dates element
-    const keyDatesElement = document.getElementById('keyDatesDisplay');
-    if (keyDatesElement) {
-        keyDatesElement.innerHTML = keyDatesHTML;
-    }
+  // Refresh displays with new month data
+  generateCalendarDisplay(appDateInfo);
+  generateKeyDatesDisplay(appDateInfo);
+  generateHabitTrackerDisplay(appDateInfo.yearMonth);
 }
-
-
-// Event delegation for key date actions 
-function initializeKeyDateEventListeners() {
-    const keyDatesContainer = document.getElementById('keyDatesDisplay');
-    
-    if (keyDatesContainer) {
-        keyDatesContainer.addEventListener('click', function(e) {
-            // Handle delete button clicks
-            if (e.target.classList.contains('delete')) {
-                const keyDateItem = e.target.closest('.key-date-item');
-                const id = keyDateItem.dataset.keyDateId;
-                const description = keyDateItem.dataset.description;
-                confirmDeleteKeyDate(id, description);
-            }
-            
-            // Handle edit button clicks
-            if (e.target.classList.contains('edit')) {
-                const keyDateItem = e.target.closest('.key-date-item');
-                const id = keyDateItem.dataset.keyDateId;
-                openEditKeyDateForm(id);
-            }
-        });
-    }
-}
-

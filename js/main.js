@@ -1,12 +1,20 @@
 // Global Info
+let selectedHabitDate = null;
+let todayDateInfo = null; 
 let appDateInfo = null;
+let appUserSettings = null;
 let allKeyDates = [];
 let allHabitDefinitions = [];
 
 // App initialization - runs when page loads
 document.addEventListener('DOMContentLoaded', function() {
+    console.log(`<=====  MAIN.JS  =====>`);
+
     // Get App Wide Data
-    allHabitDefinitions = loadAllHabitDefinitions(); 
+    todayDateInfo = getDateInfo()
+    appDateInfo = getDateInfo();
+    appUserSettings = getUserSettings(); 
+    allHabitDefinitions = loadAllHabitDefinitions();
         
     // Initialize Header Display
     initializeHeaderDisplay(appDateInfo);
@@ -14,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Get user settings from localStorage
 function getUserSettings() {
-    try {
+    try { 
         // Try to get settings from localStorage
         const savedSettings = localStorage.getItem('dailyLifeUserSettings');
         
@@ -36,8 +44,9 @@ function getUserSettings() {
 
 // Load all habit definitions from localStorage
 function loadAllHabitDefinitions() {
-    const allHabits = JSON.parse(localStorage.getItem('dailyLifeHabitDefinitions')) || [];
-    allHabitDefinitions = JSON.parse(localStorage.getItem('dailyLifeHabitDefinitions')) || [];
-    return allHabitDefinitions;
-}
+  const allHabits = JSON.parse(localStorage.getItem('dailyLifeHabitDefinitions')) || [];
+  allHabitDefinitions = JSON.parse(localStorage.getItem('dailyLifeHabitDefinitions')) || [];
 
+  return allHabitDefinitions;
+}
+                                

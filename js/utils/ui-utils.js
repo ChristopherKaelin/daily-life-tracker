@@ -7,43 +7,36 @@ function initializeHeaderDisplay(dateInfo) {
 
 // Update greeting display based on current time
 function updateGreetingDisplay() {
-    const greetingElement = document.getElementById('userGreeting');
-    let greetingText = "Hello"
-    if (greetingElement) {
-        const currentHour = (new Date()).getHours();
-        if (currentHour < 12) {
-            greetingText = "Good Morning";
-        } else if (currentHour <= 17) {
-            greetingText = "Good Afternoon";
-        } else {
-            greetingText = "Good Evening";
-        }
-        greetingElement.textContent = greetingText;
+  const greetingElement = document.getElementById('userGreeting');
+  let greetingText = "Hello"
+  if (greetingElement) {
+    const currentHour = (new Date()).getHours();
+    if (currentHour < 12) {
+      greetingText = "Good Morning";
+    } else if (currentHour <= 17) {
+      greetingText = "Good Afternoon";
+    } else {
+      greetingText = "Good Evening";
     }
+    greetingElement.textContent = greetingText;
+  }
 }
 
 
 // Update user name display in the UI
 function updateUserNameDisplay() {
-    const userNameElement = document.getElementById('userDisplayName');
-    if (userNameElement) {
-        const displayName = getUserDisplayName();
-        userNameElement.textContent = displayName;
-        
-        // Add different styling if no name is set
-        if (displayName === 'User') {
-            userNameElement.classList.add('placeholder-name');
-        } else {
-            userNameElement.classList.remove('placeholder-name');
-        }
+  const userNameElement = document.getElementById('userDisplayName');
+  if (userNameElement) {
+    const displayName = appUserSettings.name || 'User';
+    userNameElement.textContent = displayName;
+    
+    // Add different styling if no name is set
+    if (displayName === 'User') {
+      userNameElement.classList.add('placeholder-name');
+    } else {
+      userNameElement.classList.remove('placeholder-name');
     }
-}
-
-
-// Get user's display name (or fallback)
-function getUserDisplayName() {
-    const settings = getUserSettings();
-    return settings.name && settings.name.trim() !== '' ? settings.name : 'User';
+  }
 }
 
 

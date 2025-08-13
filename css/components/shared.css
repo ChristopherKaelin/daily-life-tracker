@@ -20,25 +20,28 @@
         font-weight: bold;
     }
 
-    .weather-icon {
-        position: relative;
-        top: 10px;
-    }
-
-    img.icon {cursor: pointer;}
-    img.icon:hover { opacity: 0.67; }
+    img.icon {cursor: pointer;  filter: brightness(0.85); }
+    img.icon:hover { filter: brightness(1.25); }
 
     .icon-xs { width: 12px; }
     .icon-sm { width: 18px; }
     .icon-md { width: 24px; }
     .icon-lg { width: 30px; }
     .icon-xl { width: 36px; }
+    .icon-xxl { width: 42px; }
 
-    .refresh {margin-bottom: 4px; width: 21px;}
+    .refresh {
+      margin-left: 0.5rem; 
+      margin-bottom: -2px;}
+
+    .nav-arrow-up { transform: rotate(-90deg); }
+    .nav-arrow-down { transform: rotate(90deg); }
+    .nav-arrow-left { transform: scaleX(-1); margin-right: 2rem;}
+    .nav-arrow-right { transform: scaleX(1); margin-left: 2rem;}
 
 /* Shared Button Styling */
   .btn {
-    filter: brightness(0.85); 
+    /* filter: brightness(0.85);  */
     color: white;
     box-shadow: -1px -1px 2px ;
   }
@@ -55,9 +58,14 @@
   .btn-restore { background: var(--color-accent); }
 
   .btn:hover {
-    color: #222;
+    color: #000;
     filter: brightness(1.15);
     box-shadow: 1px 1px 2px ;
+  }
+
+  .btn-small {
+      padding: 0.25rem 0.5rem;
+      font-size: var(--font-size-small);
   }
 
 

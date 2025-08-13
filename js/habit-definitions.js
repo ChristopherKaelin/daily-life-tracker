@@ -422,8 +422,8 @@ function generateHabitDefinitionsDisplay() {
         habitDefinitionsHTML += 
           `<li class="habit-def-item" data-habit-def-id="${habitDefinition.id}" data-habit-def-info="${habitDefinition.name} - ${habitDefinition.goalType}">
             <span class="habit-def-info">${habitDefText}</span>
-            <img class="edit icon icon-md" src="./assets/images/edit-icon.svg" alt="edit icon">
-            <img class="delete icon icon-md" src="./assets/images/delete-icon.svg" alt="delete icon">
+            <img class="edit icon icon-md" src="./assets/images/edit.svg" alt="edit icon">
+            <img class="delete icon icon-md" src="./assets/images/delete.svg" alt="delete icon">
           </li>`;
       });
       habitDefinitionsHTML += '</ul>';
@@ -438,7 +438,7 @@ function generateHabitDefinitionsDisplay() {
         habitDefinitionsHTML += 
           `<li class="habit-def-item" data-habit-def-id="${habitDefinition.id}" data-habit-def-info="${habitDefinition.name} - ${habitDefinition.goalType}">
             <span class="habit-def-info">${habitDefText}</span>
-            <img class="restore icon icon-md" src="./assets/images/undo-icon.svg" alt="undo icon">
+            <img class="restore icon icon-md" src="./assets/images/undo.svg" alt="undo icon">
           </li>`;
       });
       habitDefinitionsHTML += '</ul>';

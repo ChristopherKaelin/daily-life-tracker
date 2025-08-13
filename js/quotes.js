@@ -39,27 +39,27 @@ async function getDailyQuote() {
 
 // Main function to generate and display daily quote
 async function generateQuoteDisplay() {
-    try {
-        // Try to fetch from API first
-        const apiQuote = await getDailyQuote();
+  try {
+    // Try to fetch from API first
+    const apiQuote = await getDailyQuote();
 
-        if (apiQuote.error) {
-          updateQuoteDisplay(FALLBACK_QUOTE);
-        } else {
-          updateQuoteDisplay(apiQuote);
-        }
-
-    } catch (error) {
-        console.error('Error in generateQuoteDisplay:', error);
-        // Ensure fallback is always shown
-        updateQuoteDisplay(FALLBACK_QUOTE);
+    if (apiQuote.error) {
+      updateQuoteDisplay(FALLBACK_QUOTE);
+    } else {
+      updateQuoteDisplay(apiQuote);
     }
+
+  } catch (error) {
+      console.error('Error in generateQuoteDisplay:', error);
+      // Ensure fallback is always shown
+      updateQuoteDisplay(FALLBACK_QUOTE);
+  }
 }
 
 function updateQuoteDisplay(quoteDisplay) {
-        const quoteText = document.getElementById('dailyQuoteText');
-        const quoteAuthor = document.getElementById('quoteAuthor');
+  const quoteText = document.getElementById('dailyQuoteText');
+  const quoteAuthor = document.getElementById('quoteAuthor');
 
-        quoteText.textContent = quoteDisplay.quote;
-        quoteAuthor.textContent = quoteDisplay.author;
+  quoteText.textContent = quoteDisplay.quote;
+  quoteAuthor.textContent = quoteDisplay.author;
 }

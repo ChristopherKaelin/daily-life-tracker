@@ -82,7 +82,8 @@ function formatWeatherDisplay(weather) {
 }
 
 function generateWeatherDisplay() {
-  const userSettings = getUserSettings();
+
+  const userSettings = appUserSettings;
   const userCity = userSettings.city || 'Lexington, KY';
  
   getWeatherData(userCity)
@@ -103,8 +104,9 @@ function generateWeatherDisplay() {
             weatherDataElement.textContent = formatted.message;
         } else {
             weatherDataElement.innerHTML = `
-                <img src="${formatted.icon}" alt="${formatted.icon.alt}" class="weather-icon icon-xl">
+                <img src="${formatted.icon}" alt="${formatted.icon.alt}" class="weather-icon icon-xxl">
                 ${formatted.temperature} • ${formatted.condition}
+                <img class="refresh icon icon-md" src="./assets/images/refresh.svg" alt="refresh weather" onclick="generateWeatherDisplay()" title="Refresh Weather">
             `;
         }    
       }

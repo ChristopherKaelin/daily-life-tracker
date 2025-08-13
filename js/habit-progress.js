@@ -126,20 +126,20 @@ function getMonthlyProgress(habitMonthGoalId, habitDefId, yearMonth) {
 }
 
 
-function generateHabitTrackerDisplay(yearMonth = null) {
-  if (!yearMonth) {
-    yearMonth = appDateInfo.yearMonth;
-  }
+function generateHabitTrackerDisplay() {
+  const dateToUse = selectedHabitDate || appDateInfo.date;
+  const dateToUseInfo = getDateInfo(dateToUse);
+  yearMonth = dateToUseInfo.yearMonth;
 
-  let todaysWorkHTML = "<h4>Today's Progress:</h4>";
-  let monthlyWorkHTML = "<h4>Your Monthly Progress:</h4>";
+  let todaysWorkHTML = `<h4> ${dateToUseInfo.dayName}, ${dateToUseInfo.monthName} ${dateToUseInfo.dayOrdinal} Progress: </h4>`;
+  let monthlyWorkHTML = `<h4>${dateToUseInfo.monthName}'s Monthly Progress:</h4>`;
 
   // Get the list of habits being tracked for the month
   trackedHabits = getTrackedHabitDefinitions(yearMonth);
 
   // Get the monthly and today progress entries
-  let monthlyWork = getProgressForMonth(yearMonth);
-  let todaysWork = getProgressForDate(`${yearMonth}-${appDateInfo.day.toString().padStart(2, '0')}`, monthlyWork);
+  const monthlyWork = getProgressForMonth(yearMonth);
+  let todaysWork = getProgressForDate(dateToUse, monthlyWork);
 
   // Generate HTML for progress today and monthly
   todaysWorkHTML += "<div class='progress-content'>";
@@ -176,9 +176,9 @@ function generateHabitTrackerDisplay(yearMonth = null) {
         `<div class="habit-entry">
           <span class="habit-name">${habitDef.name}:</span>
           <div class="habit-controls">
-            <img src="./assets/images/remove.svg" alt="decrease" class="icon icon-sm" onclick="decrementHabit('${habitDef.id}', ${incrementAmount})">
+            <img src="./assets/images/remove.svg" alt="decrease" class="icon icon-sm" onclick="decrementHabit('${habitDef.id}')">
             <span class="habit-progress">${todayDisplayValue} ${habitDef.measurement}</span>
-            <img src="./assets/images/add.svg" alt="increase" class="icon icon-sm" onclick="incrementHabit('${habitDef.id}', ${incrementAmount})">
+            <img src="./assets/images/add.svg" alt="increase" class="icon icon-sm" onclick="incrementHabit('${habitDef.id}')">
           </div>
         </div>`;
     }
@@ -235,8 +235,10 @@ function generateHabitTrackerDisplay(yearMonth = null) {
 
 // Handle daily habit checkbox toggle
 function toggleDailyHabit(habitMonthGoalId) {
-  const today = appDateInfo.today;
-  const yearMonth = appDateInfo.yearMonth;
+  //  If selectedHabitDate is null, getDateInfo() will use today's date
+  const selectedDateInfo = getDateInfo(selectedHabitDate);
+  const today = selectedDateInfo.date;
+  const yearMonth = selectedDateInfo.yearMonth;
   
   // Get current progress for this habit today
   const todaysEntries = getProgressForDate(today);
@@ -261,9 +263,10 @@ function toggleDailyHabit(habitMonthGoalId) {
 
 
 // Handle increment for cumulative habits
-function incrementHabit(habitMonthGoalId, incrementAmount) {
-  const today = appDateInfo.today;
-  const yearMonth = appDateInfo.yearMonth;
+function incrementHabit(habitMonthGoalId) {
+  //  If selectedHabitDate is null, getDateInfo() will use today's date
+  const selectedDateInfo = getDateInfo(selectedHabitDate);
+  const today = selectedDateInfo.date;
     
   // Get today's entry or create new one
   const todaysEntries = getProgressForDate(today);
@@ -288,9 +291,11 @@ function incrementHabit(habitMonthGoalId, incrementAmount) {
 
 
 // Handle decrement for cumulative habits
-function decrementHabit(habitMonthGoalId, incrementAmount) {
-  const today = appDateInfo.today;
-  const yearMonth = appDateInfo.yearMonth;
+function decrementHabit(habitMonthGoalId) {
+  //  If selectedHabitDate is null, getDateInfo() will use today's date
+  const selectedDateInfo = getDateInfo(selectedHabitDate);
+  const today = selectedDateInfo.date;
+  const yearMonth = selectedDateInfo.yearMonth;
   
   // Get today's entry
   const todaysEntries = getProgressForDate(today);

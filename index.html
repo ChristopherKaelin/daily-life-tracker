@@ -21,7 +21,7 @@
         <script src="./js/utils/date-utils.js"></script>
         <script src="./js/utils/ui-utils.js"></script>
         <script src="./js/utils/validation-utils.js"></script>
-        <script src="./config.js"></script>
+        <script src="./assets/config.js"></script>
 
         <!-- Feature scripts -->
         <script src="./js/calendar.js"></script>
@@ -33,8 +33,8 @@
         <script src="./js/quotes.js"></script>
 
         <!-- Page/Main scripts -->
-        <script src="./js/dashboard.js"></script>
         <script src="./js/main.js"></script>
+        <script src="./js/dashboard.js"></script>
 
     </head>
     <body>
@@ -49,49 +49,59 @@
                 <p class="main-tagline">Welcome to your personal habit tracking and journaling dashboard</p>
             </header>
 
-            <!-- MAIN CONTENT -->
-            <main class="main-content">
-                <section class="daily-highlight-section">
-                  <!-- Weather Section -->
-                  <div class="weather-section" id="weather-section">
-                    <span class="weather-city" id="weather-city">Current Weather</span>
-                    <span class="weather-data" id="weather-data">No Weather Data Available</span>
-                    <img class="refresh icon icon-sm" src="./assets/images/refresh-icon.svg" alt="refresh weather" 
-                        onclick="generateWeatherDisplay()" title="Refresh Weather">
-                  </div>
-                  <!-- Quotes Section -->
-                  <div class="daily-quote">
-                      <p id="dailyQuoteText" class="quote-text"></p>
-                      <p id="quoteAuthor" class="quote-author"></p>
-                  </div>
-                </section>
-
-                <!-- Dashboard Body -->
-                <div class="dashboard-body">
-                    <section id="calendar" class="calendar-section">
-                      <div id="calendarDisplay"></div>
-                      <h4 class="hdr-with-icon key-date">
-                        <span>Key Dates This Month</span>
-                        <img class="add icon icon-md spacing-base" src="./assets/images/add-calendar-icon.svg" alt="add icon" onclick="openKeyDateForm()">
-                      </h4>
-                      <div id="keyDatesDisplay"></div>
-                    </section>
-                    <section id="habit-tracker" class="habits-section">
-                      <h2>Habit Progress Tracker</h2>
-                      <div id="today-work" class="progress"></div>
-                      <div id="monthly-work" class="progress"></div>
-                    </section>
-                </div>
-            </main>
-
             <!-- NAVIGATION -->
             <nav class="main-nav">
                 <ul>
-                    <li><a class="nav-link" onclick="openManageMonthlyGoalsForm()">Manage Monthly Goals</a></li>
-                    <li><a class="nav-link" href="./habit-definitions.html">Habit Definitions</a></li>
-                    <li><a class="nav-link" onclick="openSettingsForm()">User Settings</a></li>
+                    <li><a class="btn nav-link" onclick="openSettingsForm()">User Settings</a></li>
                 </ul>
             </nav>
+
+            <!-- MAIN CONTENT -->
+            <main class="main-content">
+              <section id="calendar-section" class="calendar-display">
+                <div id="calendarDisplay"></div>
+              </section>
+              <section id="key-dates-section" class="key-dates-display">
+                <h4 class="hdr-with-icon key-date">
+                  <span>Key Dates This Month</span>
+                  <img class="add icon icon-md spacing-base" src="./assets/images/add-calendar.svg" alt="add icon" onclick="openKeyDateForm()">
+                </h4>
+                <div id="keyDatesDisplay"></div>
+              </section>
+              <section id="weather-section" class="weather-display">
+                <div class="weather-content">
+                  <span class="weather-city" id="weather-city">Current Weather</span>
+                  <span class="weather-data" id="weather-data">No Weather Data Available</span>
+                </div>
+              </section>
+              <section id="quote-section" class="quote-display">
+                <div class="daily-quote">
+                  <span class="title">Daily Inspiration</span>
+                    <p id="dailyQuoteText" class="quote-text"></p>
+                    <p id="quoteAuthor" class="quote-author"></p>
+                </div>
+              </section>
+              <section id="bible-verse-section" class="bible-verse-display">
+                  <span class="title">Bible Verse</span>
+                  <p id="bible-verse-text" class="verse-text">“Be still, and know that I am God." </p>
+                  <p id="bible-book-verse" class="verse-book">Psalm 46:10</p>
+              </section>
+              <section id="habit-tracker" class="habits-tracker-display">
+                <div class="habit-header">
+                    <h2>Habit Progress Tracker</h2>
+                    <div class="habit-controls">
+                        <a class="btn btn-small nav-link" onclick="openManageMonthlyGoalsForm()">Manage Goals</a>
+                        <a class="btn btn-small nav-link" href="./habit-definitions.html">Definitions</a>
+                    </div>
+                </div>
+                <div id="today-work" class="progress"></div>
+                <div id="monthly-work" class="progress"></div>
+              </section>
+              <section id="favorite-links-section" class="favorite-links-display">
+                  <h4>Favorite Links</h4>
+                  <p>Be strong and courageous. Do not be afraid; do not be discouraged, for the Lord your God will be with you wherever you go. - Joshua 1:9</p>
+              </section>              
+            </main>
 
             <!-- FOOTER -->
             <footer class="main-footer">

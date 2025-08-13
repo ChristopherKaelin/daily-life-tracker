@@ -1,44 +1,44 @@
-//  Get current date information
+//  Get selected date information
 function getDateInfo(inputDate = null) {
     // Use passed date or default to current date
-    let currentDate;
+    let targetDate;
     if (inputDate) {
         // Parse as local date, not UTC
         const [year, month, day] = inputDate.split('-');
-        currentDate = new Date(year, month - 1, day); 
+        targetDate = new Date(year, month - 1, day); 
     } else {
-        currentDate = new Date();//.toISOString();
+        targetDate = new Date();//.toISOString();
     }
 
-    const currentYear = currentDate.getFullYear();
+    const targetYear = targetDate.getFullYear();
 
     //  Returns a zero based MONTH (Jan=0, Feb=1, Mar=2, etc.) 
-    const currentMonth = currentDate.getMonth();
-    const currentMonthName = monthToMonthName[currentMonth];
-    const currentYearMonth = `${currentYear}-${(currentMonth+1).toString().padStart(2, '0')}`;
-    const currentDayofMonth = currentDate.getDate();
-    const currentYearMonthDay = `${currentYear}-${(currentMonth+1).toString().padStart(2, '0')}-${(currentDayofMonth).toString().padStart(2, '0')}`;
-    const currentDayOrdinal = currentDayofMonth + getOrdinalSuffix(currentDayofMonth);
+    const targetMonth = targetDate.getMonth();
+    const targetMonthName = monthToMonthName[targetMonth];
+    const targetYearMonth = `${targetYear}-${(targetMonth+1).toString().padStart(2, '0')}`;
+    const targetDayofMonth = targetDate.getDate();
+    const targetYearMonthDay = `${targetYear}-${(targetMonth+1).toString().padStart(2, '0')}-${(targetDayofMonth).toString().padStart(2, '0')}`;
+    const targetDayOrdinal = targetDayofMonth + getOrdinalSuffix(targetDayofMonth);
 
     //  Returns a zero based DAY (Sun=0, Mon=1, Tue=2, etc.)
-    const currentDayofWeek = currentDate.getDay();
-    const currentDayName = dayToDayName[currentDayofWeek];
+    const targetDayofWeek = targetDate.getDay();
+    const targetDayName = dayToDayName[targetDayofWeek];
     
     //  Since getMonth() returns a zero based number, need to add one to move to the next month, 
     //  then using a zero for the day will move it back to the last day in the create date.
-    const daysInCurrentMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+    const daysIntargetMonth = new Date(targetYear, targetMonth + 1, 0).getDate();
 
     return {
-        year: currentYear,
-        yearMonth: currentYearMonth,
-        month: currentMonth,
-        monthName: currentMonthName,
-        day: currentDayofMonth,
-        dayOrdinal:  currentDayOrdinal,
-        dayOfWeek: currentDayofWeek,
-        dayName: currentDayName,
-        daysInMonth: daysInCurrentMonth,
-        today: currentYearMonthDay
+        year: targetYear,
+        yearMonth: targetYearMonth,
+        month: targetMonth,
+        monthName: targetMonthName,
+        day: targetDayofMonth,
+        dayOrdinal:  targetDayOrdinal,
+        dayOfWeek: targetDayofWeek,
+        dayName: targetDayName,
+        daysInMonth: daysIntargetMonth,
+        date: targetYearMonthDay
     }
 }
 

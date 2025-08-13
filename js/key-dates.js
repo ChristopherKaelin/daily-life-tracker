@@ -9,16 +9,18 @@ const DEFAULT_KEY_DATE = {
     createdAt: '',
 };
 
+
 // Load all key dates from localStorage
 function loadAllKeyDatesFromStorage() {
-    return JSON.parse(localStorage.getItem('dailyLifeKeyDates')) || [];
+  return JSON.parse(localStorage.getItem('dailyLifeKeyDates')) || [];
 }
 
+
 // Filter key dates for the current month
-function getKeyDatesForMonth(year, month) {
-    const yearMonth = `${year}-${month.toString().padStart(2, '0')}`;
-    return allKeyDates.filter(kd => kd.date.startsWith(`${yearMonth}`));
+function getKeyDatesForMonth(yearMonth) {
+  return allKeyDates.filter(kd => kd.date.startsWith(`${yearMonth}`));
 }
+
 
 // Save all key dates to localStorage
 function saveAllKeyDatesToStorage() {
@@ -30,6 +32,7 @@ function saveAllKeyDatesToStorage() {
         return false;
     }
 }
+
 
 function validateKeyDateData(dateString, description) {
     const errors = [];
@@ -57,18 +60,19 @@ function validateKeyDateData(dateString, description) {
     };
 }
 
+
 // Open key date form 
-function openKeyDateForm(clickedDate = null) {
-    // Set default date to clicked date or today
-    if (!clickedDate) {
-        // Format today's date for HTML date input (YYYY-MM-DD)
-        const today = new Date();
-        const todayFormatted = today.toISOString().split('T')[0];
-        clickedDate = todayFormatted;
+function openKeyDateForm() {
+    // Format date for HTML date input (YYYY-MM-DD)
+    if (todayDateInfo.date === appDateInfo.date) {
+      defaultDate = `${todayDateInfo.date}`;
+    } else {
+      defaultDate = `${appDateInfo.date}`;
     }
+
     const dateInput = document.getElementById('keyDateDate');
     if (dateInput) {
-        dateInput.value = clickedDate;
+        dateInput.value = defaultDate;
     }
     // Clear description field
     const keyDateDescription = document.getElementById('keyDateDescription');
@@ -84,6 +88,7 @@ function openKeyDateForm(clickedDate = null) {
 
     toggleShowHideForm('keyDates');
 }
+
 
 // Handle settings form submission
 function submitKeyDateForm(event) {
@@ -129,6 +134,7 @@ function submitKeyDateForm(event) {
 
 }
 
+
 // Open key date form for editing
 function openEditKeyDateForm(keyDateId) {
   // Find the key date in the global array
@@ -159,6 +165,7 @@ function openEditKeyDateForm(keyDateId) {
   toggleShowHideForm('keyDates');
 }
 
+
 // Create new key date to localStorage
 function addKeyDate(newDate, newDescription) {
     const dateInfo = newDate ? getDateInfo(newDate) : appDateInfo;
@@ -187,6 +194,7 @@ function addKeyDate(newDate, newDescription) {
     }
 }
 
+
 // Read Form Data
 function getKeyDateFormData() {
     const keyDateSelect = document.getElementById('keyDateDate');
@@ -197,6 +205,7 @@ function getKeyDateFormData() {
         description: DescriptionInput.value.trim()
     };
 }
+
 
 // Update existing key date by ID
 function updateKeyDate(keyDateId, newDate, newDescription) {
@@ -246,6 +255,7 @@ function deleteKeyDate(keyDateId) {
     }
 }
 
+
 // Show delete confirmation dialog
 function confirmDeleteKeyDate(keyDateId, keyDateText) {
     // Set the key date info in the dialog
@@ -258,6 +268,7 @@ function confirmDeleteKeyDate(keyDateId, keyDateText) {
     // Show the confirmation dialog
     toggleShowHideForm('deleteKeyDateConfirmForm');
 }
+
 
 // Execute the key date deletion
 function executeDeleteKeyDate(keyDateId) {
@@ -275,3 +286,60 @@ function executeDeleteKeyDate(keyDateId) {
     }
 }
 
+
+// Generate the Key Daytes display list
+function generateKeyDatesDisplay(dateInfo) {
+    // Get key dates for current month
+    const currentMonthKeyDates = getKeyDatesForMonth(dateInfo.yearMonth);
+    currentMonthKeyDates.sort((a, b) => a.date.localeCompare(b.date));
+
+    // Generate HTML
+    let keyDatesHTML;
+    if (currentMonthKeyDates.length === 0) {
+        keyDatesHTML = '<p class="no-key-dates">No key dates for this month</p>';
+    } else {
+        keyDatesHTML = '<ul class="key-dates-list">';
+        currentMonthKeyDates.forEach(keyDate => {
+            const day = parseInt(keyDate.date.split('-')[2]);
+            const key_date_info = `${day}${getOrdinalSuffix(day)} - ${keyDate.description || 'No description'}`;
+            keyDatesHTML += 
+                `<li class="key-date-item" data-key-date-id="${keyDate.id}" data-description="${keyDate.description}">
+                    <span class="key-date-info">${key_date_info}</span>
+                    <img class="edit icon icon-md" src="./assets/images/edit.svg" alt="edit icon">
+                    <img class="delete icon icon-md" src="./assets/images/delete.svg" alt="delete icon">
+                </li>`;
+        });
+        keyDatesHTML += '</ul>';
+    }
+    
+    // Display in the key dates element
+    const keyDatesElement = document.getElementById('keyDatesDisplay');
+    if (keyDatesElement) {
+        keyDatesElement.innerHTML = keyDatesHTML;
+    }
+}
+
+
+// Event delegation for key date actions 
+function initializeKeyDatesClickHandlers() {
+    const keyDatesContainer = document.getElementById('keyDatesDisplay');
+    
+    if (keyDatesContainer) {
+        keyDatesContainer.addEventListener('click', function(e) {
+            // Handle delete button clicks
+            if (e.target.classList.contains('delete')) {
+                const keyDateItem = e.target.closest('.key-date-item');
+                const id = keyDateItem.dataset.keyDateId;
+                const description = keyDateItem.dataset.description;
+                confirmDeleteKeyDate(id, description);
+            }
+            
+            // Handle edit button clicks
+            if (e.target.classList.contains('edit')) {
+                const keyDateItem = e.target.closest('.key-date-item');
+                const id = keyDateItem.dataset.keyDateId;
+                openEditKeyDateForm(id);
+            }
+        });
+    }
+}

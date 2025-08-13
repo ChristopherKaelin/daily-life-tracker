@@ -45,19 +45,19 @@ function populateTrackedHabitsList(yearMonth = null) {
 
 //  Get Tracked Habit Definitions
 function getTrackedHabitDefinitions(yearMonth = null) {
-    const habitMonthGoals = getMonthlyHabitGoals(yearMonth);
-    
-    // Returns an array of month habit goals and the habit definition information
-    return habitMonthGoals.map(goal => {
-        const habitDef = allHabitDefinitions.find(def => def.id === goal.habitDefId) || {};
-        return {
-            ...goal,
-            name: habitDef.name || '',
-            goalType: habitDef.goalType || '',
-            goalAmount: habitDef.goalAmount || '',
-            measurement: habitDef.measurement || ''
-        };
-    });
+  const habitMonthGoals = getMonthlyHabitGoals(yearMonth);
+  
+  // Returns an array of month habit goals and the habit definition information
+  return habitMonthGoals.map(goal => {
+      const habitDef = allHabitDefinitions.find(def => def.id === goal.habitDefId) || {};
+      return {
+          ...goal,
+          name: habitDef.name || '',
+          goalType: habitDef.goalType || '',
+          goalAmount: habitDef.goalAmount || '',
+          measurement: habitDef.measurement || ''
+      };
+  });
 }
 
 
@@ -180,9 +180,10 @@ function saveAllHabitMonthGoalsToStorage(habitMonthGoals, year = null) {
 // Load all habit definitions from localStorage
 function getMonthlyHabitGoals(yearMonth = null) {
   if (!yearMonth) {
-    yearMonth = `${appDateInfo.year}-${appDateInfo.month.toString().padStart(2, '0')}`;
+    yearMonth = `${appDateInfo.yearMonth}`;
   }
-  monthlyGoals = JSON.parse(localStorage.getItem(`dailyLifeHabitMonthGoals-${appDateInfo.year}`)) || [];
+  yearlyGoals = JSON.parse(localStorage.getItem(`dailyLifeHabitMonthGoals-${appDateInfo.year}`)) || [];
+  monthlyGoals = yearlyGoals.filter(goal => goal.yearMonth === yearMonth);
   return monthlyGoals;
 }
 
