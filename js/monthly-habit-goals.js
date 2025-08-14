@@ -166,14 +166,23 @@ function saveNewHabitMonthGoal(habitDefId) {
 function saveAllHabitMonthGoalsToStorage(habitMonthGoals, year = null) {
     try {
         if (!year) { year = appDateInfo.year; }
-
-        localStorage.setItem(`dailyLifeHabitMonthGoals-${appDateInfo.year}`, JSON.stringify(habitMonthGoals));
+        
+        // Get ALL months' data for the year
+        const allYearGoals = JSON.parse(localStorage.getItem(`dailyLifeHabitMonthGoals-${year}`)) || [];
+        
+        // Remove current month's goals from the full dataset
+        const currentYearMonth = appDateInfo.yearMonth;
+        const otherMonthsGoals = allYearGoals.filter(goal => goal.yearMonth !== currentYearMonth);
+        
+        // Add current month's goals back in
+        const updatedGoals = [...otherMonthsGoals, ...habitMonthGoals];
+        
+        localStorage.setItem(`dailyLifeHabitMonthGoals-${year}`, JSON.stringify(updatedGoals));
         return true;
     } catch (error) {
         console.error('Error saving habit month goals to storage:', error);
         return false;
     }
-
 }
 
 

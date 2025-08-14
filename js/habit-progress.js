@@ -148,12 +148,14 @@ function generateHabitTrackerDisplay() {
 
     if (habitDef.goalType === 'daily') {
       // Today's Work
-      const isCompleted = todaysWork.filter(entry => entry.habitMonthGoalId === habitDef.id).length > 0;
-      const checkboxChecked = isCompleted ? 'checked' : '';
-      const todayDisplay = `<input type="checkbox" ${checkboxChecked} onchange="toggleDailyHabit('${habitDef.id}')" class="habit-checkbox">`;
+      let todayDisplay = '';
+
+      if (dateToUseInfo.date <= todayDateInfo.date) {
+        const isCompleted = todaysWork.filter(entry => entry.habitMonthGoalId === habitDef.id).length > 0;
+        const checkboxChecked = isCompleted ? 'checked' : '';
+        todayDisplay = `<input type="checkbox" ${checkboxChecked} onchange="toggleDailyHabit('${habitDef.id}')" class="habit-checkbox">`;
+      }
       
-      // Monthly Work
-      const monthCount = monthlyWork.filter(entry => entry.habitMonthGoalId === habitDef.id).length;
       todaysWorkHTML += `<div class="habit-entry">
         <span class="habit-name">${habitDef.name}:</span> 
         ${todayDisplay}
@@ -174,13 +176,17 @@ function generateHabitTrackerDisplay() {
 
       todaysWorkHTML += 
         `<div class="habit-entry">
-          <span class="habit-name">${habitDef.name}:</span>
-          <div class="habit-controls">
+          <span class="habit-name">${habitDef.name}:</span>`;
+      if (dateToUseInfo.date <= todayDateInfo.date) {
+        todaysWorkHTML +=
+          `<div class="habit-controls">
             <img src="./assets/images/remove.svg" alt="decrease" class="icon icon-sm" onclick="decrementHabit('${habitDef.id}')">
             <span class="habit-progress">${todayDisplayValue} ${habitDef.measurement}</span>
             <img src="./assets/images/add.svg" alt="increase" class="icon icon-sm" onclick="incrementHabit('${habitDef.id}')">
-          </div>
-        </div>`;
+          </div>`;
+      }
+      todaysWorkHTML +=
+          `</div>`;
     }
     
     // Monthly Work with Progress Bars

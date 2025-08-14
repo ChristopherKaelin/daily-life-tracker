@@ -49,7 +49,6 @@ function generateCalendarDisplay(dateInfo) {
   //  Add in next month dates to fill the end of the grid
   const totalCellsUsed = firstDayOfMonth + dateInfo.daysInMonth;
   const remainingCellsInRow = totalCellsUsed % 7 === 0 ? 0 : 7 - (totalCellsUsed % 7);
-  console.log(remainingCellsInRow);
   for (let i = 0; i < remainingCellsInRow; i++) {
     calendarGrid += `<div class="empty-day">${i+1}</div>`;
   }
