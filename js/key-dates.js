@@ -172,7 +172,8 @@ function addKeyDate(newDate, newDescription) {
 
     try {
         // Generate next sequential ID for the month
-        const nextNumber = allKeyDates.length + 1;
+        const existingIds = allKeyDates.map(kd => parseInt(kd.id.split('-')[1]));
+        const nextNumber = existingIds.length > 0 ? Math.max(...existingIds) + 1 : 1;
         let nextKeyDateId = `keydate-${nextNumber.toString().padStart(4, '0')}`;
 
         const newKeyDate = {
