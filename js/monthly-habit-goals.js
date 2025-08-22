@@ -7,22 +7,29 @@ const DEFAULT_HABIT_MONTH_GOAL = {
 };
 
 
-//  Open Manage Monthly Goals form   
+/**
+ * Opens the Manage Monthly Goals form and generates the display for tracked and available habits.
+ */
 function openManageMonthlyGoalsForm() {
     generateManageMonthlyGoalsDisplay();
     toggleShowHideForm('monthlyGoalsModal');
 }
 
 
-//  Update the Manage Monthly Goals Form
-//  Called when form is opened or when a habit goal is added/removed from being tracked
+/**
+ * Updates the Manage Monthly Goals form by populating both tracked and available habits lists.
+ */
 function generateManageMonthlyGoalsDisplay() {
     populateTrackedHabitsList();
     populateAvailableHabitsList();
 }
 
 
-//  Populate list of habits BEING tracked for the given year/month
+/**
+ * Populates the list of habits currently being tracked for the specified year and month.
+ *
+ * @param {string|null} yearMonth - The year and month in 'yyyy-mm' format, or null for current
+ */
 function populateTrackedHabitsList(yearMonth = null) {
   let trackedHabitsHTML = "";
   let trackedHabits = getTrackedHabitDefinitions(yearMonth);
@@ -43,7 +50,12 @@ function populateTrackedHabitsList(yearMonth = null) {
 }
 
 
-//  Get Tracked Habit Definitions
+/**
+ * Retrieves the habit definitions that are being tracked for the specified year and month.
+ *
+ * @param {string|null} yearMonth - The year and month in 'yyyy-mm' format, or null for current
+ * @returns {Array} Array of tracked habit definitions with goal details
+ */
 function getTrackedHabitDefinitions(yearMonth = null) {
   const habitMonthGoals = getMonthlyHabitGoals(yearMonth);
   
@@ -61,6 +73,12 @@ function getTrackedHabitDefinitions(yearMonth = null) {
 }
 
 
+/**
+ * Removes a habit month goal by its ID and updates the display and localStorage.
+ *
+ * @param {string|null} goalID - The ID of the goal to remove
+ * @returns {boolean|undefined} False on error, undefined on success
+ */
 function removeHabitMonthGoal(goalID = null) {
     try {
         // Get the current data
@@ -84,7 +102,11 @@ function removeHabitMonthGoal(goalID = null) {
 }
 
 
-//  Populate list of habits NOT BEING tracked for the given year/month
+/**
+ * Populates the list of habits not being tracked for the specified year and month.
+ *
+ * @param {string|null} yearMonth - The year and month in 'yyyy-mm' format, or null for current
+ */
 function populateAvailableHabitsList(yearMonth = null) {
   let availableHabitsHTML = "";
   let availableHabits = getAvailableHabitDefinitions(yearMonth);
@@ -105,7 +127,12 @@ function populateAvailableHabitsList(yearMonth = null) {
 }
 
 
-//  Get Available (untracked) Habit Definitions
+/**
+ * Retrieves habit definitions that are not being tracked for the specified year and month.
+ *
+ * @param {string|null} yearMonth - The year and month in 'yyyy-mm' format, or null for current
+ * @returns {Array} Array of available habit definitions
+ */
 function getAvailableHabitDefinitions(yearMonth = null) {
     // Retrieve monthly gaols from localStorage
     const habitMonthGoals = getMonthlyHabitGoals(yearMonth) || [];
@@ -123,6 +150,12 @@ function getAvailableHabitDefinitions(yearMonth = null) {
 }
 
 
+/**
+ * Saves a new habit month goal for the given habit definition ID and updates the display.
+ *
+ * @param {string} habitDefId - The ID of the habit definition to track
+ * @returns {boolean|undefined} False on error, undefined on success
+ */
 function saveNewHabitMonthGoal(habitDefId) {
     try {
         const habitMonthGoals = getMonthlyHabitGoals();
@@ -162,7 +195,13 @@ function saveNewHabitMonthGoal(habitDefId) {
 }
 
 
-// Save all habit monthly goals to localStorage
+/**
+ * Saves all habit monthly goals to localStorage for the specified year, updating only the current month.
+ *
+ * @param {Array} habitMonthGoals - Array of habit month goals to save
+ * @param {number|null} year - The year for which to save goals, or null for current year
+ * @returns {boolean} Success status
+ */
 function saveAllHabitMonthGoalsToStorage(habitMonthGoals, year = null) {
     try {
         if (!year) { year = appDateInfo.year; }
@@ -186,7 +225,12 @@ function saveAllHabitMonthGoalsToStorage(habitMonthGoals, year = null) {
 }
 
 
-// Load all habit definitions from localStorage
+/**
+ * Loads all habit month goals for the specified year and month from localStorage.
+ *
+ * @param {string|null} yearMonth - The year and month in 'yyyy-mm' format, or null for current
+ * @returns {Array} Array of monthly habit goals
+ */
 function getMonthlyHabitGoals(yearMonth = null) {
   if (!yearMonth) {
     yearMonth = `${appDateInfo.yearMonth}`;

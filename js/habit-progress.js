@@ -7,6 +7,13 @@ const DEFAULT_PROGRESS_ENTRY = {
 };
 
 
+/**
+ * Saves a new progress entry for a habit, generating a unique ID and updating localStorage.
+ * Returns true if successful, or false if an error occurs during saving.
+ *
+ * @param {Object} progressData - The progress entry data to save
+ * @returns {boolean} Success status
+ */
 function saveProgressEntry(progressData) {
   try {
     // Generate next sequential ID for the month
@@ -38,6 +45,14 @@ function saveProgressEntry(progressData) {
 }
 
 
+/**
+ * Saves all progress entries for a given month to localStorage.
+ * Returns true if successful, or false if an error occurs during saving.
+ *
+ * @param {Array} habitProgressEntries - Array of progress entries to save
+ * @param {string} yearMonth - The year and month in 'yyyy-mm' format
+ * @returns {boolean} Success status
+ */
 function saveAllProgressToStorage(habitProgressEntries, yearMonth) {
    try {
        const storageKey = `dailyLifeHabitProgress-${yearMonth}`;
@@ -50,6 +65,13 @@ function saveAllProgressToStorage(habitProgressEntries, yearMonth) {
 }
 
 
+/**
+ * Loads all progress entries for a specific month from localStorage.
+ * Returns an array of progress entries, or an empty array if none are found.
+ *
+ * @param {string} progressYearMonth - The year and month in 'yyyy-mm' format
+ * @returns {Array} Array of progress entries
+ */
 function getProgressForMonth(progressYearMonth) {
    try {
        const storageKey = `dailyLifeHabitProgress-${progressYearMonth}`;
@@ -62,6 +84,14 @@ function getProgressForMonth(progressYearMonth) {
 }
 
 
+/**
+ * Retrieves progress entries for a specific date, optionally using a provided monthly work array.
+ * Returns an array of entries for the given date, or an empty array if none are found.
+ *
+ * @param {string} progressDate - The date in 'yyyy-mm-dd' format
+ * @param {Array|null} monthlyWork - Optional array of monthly progress entries
+ * @returns {Array} Array of progress entries for the date
+ */
 function getProgressForDate(progressDate, monthlyWork = null) {
   try {
     // Validate date format
@@ -82,6 +112,15 @@ function getProgressForDate(progressDate, monthlyWork = null) {
 }
 
 
+/**
+ * Calculates the monthly progress for a habit, including completed progress and goal total.
+ * Returns an object with habit name, type, completed progress, and goal total.
+ *
+ * @param {string} habitMonthGoalId - The ID of the habit month goal
+ * @param {string} habitDefId - The ID of the habit definition
+ * @param {string} yearMonth - The year and month in 'yyyy-mm' format
+ * @returns {Object} Monthly progress summary
+ */
 function getMonthlyProgress(habitMonthGoalId, habitDefId, yearMonth) {
   try {
     // Validate yearMonth format
@@ -126,6 +165,10 @@ function getMonthlyProgress(habitMonthGoalId, habitDefId, yearMonth) {
 }
 
 
+/**
+ * Generates and displays the habit tracker for the selected date and month.
+ * Updates the UI with today's progress and monthly progress for all tracked habits.
+ */
 function generateHabitTrackerDisplay() {
   const dateToUse = selectedHabitDate || appDateInfo.date;
   const dateToUseInfo = getDateInfo(dateToUse);
@@ -228,18 +271,21 @@ function generateHabitTrackerDisplay() {
   monthlyWorkHTML += "</div>";
 
   // Update the display for habits completed today
-  // <div id="completed-today"></div>
   const todaysWorkElement = document.getElementById('today-work');
   todaysWorkElement.innerHTML = todaysWorkHTML;
 
   // Update the display for monthly progress
-  // <div id="monthly-progress"></div>
   const monthlyWorkElement = document.getElementById('monthly-work');
   monthlyWorkElement.innerHTML = monthlyWorkHTML;
 }
 
 
-// Handle daily habit checkbox toggle
+/**
+ * Handles toggling of daily habit completion for the selected date.
+ * Adds or removes the progress entry and refreshes the tracker display.
+ *
+ * @param {string} habitMonthGoalId - The ID of the habit month goal
+ */
 function toggleDailyHabit(habitMonthGoalId) {
   //  If selectedHabitDate is null, getDateInfo() will use today's date
   const selectedDateInfo = getDateInfo(selectedHabitDate);
@@ -268,7 +314,12 @@ function toggleDailyHabit(habitMonthGoalId) {
 }
 
 
-// Handle increment for cumulative habits
+/**
+ * Increments the progress value for a cumulative habit for the selected date.
+ * Updates or creates the progress entry and refreshes the tracker display.
+ *
+ * @param {string} habitMonthGoalId - The ID of the habit month goal
+ */
 function incrementHabit(habitMonthGoalId) {
   //  If selectedHabitDate is null, getDateInfo() will use today's date
   const selectedDateInfo = getDateInfo(selectedHabitDate);
@@ -296,7 +347,12 @@ function incrementHabit(habitMonthGoalId) {
 }
 
 
-// Handle decrement for cumulative habits
+/**
+ * Decrements the progress value for a cumulative habit for the selected date.
+ * Updates or removes the progress entry and refreshes the tracker display.
+ *
+ * @param {string} habitMonthGoalId - The ID of the habit month goal
+ */
 function decrementHabit(habitMonthGoalId) {
   //  If selectedHabitDate is null, getDateInfo() will use today's date
   const selectedDateInfo = getDateInfo(selectedHabitDate);
@@ -321,7 +377,12 @@ function decrementHabit(habitMonthGoalId) {
 }
 
 
-// Update existing progress entry
+/**
+ * Updates the daily value of an existing progress entry and saves changes to localStorage.
+ *
+ * @param {string} entryId - The ID of the progress entry to update
+ * @param {number} newDailyValue - The new daily value to set
+ */
 function updateProgressEntry(entryId, newDailyValue) {
   const yearMonth = appDateInfo.yearMonth;
   const progressEntries = getProgressForMonth(yearMonth);
@@ -335,13 +396,25 @@ function updateProgressEntry(entryId, newDailyValue) {
 }
 
 
-// Remove progress entry
+/**
+ * Removes a progress entry by its ID for the specified month and saves changes to localStorage.
+ *
+ * @param {string} entryId - The ID of the progress entry to remove
+ * @param {string} yearMonth - The year and month in 'yyyy-mm' format
+ */
 function removeProgressEntry(entryId, yearMonth) {
   const progressEntries = getProgressForMonth(yearMonth);
   const filteredEntries = progressEntries.filter(entry => entry.id !== entryId);
   saveAllProgressToStorage(filteredEntries, yearMonth);
 }
 
+/**
+ * Returns a CSS class name based on the progress percentage for visual feedback.
+ * Used to style progress bars according to completion level.
+ *
+ * @param {number} percentage - The progress percentage
+ * @returns {string} CSS class name for progress color
+ */
 function getProgressColorClass(percentage) {
   if (percentage > 100) return 'progress-exceeded';
   if (percentage >= 90) return 'progress-full';

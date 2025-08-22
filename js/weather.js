@@ -5,6 +5,14 @@ const WEATHER_CACHE_DURATION = 15 * 60 * 1000; // 15 minutes in milliseconds
 let lastWeatherFetch = null;
 
 
+/**
+ * Fetches weather data for the specified city from the WeatherAPI.
+ * Uses cached data if available and not forced to refresh.
+ *
+ * @param {string} city - The city to fetch weather for
+ * @param {boolean} [userRefresh=false] - If true, forces a refresh from the API
+ * @returns {Promise<Object>} Weather data or error object
+ */
 // Fetch weather data for a city
 async function getWeatherData(city, userRefresh = false) {
   try {
@@ -43,19 +51,44 @@ async function getWeatherData(city, userRefresh = false) {
 }
 
 // Helper functions for formatting weather data
+/**
+ * Formats a temperature value, optionally including the unit.
+ *
+ * @param {number} temp - Temperature value
+ * @param {boolean} [showUnit=true] - Whether to show the unit
+ * @returns {string} Formatted temperature
+ */
 function formatTemperature(temp, showUnit = true) {
   const roundedTemp = Math.round(temp);
   return showUnit ? `${roundedTemp}°F` : roundedTemp.toString();
 }
 
+/**
+ * Formats a humidity value as a percentage string.
+ *
+ * @param {number} humidity - Humidity value
+ * @returns {string} Formatted humidity
+ */
 function formatHumidity(humidity) {
   return `${Math.round(humidity)}%`;
 }
 
+/**
+ * Formats the "feels like" temperature string.
+ *
+ * @param {number} feelsLike - Feels like temperature
+ * @returns {string} Formatted feels like temperature
+ */
 function formatFeelsLike(feelsLike) {
   return `Feels like ${Math.round(feelsLike)}°F`;
 }
 
+/**
+ * Formats the weather icon URL, ensuring it uses https.
+ *
+ * @param {string} iconUrl - Icon URL from WeatherAPI
+ * @returns {string} Formatted icon URL
+ */
 function formatWeatherIcon(iconUrl) {
   // WeatherAPI returns URLs starting with //, add https:
   if (iconUrl && iconUrl.startsWith('//')) {
@@ -64,6 +97,12 @@ function formatWeatherIcon(iconUrl) {
   return iconUrl || '';
 }
 
+/**
+ * Formats the complete weather data object for display.
+ *
+ * @param {Object} weather - Raw weather data object
+ * @returns {Object|string} Formatted weather display object or error message
+ */
 // Main formatting function for complete weather display
 function formatWeatherDisplay(weather) {
   if (weather.error) {
@@ -81,8 +120,11 @@ function formatWeatherDisplay(weather) {
   };
 }
 
-function generateWeatherDisplay() {
 
+/**
+ * Fetches and displays weather data for the user's city in the UI.
+ */
+function generateWeatherDisplay() {
   const userSettings = appUserSettings;
   const userCity = userSettings.city || 'Lexington, KY';
  

@@ -20,7 +20,12 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeHeaderDisplay(appDateInfo);
 });
 
-// Get user settings from localStorage
+/**
+ * Retrieves user settings from localStorage, or returns defaults if none are found or on error.
+ * This function ensures the app always has a valid user settings object to work with.
+ *
+ * @returns {UserSettings} The user settings object
+ */
 function getUserSettings() {
     try { 
         // Try to get settings from localStorage
@@ -42,7 +47,12 @@ function getUserSettings() {
     }
 }
 
-// Load all habit definitions from localStorage
+/**
+ * Loads all habit definitions from localStorage and updates the global array.
+ * Returns an array of all habit definitions, or an empty array if none are found.
+ *
+ * @returns {Array<HabitDefinition>} Array of habit definitions
+ */
 function loadAllHabitDefinitions() {
   const allHabits = JSON.parse(localStorage.getItem('dailyLifeHabitDefinitions')) || [];
   allHabitDefinitions = JSON.parse(localStorage.getItem('dailyLifeHabitDefinitions')) || [];

@@ -1,3 +1,12 @@
+/**
+ * Validates key date data for required description and correct date format.
+ * Checks that the description is present and not too long, and that the date is valid and matches 'yyyy-mm-dd'.
+ * Returns an object with isValid and an array of error messages for any issues found.
+ *
+ * @param {string} dateString - The date string in 'yyyy-mm-dd' format
+ * @param {string} description - The description for the key date
+ * @returns {{isValid: boolean, errors: string[]}} Validation result
+ */
 function validateKeyDateData(dateString, description) {
     const errors = [];
     
@@ -24,7 +33,14 @@ function validateKeyDateData(dateString, description) {
     };
 }
 
-
+/**
+ * Validates a habit definition object for required fields and correct goal type.
+ * For cumulative habits, it also checks measurement, goal amount, and increment amount using a helper.
+ * Returns an object with isValid and an array of error messages for any issues found.
+ *
+ * @param {HabitDefinition} habitDefinition - The habit definition to validate
+ * @returns {{isValid: boolean, errors: string[]}} Validation result
+ */
 // Main validation function that handles both goal types
 function validateHabitDefinition(habitDefinition) {
     const errors = [];
@@ -53,7 +69,13 @@ function validateHabitDefinition(habitDefinition) {
     };
 }
 
-
+/**
+ * Validates user settings form data for required name and city fields, and name length.
+ * Checks that the name is present and not too long, and that a city is selected. Returns an object with isValid and errors.
+ *
+ * @param {Object} formData - The form data containing name and city
+ * @returns {{isValid: boolean, errors: string[]}} Validation result
+ */
 //  Validate settings form inputs
 function validateSettingsForm(formData) {
     const errors = [];

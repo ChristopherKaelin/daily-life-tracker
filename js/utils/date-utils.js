@@ -1,4 +1,10 @@
-//  Get selected date information
+/**
+ * Returns detailed information about a given date string or the current date if none is provided.
+ * Parses the date and returns year, month, day, day of week, month name, day name, and formatted strings for use in the app.
+ *
+ * @param {string|null} inputDate - The date string in 'yyyy-mm-dd' format, or null for today
+ * @returns {Object} An object containing year, month, day, dayOfWeek, dayName, monthName, and formatted date strings
+ */
 function getDateInfo(inputDate = null) {
     // Use passed date or default to current date
     let targetDate;
@@ -43,7 +49,13 @@ function getDateInfo(inputDate = null) {
 }
 
 
-//  Get the correct 'st', 'nd', 'th' for the day.
+/**
+ * Returns the ordinal suffix ('st', 'nd', 'rd', 'th') for a given day number.
+ * Handles special cases for numbers ending in 11-19 and standard cases for other numbers.
+ *
+ * @param {number} dayNum - The day of the month
+ * @returns {string} The ordinal suffix for the day
+ */
 function getOrdinalSuffix(dayNum) {
     if (dayNum >= 11 && dayNum <= 19) {
         return 'th'

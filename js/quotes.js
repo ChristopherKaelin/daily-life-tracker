@@ -1,5 +1,5 @@
 // Quote API configuration
-const QUOTES_BASE_URL = 'http://api.quotable.io/quotes/random';
+const QUOTES_BASE_URL = 'https://api.quotable.io/quotes/random';
 const FALLBACK_QUOTE = {
     quote: "To me, there are three things we all should do every day. Number one is laugh. You should laugh every day. Number two is think. You should spend some time in thought. And number three is you should have your emotions moved to tears, could be happiness or joy. But think about it. If you laugh, you think and you cry, that's a full day. That's a heck of a day.",
     author: "Jim Valvano"
@@ -16,6 +16,7 @@ async function getDailyQuote() {
     const response = await fetch(url);
     
     if (!response.ok) {
+      console.error(`Quotable API quote: ${response.statusText}`);
       throw new Error(`Quotable API error: ${response.status}`);
     }
     
@@ -28,7 +29,7 @@ async function getDailyQuote() {
 
 
   } catch (error) {
-    console.error('Using Fallback Quote.Quote fetch error:', error);
+    console.error('Using Fallback Quote.\nQuote fetch error:', error);
     return {
       error: true,
       message: `Unable to retrieve random quote.`

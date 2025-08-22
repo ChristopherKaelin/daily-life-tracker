@@ -215,6 +215,17 @@
       margin-bottom: 1rem;
   }
 
+  .today-btn {
+    border: none;
+    padding: 0.5rem 1rem;
+    /* border-radius: var(--border-radius-large); */
+    /* cursor: pointer; */
+    font-size: var(--font-size-base);
+    /* font-weight: 600; */
+    margin-right: auto;
+  }
+
+
   /* Day headers styling */
   .calendar-grid div:nth-child(-n+7) {
     background: var(--color-primary);

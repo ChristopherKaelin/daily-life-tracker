@@ -51,7 +51,6 @@
         max-width: 225px;
     }
     .nav-link {
-        font-size: var(--font-size-small);
         text-decoration: none;
         cursor: pointer;
         padding: 0.5rem 1rem;

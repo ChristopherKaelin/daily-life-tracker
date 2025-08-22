@@ -1,18 +1,24 @@
-// Global Habit Info
+/**
+ * @file habit-definitions.js
+ * This file handles the initialization and management of habit definitions.
+ * It includes functions to add, update, delete, and restore habit definitions,
+ * as well as displaying them in the UI.
+ * It also includes validation for habit definitions and event listeners for user interactions.
+ */
 
 
-// Habit Initialization - runs when page loads
 document.addEventListener('DOMContentLoaded', function() {
     
     generateHabitDefinitionsDisplay();
     initializeHabitDefinitionEventListeners() 
 
     //==========================================
-    //  TESTING - Remove after testing
+    //  TESTING 
     //==========================================
     //
-
 });
+
+
 const DEFAULT_HABIT_DEFINITION = {
     id: '',             // 'habit-0001', 'habit-0002', etc.
     name: '',
@@ -27,7 +33,11 @@ const DEFAULT_HABIT_DEFINITION = {
     updatedAt: '',
 };
 
-// Get active habit definitions
+/**
+ * Retrieves active habit definitions from localStorage, sorted by goal type and name.
+ *
+ * @returns {Array} Array of active habit definitions
+ */
 function getActiveHabitDefinitions() {
     // Always get fresh data from storage
     const allHabits = JSON.parse(localStorage.getItem('dailyLifeHabitDefinitions')) || [];
@@ -45,14 +55,23 @@ function getActiveHabitDefinitions() {
     return sortedHabits;
 }
 
-// Get active habit definitions
+/**
+ * Retrieves inactive habit definitions from localStorage.
+ *
+ * @returns {Array} Array of inactive habit definitions
+ */
 function getInactiveHabitDefinitions() {
     // Always get fresh data from storage
     const allHabits = JSON.parse(localStorage.getItem('dailyLifeHabitDefinitions')) || [];
     return allHabits.filter(hd => !hd.isActive);
 }
 
-// Save all habit definitions to localStorage
+/**
+ * Saves all habit definitions to localStorage.
+ * Returns true if successful, false otherwise.
+ *
+ * @returns {boolean} Success status
+ */
 function saveAllHabitDefinitionsToStorage() {
     try {
         localStorage.setItem('dailyLifeHabitDefinitions', JSON.stringify(allHabitDefinitions));
@@ -63,7 +82,12 @@ function saveAllHabitDefinitionsToStorage() {
     }
 }
 
-// Save habit definition to localStorage
+/**
+ * Adds a new habit definition to the list and saves it to localStorage.
+ *
+ * @param {HabitDefinition} habitData - The habit definition data to add
+ * @returns {boolean} Success status
+ */
 function addHabitDefinition(habitData) {
     try {
         // Generate next sequential ID
@@ -95,7 +119,13 @@ function addHabitDefinition(habitData) {
     }
 }
 
-// Update existing habit definition
+/**
+ * Updates an existing habit definition with new data and saves to localStorage.
+ *
+ * @param {string} habitDefId - The ID of the habit definition to update
+ * @param {Partial<HabitDefinition>} updatedData - The updated habit definition fields
+ * @returns {boolean} Success status
+ */
 function updateHabitDefinition(habitDefId, updatedData) {
     try {
         // Find the habit definition in allHabitDefinitions array by ID
@@ -126,7 +156,12 @@ function updateHabitDefinition(habitDefId, updatedData) {
     }
 }
 
-// Show delete confirmation dialog
+/**
+ * Shows a confirmation dialog to restore an inactive habit definition.
+ *
+ * @param {string} habitDefinitionId - The ID of the habit definition to restore
+ * @param {string} habitDefinitionsDescription - Description for the dialog
+ */
 function confirmRestoreHabitDefinition(habitDefinitionId, habitDefinitionsDescription) {
     // Set the habit defifinition info in the dialog
     const restoreInfoElement = document.getElementById('restoreHabitDefinitionInfo');
@@ -139,7 +174,11 @@ function confirmRestoreHabitDefinition(habitDefinitionId, habitDefinitionsDescri
     toggleShowHideForm('restoreHabitDefinitionConfirmForm');
 }
 
-// Execute the habit definition deletion
+/**
+ * Executes restoration of an inactive habit definition and updates the display.
+ *
+ * @param {string} habitDefId - The ID of the habit definition to restore
+ */
 function executeRestoreHabitDefinition(habitDefId) {
     const habitData = { isActive: true };
     const success = updateHabitDefinition(habitDefId, habitData);
@@ -156,7 +195,12 @@ function executeRestoreHabitDefinition(habitDefId) {
     }
 }
 
-// Delete (Inactivate) habit definition
+/**
+ * Marks a habit definition as inactive and saves to localStorage.
+ *
+ * @param {string} habitDefinitionId - The ID of the habit definition to delete
+ * @returns {boolean} Success status
+ */
 function deleteHabitDefinition(habitDefinitionId) {
     try {
         // Find the habit definition in allHabitDefinitions array by ID
@@ -180,7 +224,12 @@ function deleteHabitDefinition(habitDefinitionId) {
     }
 }
 
-// Show delete confirmation dialog
+/**
+ * Shows a confirmation dialog to delete (inactivate) a habit definition.
+ *
+ * @param {string} habitDefId - The ID of the habit definition to delete
+ * @param {string} habitDefDesc - Description for the dialog
+ */
 function confirmDeleteHabitDefinition(habitDefId, habitDefDesc) {
     // Set the habit defifinition info in the dialog
     const deleteInfoElement = document.getElementById('deleteHabitDefinitionInfo');
@@ -193,7 +242,11 @@ function confirmDeleteHabitDefinition(habitDefId, habitDefDesc) {
     toggleShowHideForm('deleteHabitDefinitionConfirmForm');
 }
 
-// Execute the habit definition deletion
+/**
+ * Executes the deletion (inactivation) of a habit definition and updates the display.
+ *
+ * @param {string} habitDefId - The ID of the habit definition to delete
+ */
 function executeDeleteHabitDefinition(habitDefId) {
     const success = deleteHabitDefinition(habitDefId);
     
@@ -209,7 +262,14 @@ function executeDeleteHabitDefinition(habitDefId) {
     }
 }
 
-// Validate cumulative habit definition
+/**
+ * Validates a cumulative habit definition object.
+ * Checks measurement, goal amount, and increment amount fields for correctness.
+ * Returns an object with isValid and errors array.
+ *
+ * @param {HabitDefinition} habitDefinition - The habit definition to validate
+ * @returns {{isValid: boolean, errors: string[]}} Validation result
+ */
 function validateCumulativeHabitDefinition(habitDefinition) {
     const cumulativeErrors = [];
     
@@ -235,17 +295,33 @@ function validateCumulativeHabitDefinition(habitDefinition) {
     };
 }
 
-// Check if habit is daily type
+/**
+ * Checks if a habit is a daily completion type.
+ * 
+ * @param {HabitDefinition} habitDefinition - The habit definition object
+ * @returns {boolean} True if habit type is 'daily'
+ */
 function isDailyHabit(habitDefinition) {
     return habitDefinition.goalType === 'daily';
 }
 
-// Check if habit is cumulative type  
+/**
+ * Checks if a habit is a cumulative progress type.
+ * 
+ * @param {HabitDefinition} habitDefinition - The habit definition object  
+ * @returns {boolean} True if habit type is 'cumulative'
+ */
 function isCumulativeHabit(habitDefinition) {
     return habitDefinition.goalType === 'cumulative';
 }
 
-// Calculate total number of checkboxes needed for cumulative habit
+/**
+ * Calculates the total number of checkboxes needed for a habit definition.
+ * Returns 1 for daily habits, or the ceiling of goalAmount/incrementAmount for cumulative habits.
+ *
+ * @param {HabitDefinition} habitDefinition - The habit definition object
+ * @returns {number} Number of checkboxes needed
+ */
 function calculateTotalCheckboxes(habitDefinition) {
     // Return number of checkboxes needed
     if (isCumulativeHabit(habitDefinition)) {
@@ -255,14 +331,27 @@ function calculateTotalCheckboxes(habitDefinition) {
     }
 }
 
-// Calculate progress percentage for cumulative habit
+/**
+ * Calculates the progress percentage of a habit definition based on completed checkboxes.
+ * Returns 0 if total checkboxes is 0 to avoid division by zero.
+ *
+ * @param {HabitDefinition} habitDefinition - The habit definition object
+ * @param {number} completedCheckboxes - Number of completed checkboxes
+ * @returns {number} Percentage of completion
+ */
 function calculateHabitProgress(habitDefinition, completedCheckboxes) {
     const totalCheckboxes = calculateTotalCheckboxes(habitDefinition);
     if (totalCheckboxes === 0) return 0; 
-    return (completedCheckboxes / calculateTotalCheckboxes(habitDefinition)) * 100; 
+    return (completedCheckboxes / totalCheckboxes) * 100; 
 }
 
-// Get display text for habit goal
+/**
+ * Returns a formatted string for the habit definition's goal.
+ * For daily habits, returns just the name. For cumulative, includes goal details.
+ *
+ * @param {HabitDefinition} habitDefinition - The habit definition object
+ * @returns {string} Formatted goal display text
+ */
 function getHabitGoalDisplayText(habitDefinition) {
     if (isDailyHabit(habitDefinition)) {
         return habitDefinition.name; // Just the name
@@ -273,7 +362,12 @@ function getHabitGoalDisplayText(habitDefinition) {
     }
 }
 
-// Handle goal type selection change
+/**
+ * Handles the change event for the goal type select element.
+ * Shows or hides cumulative fields based on selected goal type.
+ *
+ * @returns {void}
+ */
 function handleGoalTypeChange() {
     const goalTypeSelect = document.getElementById('habitGoalType');
     const cumulativeFields = document.getElementById('cumulativeFields');
@@ -287,6 +381,12 @@ function handleGoalTypeChange() {
     }
 }
 
+/**
+ * Retrieves and returns the habit definition form data from the DOM.
+ * Includes name, goal type, measurement, goal amount, and increment amount.
+ *
+ * @returns {Partial<HabitDefinition>} Form data for the habit definition
+ */
 function getHabitDefinitionFormData() {
     const nameInput = document.getElementById('habitName').value.trim();
     const goalTypeSelect = document.getElementById('habitGoalType').value;
@@ -308,7 +408,12 @@ function getHabitDefinitionFormData() {
     };
 }
 
-// Handle habit definition form submission
+/**
+ * Handles the submission of the habit definition form.
+ * Validates and saves the habit definition, updating the display or showing errors.
+ *
+ * @param {Event} event - The form submit event
+ */
 function submitHabitDefinitionForm(event) {
     event.preventDefault();
     
@@ -342,7 +447,12 @@ function submitHabitDefinitionForm(event) {
     }
 }
 
-// Clear Habit Definition Form
+/**
+ * Clears the habit definition form by resetting all input fields and modal title.
+ * Calls handleGoalTypeChange to ensure correct fields are displayed.
+ *
+ * @returns {void}
+ */
 function clearHabitDefinitionForm() {
     // Reset modal title
     const modalTitle = document.getElementById('habit-title');
@@ -357,7 +467,13 @@ function clearHabitDefinitionForm() {
     }
 }
 
-// Open Habit Definition Form For Addition
+/**
+ * Opens the habit definition form for adding or editing a habit definition.
+ * If mode is 'edit', populates the form with existing data.
+ *
+ * @param {'add'|'edit'} mode - The mode for the form
+ * @param {string} habitDefId - The ID of the habit definition to edit (if editing)
+ */
 function openHabitDefinitionForm(mode, habitDefId) {
   clearHabitDefinitionForm();
   if (mode === 'edit') {
@@ -366,7 +482,13 @@ function openHabitDefinitionForm(mode, habitDefId) {
   toggleShowHideForm('habitDefinitionsInput');
 }
 
-// Open Habit Definition Form for Editing
+/**
+ * Populates the habit definition form with the data of the specified habit definition.
+ * Sets form fields and modal title for editing.
+ *
+ * @param {string} habitDefinitionId - The ID of the habit definition to populate
+ * @returns {void}
+ */
 function populateHabitDefinitionForm(habitDefinitionId) {
     clearHabitDefinitionForm();
 
@@ -406,6 +528,12 @@ function populateHabitDefinitionForm(habitDefinitionId) {
     document.getElementById('habitDefinitionsInput').dataset.editingId = habitDefinitionId;
 }
 
+/**
+ * Generates and displays the HTML for active and inactive habit definitions.
+ * Updates the DOM with the current habit definitions.
+ *
+ * @returns {void}
+ */
 function generateHabitDefinitionsDisplay() {
     // Generate HTML
     let habitDefinitionsHTML = "";
@@ -451,7 +579,12 @@ function generateHabitDefinitionsDisplay() {
     }
 }
 
-// Event delegation for key date actions 
+/**
+ * Sets up click handlers for edit, delete, and restore actions on habit definition items in the display.
+ * Listens for clicks and determines the action based on the clicked element's class.
+ *
+ * @returns {void}
+ */
 function initializeHabitDefinitionEventListeners() {
     const habitDefinitionContainer = document.getElementById('habitDefinitionsDisplay');
 

@@ -13,7 +13,9 @@ const DEFAULT_USER_SETTINGS = {
 };
 
 
-// Initialize user settings
+/**
+ * Initializes user settings, loading from storage or prompting for new user setup.
+ */
 function initializeUserSettings() {
     
     // Load existing settings or create defaults
@@ -28,7 +30,12 @@ function initializeUserSettings() {
     }
 }
 
-// Save user settings to localStorage
+/**
+ * Saves user settings to localStorage and updates global settings.
+ *
+ * @param {UserSettings} settings - The user settings to save
+ * @returns {boolean} Success status
+ */
 function saveUserSettings(settings) {
     try {
         // Update timestamps
@@ -52,10 +59,13 @@ function saveUserSettings(settings) {
     }
 }
 
-// Get user settings from localStorage
-// Part of main.js since it will be used by multiple pages
 
-// Update specific user settings without replacing everything
+/**
+ * Updates specific fields in user settings and saves them.
+ *
+ * @param {Partial<UserSettings>} updates - Fields to update in user settings
+ * @returns {UserSettings|null} Updated settings or null on failure
+ */
 function updateUserSettings(updates) {
     try {
         // Get current settings
@@ -85,13 +95,18 @@ function updateUserSettings(updates) {
     }
 }
 
-// Open settings form   
+
+/**
+ * Opens the user settings form and loads current settings into it.
+ */
 function openSettingsForm() {
     loadCurrentSettingsIntoForm();
     toggleShowHideForm('userSettings');
 }
 
-// Load current settings into the form
+/**
+ * Loads current user settings into the settings form fields.
+ */
 function loadCurrentSettingsIntoForm() {
     const currentSettings = appUserSettings;
     
@@ -108,7 +123,11 @@ function loadCurrentSettingsIntoForm() {
     }
 }
 
-// Get Form Data
+/**
+ * Retrieves user settings data from the settings form fields.
+ *
+ * @returns {Object} Form data for user settings
+ */
 function getSettingsFormData() {
     const nameInput = document.getElementById('userName');
     const citySelect = document.getElementById('userCity');
@@ -119,7 +138,11 @@ function getSettingsFormData() {
     };
 }
 
-// Handle settings form submission
+/**
+ * Handles submission of the user settings form, validates and saves settings.
+ *
+ * @param {Event} event - The form submit event
+ */
 function submitSettingsForm(event) {
     // Prevent page refresh
     event.preventDefault(); 

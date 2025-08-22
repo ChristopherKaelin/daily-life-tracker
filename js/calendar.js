@@ -1,9 +1,14 @@
-// Generate calendar grid for current month
+/**
+ * Generates and displays the calendar HTML for the given date information.
+ *
+ * @param {Object} dateInfo - Information about the current month and year
+ */
 function generateCalendarDisplay(dateInfo) {
 
   //  Create month/year header
   const nonthYearHeader = 
     `<div class="calendar-header">
+      <button onclick="jumpToToday()" class="btn nav-link today-btn">Today</button>
       <img class="icon icon-md nav-arrow-left" src="./assets/images/arrow.svg" onclick='navigateMonth(-1)';>
       <h3 class="year-month">${dateInfo.monthName} ${dateInfo.year}</h3>
       <img class="icon icon-md nav-arrow-right " src="./assets/images/arrow.svg" onclick='navigateMonth(1)';>
@@ -64,9 +69,10 @@ function generateCalendarDisplay(dateInfo) {
 }
 
 
-// Add calendar click handler for habit date selection
+/**
+ * Sets up click handling for calendar days, updating the selected date and habit tracker display.
+ */
 function initializeCalendarClickHandler() {
-  console.log('<=====  initializeCalendarClickHandler  =====>');
   const calendarElement = document.getElementById('calendarDisplay');
   
   if (calendarElement) {
@@ -88,7 +94,7 @@ function initializeCalendarClickHandler() {
               // Remove previous selection
               document.querySelectorAll('.selected-date').forEach(el => el.classList.remove('selected-date'));
 
-              // Add to clicked day  
+              // Add to clicked day
               if (selectedHabitDate != todayDateInfo.date) {
                 clickedDay.classList.add('selected-date');
               }
@@ -103,7 +109,11 @@ function initializeCalendarClickHandler() {
 }
 
 
-// Navigate to previous/next month
+/**
+ * Navigates the calendar to the previous or next month and refreshes all related displays.
+ *
+ * @param {number} direction - -1 for previous month, 1 for next month
+ */
 function navigateMonth(direction) {
   // Calculate new month and year
   let newMonth = appDateInfo.month + direction;

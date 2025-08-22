@@ -10,19 +10,35 @@ const DEFAULT_KEY_DATE = {
 };
 
 
-// Load all key dates from localStorage
+/**
+ * Loads all key dates from localStorage and returns them as an array.
+ * If no key dates are found, returns an empty array.
+ *
+ * @returns {Array<KeyDate>} Array of key date objects
+ */
 function loadAllKeyDatesFromStorage() {
   return JSON.parse(localStorage.getItem('dailyLifeKeyDates')) || [];
 }
 
 
-// Filter key dates for the current month
+/**
+ * Filters the global key dates array for dates matching the specified year and month.
+ * Returns only key dates that start with the given 'yyyy-mm' string.
+ *
+ * @param {string} yearMonth - The year and month in 'yyyy-mm' format
+ * @returns {Array<KeyDate>} Array of key dates for the month
+ */
 function getKeyDatesForMonth(yearMonth) {
   return allKeyDates.filter(kd => kd.date.startsWith(`${yearMonth}`));
 }
 
 
-// Save all key dates to localStorage
+/**
+ * Saves the global key dates array to localStorage.
+ * Returns true if successful, false if an error occurs.
+ *
+ * @returns {boolean} Success status
+ */
 function saveAllKeyDatesToStorage() {
     try {
         localStorage.setItem('dailyLifeKeyDates', JSON.stringify(allKeyDates));
@@ -34,6 +50,14 @@ function saveAllKeyDatesToStorage() {
 }
 
 
+/**
+ * Validates the key date data for correct format and description length.
+ * Returns an object with isValid and an array of error messages.
+ *
+ * @param {string} dateString - The date string in 'yyyy-mm-dd' format
+ * @param {string} description - The description for the key date
+ * @returns {{isValid: boolean, errors: string[]}} Validation result
+ */
 function validateKeyDateData(dateString, description) {
     const errors = [];
     
@@ -61,7 +85,10 @@ function validateKeyDateData(dateString, description) {
 }
 
 
-// Open key date form 
+/**
+ * Opens the key date form for adding a new key date, pre-filling the date field.
+ * Also resets the description field and updates the modal title.
+ */
 function openKeyDateForm() {
     // Format date for HTML date input (YYYY-MM-DD)
     if (todayDateInfo.date === appDateInfo.date) {
@@ -90,7 +117,12 @@ function openKeyDateForm() {
 }
 
 
-// Handle settings form submission
+/**
+ * Handles submission of the key date form, validating and saving the key date.
+ * Updates the display and shows errors if validation fails.
+ *
+ * @param {Event} event - The form submit event
+ */
 function submitKeyDateForm(event) {
     // Prevent page refresh
     event.preventDefault(); 
@@ -135,7 +167,12 @@ function submitKeyDateForm(event) {
 }
 
 
-// Open key date form for editing
+/**
+ * Opens the key date form for editing an existing key date, pre-filling fields.
+ * Updates the modal title and sets the editing ID in the form dataset.
+ *
+ * @param {string} keyDateId - The ID of the key date to edit
+ */
 function openEditKeyDateForm(keyDateId) {
   // Find the key date in the global array
   const keyDate = allKeyDates.find(kd => kd.id === keyDateId);
@@ -166,7 +203,14 @@ function openEditKeyDateForm(keyDateId) {
 }
 
 
-// Create new key date to localStorage
+/**
+ * Adds a new key date to the global array and saves it to localStorage.
+ * Generates a new sequential ID and formats the date string.
+ *
+ * @param {string} newDate - The date for the new key date
+ * @param {string} newDescription - The description for the new key date
+ * @returns {boolean} Success status
+ */
 function addKeyDate(newDate, newDescription) {
     const dateInfo = newDate ? getDateInfo(newDate) : appDateInfo;
 
@@ -196,7 +240,12 @@ function addKeyDate(newDate, newDescription) {
 }
 
 
-// Read Form Data
+/**
+ * Retrieves key date form data from the DOM fields.
+ * Returns an object with date and description properties.
+ *
+ * @returns {{date: string, description: string}} Form data for key date
+ */
 function getKeyDateFormData() {
     const keyDateSelect = document.getElementById('keyDateDate');
     const DescriptionInput = document.getElementById('keyDateDescription');
@@ -208,7 +257,15 @@ function getKeyDateFormData() {
 }
 
 
-// Update existing key date by ID
+/**
+ * Updates an existing key date in the global array and saves changes to localStorage.
+ * Finds the key date by ID and updates its date and description.
+ *
+ * @param {string} keyDateId - The ID of the key date to update
+ * @param {string} newDate - The new date value
+ * @param {string} newDescription - The new description value
+ * @returns {boolean} Success status
+ */
 function updateKeyDate(keyDateId, newDate, newDescription) {
     try {
         // Find the key date in allKeyDates array by ID
@@ -232,7 +289,13 @@ function updateKeyDate(keyDateId, newDate, newDescription) {
     }
 }
 
-// Delete key date by ID
+/**
+ * Deletes a key date from the global array by its ID and saves changes to localStorage.
+ * Returns true if successful, false if the key date is not found or an error occurs.
+ *
+ * @param {string} keyDateId - The ID of the key date to delete
+ * @returns {boolean} Success status
+ */
 function deleteKeyDate(keyDateId) {
     try {
         // Find and remove the key date from allKeyDates array
@@ -257,7 +320,13 @@ function deleteKeyDate(keyDateId) {
 }
 
 
-// Show delete confirmation dialog
+/**
+ * Shows a confirmation dialog for deleting a key date, displaying its info.
+ * Sets up the confirmation button to execute the deletion.
+ *
+ * @param {string} keyDateId - The ID of the key date to delete
+ * @param {string} keyDateText - The description or info to display in the dialog
+ */
 function confirmDeleteKeyDate(keyDateId, keyDateText) {
     // Set the key date info in the dialog
     const deleteInfoElement = document.getElementById('deleteKeyDateInfo');
@@ -271,7 +340,12 @@ function confirmDeleteKeyDate(keyDateId, keyDateText) {
 }
 
 
-// Execute the key date deletion
+/**
+ * Executes the deletion of a key date and updates the calendar and key dates display.
+ * Closes the confirmation dialog or alerts on failure.
+ *
+ * @param {string} keyDateId - The ID of the key date to delete
+ */
 function executeDeleteKeyDate(keyDateId) {
     const success = deleteKeyDate(keyDateId);
     
@@ -288,7 +362,12 @@ function executeDeleteKeyDate(keyDateId) {
 }
 
 
-// Generate the Key Daytes display list
+/**
+ * Generates and displays the list of key dates for the given date info.
+ * Sorts key dates by date and updates the DOM with the formatted list.
+ *
+ * @param {Object} dateInfo - The date information object containing yearMonth
+ */
 function generateKeyDatesDisplay(dateInfo) {
     // Get key dates for current month
     const currentMonthKeyDates = getKeyDatesForMonth(dateInfo.yearMonth);
@@ -321,7 +400,10 @@ function generateKeyDatesDisplay(dateInfo) {
 }
 
 
-// Event delegation for key date actions 
+/**
+ * Sets up click handlers for edit and delete actions on key date items in the display.
+ * Uses event delegation to handle clicks on dynamically generated elements.
+ */
 function initializeKeyDatesClickHandlers() {
     const keyDatesContainer = document.getElementById('keyDatesDisplay');
     
